@@ -1,7 +1,7 @@
-import { PlaygroundUser } from './PlaygroundUser.model';
+import { PlayGroundUser } from './PlaygroundUser.model';
 
-describe('PlaygroundUser', () => {
+describe('PlayGroundUser', () => {
   it('should create an instance', () => {
-    expect(new PlaygroundUser('user101', 'Derinsola', 'Gbadebo', 'developer@appservice.com')).toBeTruthy();
+    expect(new PlayGroundUser('user101', 'Derinsola', 'Gbadebo', 'developer@appservice.com')).toBeTruthy();
   });
 });

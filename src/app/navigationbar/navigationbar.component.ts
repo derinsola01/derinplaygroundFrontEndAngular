@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './navigationbar.component.html',
   styleUrls: ['./navigationbar.component.css']
 })
-export class NavigationbarComponent implements OnInit {
+export class NavigationBarComponent implements OnInit {
 
   constructor() { }
 
