@@ -1,32 +1,109 @@
 <div class="container">
   <div class="col-xs-12 col-md-6 col-offset-3">
-    <form>
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <label for="email">UserName/UserId</label>
-        <input type="text" id="userId" class="form-control" placeholder="userId" />
+        <!-- <label for="userId">UserName/UserId</label> -->
+        <input  type="text"
+                id="userId"
+                class="form-control"
+                [ngClass]="{'is-invalid': userId.errors && userId.touched}"
+                placeholder="User Name/Id"
+                formControlName="userId"
+                required/>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback" > <!-- *ngIf="userId.hasError()" -->
+          Please provide a valid User Name/Id.
+        </div>
       </div>
       <div class="form-group">
-        <label for="email">First Name</label>
-        <input type="text" id="firstName" class="form-control" placeholder="First Name" />
+        <!-- <label for="firstName">First Name</label> -->
+        <input  type="text"
+                id="firstName"
+                class="form-control"
+                [ngClass]="{'is-invalid': firstName.errors && firstName.touched}"
+                placeholder="First Name"
+                formControlName="firstName"
+                required/>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback" > <!-- *ngIf="firstName.hasError()" -->
+          Please provide a valid First Name.
+        </div>
       </div>
       <div class="form-group">
-        <label for="email">Last Name</label>
-        <input type="text" id="lastName" class="form-control" placeholder="Last Name" />
+        <!-- <label for="lastName">Last Name</label> -->
+        <input  type="text"
+                id="lastName"
+                class="form-control"
+                [ngClass]="{'is-invalid': lastName.errors && lastName.touched}"
+                placeholder="Last Name"
+                formControlName="lastName"
+                required/>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback" > <!-- *ngIf="registrationForm.get('lastName').hasError()" -->
+          Please provide a valid Last Name.
+        </div>
       </div>
       <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" id="lastName" class="form-control" placeholder="Email Address" />
+        <!-- <label for="emailAddress">Email Address</label> -->
+        <input  type="email"
+                id="emailAddress"
+                class="form-control"
+                [ngClass]="{'is-invalid': emailAddress.errors && emailAddress.touched}"
+                placeholder="Email Address"
+                formControlName="emailAddress"
+                required/>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback" > <!-- *ngIf="registrationForm.get('emailAddress').hasError()" -->
+          Please provide a valid email address.
+        </div>
       </div>
       <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" class="form-control" placeholder="Password" />
+        <!-- <label for="password">Password</label> -->
+        <input  type="password"
+                id="password"
+                class="form-control"
+                [ngClass]="{'is-invalid': password.errors && password.touched}"
+                placeholder="Password"
+                formControlName="password"
+                required/>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback" > <!-- *ngIf="registrationForm.get('password').hasError()" -->
+          Please provide password.
+        </div>
       </div>
       <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password2" class="form-control" placeholder="Retype Password" />
+        <!-- <label for="confirmPassword">Confirm Password</label> -->
+        <input  type="password"
+                id="confirmPassword"
+                class="form-control"
+                [ngClass]="{'is-invalid': confirmPassword.errors && confirmPassword.touched}"
+                placeholder="Retype Password"
+                formControlName="confirmPassword"
+                autocomplete
+                required/>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback" *ngIf="confirmPassword.hasError('passwordMismatch')">
+          Please ensure that passwords match.
+        </div>
       </div>
       <div>
-        <button class="btn btn-primary">Sign Up</button>
+        <button class="btn btn-success" type="submit" [disabled]="registrationForm.invalid">Sign Up</button>
+      </div>
+      <br>
+      <div>
+        <button class="btn btn-primary" (click)="clear()">Clear Form</button>
       </div>
     </form>
   </div>

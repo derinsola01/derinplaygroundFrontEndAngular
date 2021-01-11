@@ -1,0 +1,14 @@
+[
+  {
+    "userId": "admin"
+  },
+  {
+    "userId": "superuser"
+  },
+  {
+    "userId": "user"
+  },
+  {
+    "userId": "user123"
+  }
+]

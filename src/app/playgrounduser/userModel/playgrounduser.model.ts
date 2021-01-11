@@ -1,4 +1,4 @@
-export class PlaygroundUser {
+export class PlayGroundUser {
   public userId: string;
   public firstName: string;
   public lastName: string;
