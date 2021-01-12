@@ -37,15 +37,7 @@ export class ValidationService {
   }
 
   validateUserIdNotTaken(control: AbstractControl) {
-    return this.checkUserIdNotTaken(control.value).pipe(
-      map(res => {
-        return res ? null : { userIdTaken: true };
-      })
-    );
+    return this.authService.validateUserId(control.value);
   }
 
-  //Fake API call -- You can have this in another service
-  checkUserIdNotTaken(userId: string): Observable<boolean> {
-    return this.authService.validateUserId(userId);
-  }
 }

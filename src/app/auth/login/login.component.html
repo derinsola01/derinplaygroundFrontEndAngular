@@ -2,19 +2,29 @@
   <div class="col-xs-12 col-md-6 col-offset-3">
       <form [formGroup]="userLoginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-          <label for="emailAddress">Email Address</label>
-          <input type="email" id="emailAddress" class="form-control" placeholder="Email Address" formControlName="emailAddress" />
+          <input  type="text"
+                  id="userId"
+                  [ngClass]="{'is-invalid': userId.errors && userId.touched}"
+                  class="form-control"
+                  placeholder="Username/Id"
+                  formControlName="userId" />
+            <div class="invalid-feedback" >
+              User Name/Id is Required
+            </div>
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" class="form-control" placeholder="Password" formControlName="password" />
+          <input  type="password"
+                  id="password"
+                  [ngClass]="{'is-invalid': password.errors && password.touched}"
+                  class="form-control"
+                  placeholder="Password"
+                  formControlName="password" />
+            <div class="invalid-feedback" >
+              Password is Required
+            </div>
         </div>
         <div>
-          <button class="btn btn-success" type="submit">Sign Up</button>
-        </div>
-        <br>
-        <div>
-          <button class="btn btn-primary" (click)="clear()">Clear Form</button>
+          <button class="btn btn-success" type="submit">Log In</button>
         </div>
       </form>
   </div>
