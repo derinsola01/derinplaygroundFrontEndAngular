@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../service/authservice.service';
 
 @Component({
   selector: 'app-login',
@@ -8,23 +9,27 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-  userLoginForm: FormGroup;
+  userLoginForm = this.formBuilder.group({
+    userId: ['', [Validators.required]],
+    password: ['', [Validators.required]]
+  });
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder, private authService: AuthService) { }
 
-  ngOnInit(): void {
-    this.userLoginForm = new FormGroup({
-      emailAddress: new FormControl(''),
-      password: new FormControl('')
-    });
+  ngOnInit(): void { }
+
+  get userId(){
+    return this.userLoginForm.get('userId');
   }
 
-  clear(){
-    this.userLoginForm.reset();
+  get password(){
+    return this.userLoginForm.get('password');
   }
 
   onSubmit(){
     console.log('Register user form input is: ', this.userLoginForm.value);
+    const postData = this.userLoginForm.value;
+    this.authService.login(postData);
   }
 
 }

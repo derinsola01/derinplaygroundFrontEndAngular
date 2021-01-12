@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { AuthService } from '../service/authservice.service';
 import { ValidationService } from '../service/validation.service';
 
 @Component({
@@ -9,9 +10,9 @@ import { ValidationService } from '../service/validation.service';
 })
 export class RegisterComponent implements OnInit {
 
+  // this.validationService.validateUserIdNotTaken.bind(this.validationService)
   registrationForm = this.formBuilder.group({
-    userId: ['', [Validators.required, Validators.minLength(5)],
-                this.validationService.validateUserIdNotTaken.bind(this.validationService)],
+    userId: ['', [Validators.required, Validators.minLength(5)]],
     firstName: ['', [Validators.required, Validators.minLength(2)]],
     lastName: ['', [Validators.required, Validators.minLength(2)]],
     emailAddress: ['', [Validators.required, Validators.email]],
@@ -22,7 +23,9 @@ export class RegisterComponent implements OnInit {
     validator: this.validationService.passwordMatchValidator('password', 'confirmPassword')
   });
 
-  constructor(private formBuilder: FormBuilder, private validationService: ValidationService) { }
+  constructor(  private formBuilder: FormBuilder,
+                private validationService: ValidationService,
+                private authService: AuthService) { }
 
   ngOnInit(): void { }
 
@@ -56,6 +59,8 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(){
     console.log('Register user form input is: ', this.registrationForm.value);
+    const postData = this.registrationForm.value;
+    this.authService.registerUser(postData);
   }
 
 }
