@@ -9,13 +9,17 @@ import { PlayGroundUserComponent } from './playgrounduser/playgrounduser.compone
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationComponent } from './auth/confirmation/confirmation.component';
+import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationBarComponent,
     PlayGroundUserComponent,
-    HomeComponent
+    HomeComponent,
+    ConfirmationComponent,
+    PageNotFoundComponent
   ],
   imports: [
     RouterModule,

@@ -59,8 +59,8 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(){
     console.log('Register user form input is: ', this.registrationForm.value);
-    const postData = this.registrationForm.value;
-    this.authService.registerUser(postData);
+    this.authService.registerUser(this.registrationForm.value);
+    this.registrationForm.reset();
   }
 
 }

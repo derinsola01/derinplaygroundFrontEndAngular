@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ConfirmationComponent } from './auth/confirmation/confirmation.component';
 import { HomeComponent } from './home/home.component';
+import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 
 
 const routes: Routes = [
@@ -9,6 +11,13 @@ const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () => import('./auth/module/auth/auth.module').then(m => m.AuthModule)
+  },
+  {
+    path: 'email',
+    children: [
+      {path: 'confirmEmailAddress/:token', component: ConfirmationComponent},
+      {path: '**', component: PageNotFoundComponent}
+    ]
   },
   {
     path: 'diary',

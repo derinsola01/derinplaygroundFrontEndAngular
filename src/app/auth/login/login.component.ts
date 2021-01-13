@@ -1,3 +1,4 @@
+import { LoginResponse } from './../response/login.response';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../service/authservice.service';
@@ -14,6 +15,8 @@ export class LoginComponent implements OnInit {
     password: ['', [Validators.required]]
   });
 
+  private loginResponse: LoginResponse;
+
   constructor(private formBuilder: FormBuilder, private authService: AuthService) { }
 
   ngOnInit(): void { }
@@ -28,8 +31,9 @@ export class LoginComponent implements OnInit {
 
   onSubmit(){
     console.log('Register user form input is: ', this.userLoginForm.value);
-    const postData = this.userLoginForm.value;
-    this.authService.login(postData);
+    // const postData = this.userLoginForm.value;
+    this.authService.login(this.userLoginForm.value);
+    this.userLoginForm.reset();
   }
 
 }
