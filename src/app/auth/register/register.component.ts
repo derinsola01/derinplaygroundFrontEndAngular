@@ -1,5 +1,9 @@
+import { Router } from '@angular/router';
+import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { AuthenticatedUserResponse } from '../response/auth.user.reponse';
+import { UserIdsAndEmails } from '../response/userid.email.response';
 import { AuthService } from '../service/authservice.service';
 import { ValidationService } from '../service/validation.service';
 
@@ -23,11 +27,43 @@ export class RegisterComponent implements OnInit {
     validator: this.validationService.passwordMatchValidator('password', 'confirmPassword')
   });
 
+  private authenticatedUser: AuthenticatedUserResponse;
+  private isLoading = false;
+  private errorMessage: string = null;
+  private validateUserIds: UserIdsAndEmails;
+
   constructor(  private formBuilder: FormBuilder,
                 private validationService: ValidationService,
-                private authService: AuthService) { }
+                private authService: AuthService,
+                private router: Router) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    // this.runValidation();
+  }
+
+  onUserIdTouched(){
+    this.runValidation();
+  }
+  runValidation(){
+  this.validationService.validateUserIdNotTaken().subscribe(
+    responseData => {
+      console.log('responseData for runValidation is: ', responseData);
+      this.validateUserIds = responseData;
+    }
+  );
+  }
+
+  get userIdsAndEmailValidators(){
+    return this.validateUserIds;
+  }
+
+  get formLoading(){
+    return this.isLoading;
+  }
+
+  get displayError(){
+    return this.errorMessage;
+  }
 
   get userId(){
     return this.registrationForm.get('userId');
@@ -58,9 +94,30 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(){
+    this.isLoading = true;
     console.log('Register user form input is: ', this.registrationForm.value);
-    const postData = this.registrationForm.value;
-    this.authService.registerUser(postData);
+    this.authService.registerUser(this.registrationForm.value).subscribe((responseData: AuthenticatedUserResponse) => {
+      console.log('responseData is: ', responseData);
+      this.authenticatedUser = responseData;
+
+      const emailValidator = {
+        userId: this.authenticatedUser.userId,
+        emailAddress: this.authenticatedUser.emailAddress
+      };
+
+      this.authService.sendValidationEmail(emailValidator, this.authenticatedUser.webToken)
+        .subscribe(response => {
+          console.log('email response is: ', response);
+          this.isLoading = false;
+        }, error => {
+          this.isLoading = false;
+          this.errorMessage = 'An Error occured';
+          console.log('email error is: ', error);
+        });
+
+    });
+    this.router.navigate(['/appsPage']);
+    this.registrationForm.reset();
   }
 
 }

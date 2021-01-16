@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { RouteGuardService } from 'src/app/auth/service/routeguard.service';
 import { CreateEntryComponent } from '../createentry/createentry.component';
 import { DiaryComponent } from '../diary.component';
 import { ListEntriesComponent } from '../listentries/listentries.component';
@@ -9,7 +10,7 @@ import { ViewEntryComponent } from '../viewentry/viewentry.component';
 
 const routes: Routes = [
   {
-    path: '', component: DiaryComponent,
+    path: '', component: DiaryComponent, canActivate: [ RouteGuardService ],
     children: [
       {path: 'listEntries', component: ListEntriesComponent},
       {path: 'createEntry', component: CreateEntryComponent},

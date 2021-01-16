@@ -1,15 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import { PlayGroundUser } from './../playgrounduser/userModel/playgrounduser.model';
+import { AuthService } from './../auth/service/authservice.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navigationbar',
   templateUrl: './navigationbar.component.html',
   styleUrls: ['./navigationbar.component.css']
 })
-export class NavigationBarComponent implements OnInit {
+export class NavigationBarComponent implements OnInit, OnDestroy {
 
-  constructor() { }
+  navigationSpinner = false;
+  isAuthenticated = false;
+  private userSub: Subscription;
+  authenticatedUser: PlayGroundUser;
 
-  ngOnInit(): void {
+  constructor(private authService: AuthService, private router: Router) { }
+
+  ngOnDestroy() {
+    this.userSub.unsubscribe();
+  }
+
+  ngOnInit() {
+    this.userSub = this.authService.playGroundUser.subscribe(user => {
+      this.isAuthenticated = !!user;
+    });
+  }
+
+  get authUserFromSetter(){
+    return this.authenticatedUser;
+  }
+
+  sayGoodByeForNow(){
+    this.navigationSpinner = true;
+    this.authService.logout().subscribe(
+      res => {
+        this.authService.playGroundUser.next(null);
+        this.router.navigate(['/home']);
+        localStorage.removeItem('authenticatedUser');
+      }
+    );
   }
 
 }
