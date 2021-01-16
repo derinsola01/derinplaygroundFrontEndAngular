@@ -1,25 +1,23 @@
-import { LoginResponse } from './../response/login.response';
+import { Router } from '@angular/router';
+import { PlayGroundUser } from './../../playgrounduser/userModel/playgrounduser.model';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, switchMap } from 'rxjs/operators';
-import { RegistrationResponse } from '../response/register.response';
-import { Observable } from 'rxjs';
+import { UserIdsAndEmails } from '../response/userid.email.response';
+import { BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { AuthenticatedUserResponse } from '../response/auth.user.reponse';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private loginResponse: LoginResponse;
-  private registrationResponse: RegistrationResponse;
+  public playGroundUser = new BehaviorSubject<PlayGroundUser>(null);
+  public authenticatedUser: PlayGroundUser;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private router: Router) { }
 
-  get loginResponseHolder(){
-    return this.loginResponse;
-  }
-
-  get headerOptions(){
+  get genericHeaderOptions(){
     const httpOptions = {
       headers: new HttpHeaders({
         'Access-Control-Allow-Origin': '*',
@@ -30,96 +28,75 @@ export class AuthService {
     return httpOptions;
   }
 
-  validateUserId(userId: string){
-    const postData = { 'userId': userId };
-    return this.httpClient.post('http://localhost:8900/auth/getUserIds', postData, this.headerOptions)
-            .subscribe(responseData => {
-              console.log('responseData of validateUserId is: ', responseData);
-            });
+  authHeaderOptions(userWebToken: string){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': ['POST', 'GET', 'OPTIONS'],
+        'Access-Control-Allow-Headers': 'Content-Type, application/json',
+        Authorization: userWebToken
+      })
+    };
+    return httpOptions;
+  }
+
+  registeredUserIdsAndEmails(){
+    const postData = { userId: 'dummyValue' };
+    return this.httpClient.post<UserIdsAndEmails>('http://localhost:8900/auth/registeredUserIdsAndEmails',
+                                                    postData, this.genericHeaderOptions);
   }
 
   registerUser(postData){
     console.log('postData sent to authService is: ', postData);
+    return this.httpClient.post<AuthenticatedUserResponse>('http://localhost:8900/auth/register',
+                                                            postData, this.genericHeaderOptions)
+                .pipe(tap( responseData => {
+                  this.authenticatedPlayGroundUser(responseData);
+                }));
+  }
 
-    const res = this.httpClient.post('http://localhost:8900/auth/register', postData, this.headerOptions)
-            .subscribe((responseData: RegistrationResponse) => {
-              console.log('responseData is: ', responseData);
-              this.registrationResponse = responseData;
+  private authenticatedPlayGroundUser(responseData){
+    const registeredUser = new PlayGroundUser(responseData.userId, responseData.firstName,
+      responseData.lastName, responseData.emailAddress, responseData.emailAddressValidated, responseData.webToken);
+    this.playGroundUser.next(registeredUser);
+    this.authenticatedUser = registeredUser;
+    localStorage.setItem('authenticatedUser', JSON.stringify(this.authenticatedUser));
+  }
 
-              const emailValidator = {
-                userId: this.registrationResponse.userId,
-                emailAddress: this.registrationResponse.emailAddress
-              };
-              const httpOptions = {
-                headers: new HttpHeaders({
-                  'Access-Control-Allow-Origin': '*',
-                  'Access-Control-Allow-Methods': ['POST', 'GET', 'OPTIONS'],
-                  'Access-Control-Allow-Headers': 'Content-Type, application/json',
-                  Authorization: this.registrationResponse.webToken
-                })
-              };
-              // HttpHeaders header = new HttpHeaders('Authorization': this.loginResponse.webToken);
-              // this.headerOptions.headers.keys().append('Authorization', this.loginResponse.webToken);
-              // console.log('this.headerOptions.headers now holds: ', this.headerOptions.headers.keys());
-              // console.log('httpOptions now holds: ', httpOptions.headers.keys());
-              // console.log('httpOptions now holds: ', httpOptions.headers.get('Authorization'));
-              this.httpClient.post('http://localhost:8900/email/sendValidationEmail', emailValidator, httpOptions)
-                .subscribe(response => {
-                  console.log('email response is: ', response);
-                });
+  sendValidationEmail(postData, userWebToken: string) {
+    const httpOptions = this.authHeaderOptions(userWebToken);
+    return this.httpClient.post('http://localhost:8900/email/sendValidationEmail', postData, httpOptions);
+  }
 
-            });
+  sendConfirmationEmail(postUrl: string, postData){
+    return this.httpClient.post<AuthenticatedUserResponse>(postUrl, postData, this.genericHeaderOptions)
+                .pipe(tap( responseData => {
+                  console.log('piped response from sendConfirmationEmail is: ', responseData);
+                  this.authenticatedPlayGroundUser(responseData);
+                }));
+  }
 
-    // const emailHeader = new HttpHeader('Access-Control-Allow-Origin': '*',
-    // this.headerOptions.headers.append('Authorization': );
-    // const emailValidationData = {
-    //   userId: postData.userId,
-    //   emailAddress: postData.emailAddress
-    // };
-    // this.sendValidationEmail(emailValidationData);
+  autoLogin() {
+    const authenticatedUser: PlayGroundUser = JSON.parse(localStorage.getItem('authenticatedUser'));
+    if (!authenticatedUser) {
+      return;
+    }
+    this.authenticatedPlayGroundUser(authenticatedUser);
   }
 
   login(postData) {
-    const response = this.httpClient.post('http://localhost:8900/auth/login', postData, this.headerOptions)
-    // .toPromise();
-    // console.log('response is: ', response);
-    // return response;
-        // .subscribe((responseData: LoginResponse ) => {
-        //   console.log('responseData is: ', responseData);
-        //   this.loginResponse = responseData;
-        //   this.checkoutLoginResponse(responseData);
-        //   this.update();
-        // });
-            .subscribe((responseData: LoginResponse ) => {
-              console.log('responseData is: ', responseData);
-              this.loginResponse = responseData;
-              this.checkoutLoginResponse(responseData);
-            });
-    // console.log('this.loginResponse before setTimeout() is: ', this.loginResponse );
-    // setTimeout(() => { }, 120000);
-    // console.log('this.loginResponse after setTimeout() is: ', this.loginResponse );
+    return this.httpClient.post<AuthenticatedUserResponse>('http://localhost:8900/auth/login', postData, this.genericHeaderOptions)
+                .pipe(tap( responseData => {
+                  console.log('piped response from login is: ', responseData);
+                  this.authenticatedPlayGroundUser(responseData);
+                }));
   }
 
-  update(){
-    console.log('this.loginResponse inside update is: ', this.loginResponse);
-  }
-
-  checkoutLoginResponse(responseData){
-    console.log('responseData inside method holds: ', responseData);
-  }
-
-  logout(postData){
-    this.httpClient.post('http://localhost:8900/auth/logout', postData, this.headerOptions)
-            .subscribe(responseData => {
-              console.log('responseData is: ', responseData);
-            });
-  }
-
-  sendValidationEmail(emailValidationData){
-    this.httpClient.post('http://localhost:8900/email/sendValidationEmail', emailValidationData, this.headerOptions)
-            .subscribe(responseData => {
-              console.log('responseData is: ', responseData);
-            });
+  logout(){
+    console.log('this.authenticatedUser is: ', this.authenticatedUser);
+    const postData = { userId: this.authenticatedUser.userId };
+    const httpOptions = this.authHeaderOptions(this.authenticatedUser.userWebToken);
+    return this.httpClient.post('http://localhost:8900/auth/logout', postData, httpOptions);
   }
 
   handleError(arg0: string, postData: any): any {

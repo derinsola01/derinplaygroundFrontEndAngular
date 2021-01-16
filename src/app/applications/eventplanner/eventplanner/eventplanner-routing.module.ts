@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { RouteGuardService } from 'src/app/auth/service/routeguard.service';
 import { CreateGuestComponent } from '../eventguests/createguest/createguest.component';
 import { DeleteGuestComponent } from '../eventguests/deleteguest/deleteguest.component';
 import { EventGuestsComponent } from '../eventguests/eventguests.component';
@@ -17,7 +18,7 @@ import { EventPlannerComponent } from '../eventplanner.component';
 
 const routes: Routes = [
   {
-    path: '', component: EventPlannerComponent,
+    path: '', component: EventPlannerComponent, canActivate: [ RouteGuardService ],
     children: [
       {path: 'location', component: EventLocationComponent,
       children: [
@@ -27,7 +28,7 @@ const routes: Routes = [
         {path: 'createLocation', component: CreateLocationComponent},
         {path: 'viewLocation', component: ViewLocationComponent}
       ]},
-      {path: 'guest', component: EventGuestsComponent,
+      {path: 'guest', component: EventGuestsComponent, canActivate: [ RouteGuardService ],
         children: [
           {path: 'listGuests', component: ListGuestsComponent},
           {path: 'viewGuest', component: ViewGuestComponent},

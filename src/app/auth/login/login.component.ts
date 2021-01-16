@@ -1,7 +1,8 @@
-import { LoginResponse } from './../response/login.response';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../service/authservice.service';
+import { AuthenticatedUserResponse } from '../response/auth.user.reponse';
 
 @Component({
   selector: 'app-login',
@@ -15,9 +16,10 @@ export class LoginComponent implements OnInit {
     password: ['', [Validators.required]]
   });
 
-  private loginResponse: LoginResponse;
+  private isLoading = false;
+  private errorMessage: string = null;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) { }
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void { }
 
@@ -29,10 +31,26 @@ export class LoginComponent implements OnInit {
     return this.userLoginForm.get('password');
   }
 
+  get formLoading(){
+    return this.isLoading;
+  }
+
+  get displayError(){
+    return this.errorMessage;
+  }
+
   onSubmit(){
+    this.isLoading = true;
     console.log('Register user form input is: ', this.userLoginForm.value);
-    // const postData = this.userLoginForm.value;
-    this.authService.login(this.userLoginForm.value);
+    this.authService.login(this.userLoginForm.value).subscribe((responseData: AuthenticatedUserResponse ) => {
+      console.log('responseData is: ', responseData);
+      this.isLoading = false;
+      this.router.navigate(['/appsPage']);
+    }, error => {
+      console.log('An error occured!', error);
+      this.errorMessage = 'An Error occured';
+      this.isLoading = false;
+    });
     this.userLoginForm.reset();
   }
 

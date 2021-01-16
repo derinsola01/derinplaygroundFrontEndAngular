@@ -1,8 +1,13 @@
 <div class="container">
   <div class="col-xs-12 col-md-6 col-offset-3">
-    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+    <div class="alert alert-danger" *ngIf="displayError">
+      <p>{{ displayError }}</p>
+    </div>
+    <div *ngIf="formLoading" style="text-align: center;">
+      <app-authloadingspinners></app-authloadingspinners>
+    </div>
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" *ngIf="!formLoading">
       <div class="form-group">
-        <!-- <label for="userId">UserName/UserId</label> -->
         <input  type="text"
                 id="userId"
                 class="form-control"
@@ -12,12 +17,11 @@
         <div class="valid-feedback">
           Looks good!
         </div>
-        <div class="invalid-feedback" > <!-- *ngIf="userId.hasError()" -->
+        <div class="invalid-feedback" >
           Please provide a valid User Name/Id.
         </div>
       </div>
       <div class="form-group">
-        <!-- <label for="firstName">First Name</label> -->
         <input  type="text"
                 id="firstName"
                 class="form-control"
@@ -27,12 +31,11 @@
         <div class="valid-feedback">
           Looks good!
         </div>
-        <div class="invalid-feedback" > <!-- *ngIf="firstName.hasError()" -->
+        <div class="invalid-feedback" >
           Please provide a valid First Name.
         </div>
       </div>
       <div class="form-group">
-        <!-- <label for="lastName">Last Name</label> -->
         <input  type="text"
                 id="lastName"
                 class="form-control"
@@ -42,12 +45,11 @@
         <div class="valid-feedback">
           Looks good!
         </div>
-        <div class="invalid-feedback" > <!-- *ngIf="registrationForm.get('lastName').hasError()" -->
+        <div class="invalid-feedback" >
           Please provide a valid Last Name.
         </div>
       </div>
       <div class="form-group">
-        <!-- <label for="emailAddress">Email Address</label> -->
         <input  type="email"
                 id="emailAddress"
                 class="form-control"
@@ -57,12 +59,11 @@
         <div class="valid-feedback">
           Looks good!
         </div>
-        <div class="invalid-feedback" > <!-- *ngIf="registrationForm.get('emailAddress').hasError()" -->
+        <div class="invalid-feedback" >
           Please provide a valid email address.
         </div>
       </div>
       <div class="form-group">
-        <!-- <label for="password">Password</label> -->
         <input  type="password"
                 id="password"
                 class="form-control"
@@ -72,12 +73,11 @@
         <div class="valid-feedback">
           Looks good!
         </div>
-        <div class="invalid-feedback" > <!-- *ngIf="registrationForm.get('password').hasError()" -->
+        <div class="invalid-feedback" >
           Please provide password.
         </div>
       </div>
       <div class="form-group">
-        <!-- <label for="confirmPassword">Confirm Password</label> -->
         <input  type="password"
                 id="confirmPassword"
                 class="form-control"
@@ -93,10 +93,6 @@
       </div>
       <div>
         <button class="btn btn-success" type="submit" [disabled]="registrationForm.invalid">Sign Up</button>
-      </div>
-      <br>
-      <div>
-        <button class="btn btn-primary" (click)="clear()">Clear Form</button>
       </div>
     </form>
   </div>

@@ -36,8 +36,8 @@ export class ValidationService {
     };
   }
 
-  validateUserIdNotTaken(control: AbstractControl) {
-    return this.authService.validateUserId(control.value);
+  validateUserIdNotTaken() {
+    return this.authService.registeredUserIdsAndEmails();
   }
 
 }

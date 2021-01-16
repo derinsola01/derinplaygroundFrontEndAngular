@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-    <a class="navbar-brand" routerLink="home">Derin Playground</a>
+    <a style="cursor: pointer;" class="navbar-brand" routerLink="home">Derin Playground</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -9,16 +9,16 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="nav navbar-nav ml-auto">
         <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" [routerLink]="['auth/logout']">Logout</a>
+          <a style="cursor: pointer;" class="nav-link" (click)="sayGoodByeForNow()" *ngIf="isAuthenticated">Logout</a> <!-- [routerLink]="['auth/logout']" -->
         </li>
         <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" [routerLink]="['auth/updatePassword']">Update Password</a>
+          <a style="cursor: pointer;" class="nav-link" [routerLink]="['auth/updatePassword']" *ngIf="isAuthenticated">Update Password</a>
         </li>
         <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" [routerLink]="['auth/login']">Login</a>
+          <a style="cursor: pointer;" class="nav-link" [routerLink]="['auth/login']" *ngIf="!isAuthenticated">Login</a>
         </li>
         <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" [routerLink]="['auth/registerUser']">Register</a>
+          <a style="cursor: pointer;" class="nav-link" [routerLink]="['auth/registerUser']" *ngIf="!isAuthenticated">Register</a>
         </li>
         <!-- <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" [routerLink]="['diary/viewEntry']">View Entry</a>
@@ -26,14 +26,15 @@
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" [routerLink]="['diary/createEntry']">Create Entry</a>
         </li> -->
-        <li ngbDropdown class="nav-item dropdown" href="#" routerLinkActive="active">
+        <li ngbDropdown class="nav-item dropdown" href="#" routerLinkActive="active" *ngIf="isAuthenticated">
           <a ngbDropdownToggle class="nav-link dropdown-toggle"  id="navbarDropdown"
               role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Apps
           </a>
           <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a ngbDropdownItem class="dropdown-item" routerLink="eventplanner">Event Planner</a>
-            <a ngbDropdownItem class="dropdown-item" routerLink="budgetplanner">Budgeting App</a>
+            <a style="cursor: pointer;" ngbDropdownItem class="dropdown-item" [routerLink]="['event']">Event Planner</a>
+            <a style="cursor: pointer;" ngbDropdownItem class="dropdown-item" [routerLink]="['diary']">Diary</a>
+            <a style="cursor: pointer;" ngbDropdownItem class="dropdown-item" [routerLink]="['budgetplanner']">Budget Planner</a>
           </div>
         </li>
       </ul>
