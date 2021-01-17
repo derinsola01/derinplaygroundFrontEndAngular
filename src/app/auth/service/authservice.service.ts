@@ -1,11 +1,11 @@
 import { Router } from '@angular/router';
-import { PlayGroundUser } from './../../playgrounduser/userModel/playgrounduser.model';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserIdsAndEmails } from '../response/userid.email.response';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthenticatedUserResponse } from '../response/auth.user.reponse';
+import { PlayGroundUser } from 'src/app/common/user/playgrounduser/userModel/PlaygroundUser.model';
 
 @Injectable({
   providedIn: 'root'

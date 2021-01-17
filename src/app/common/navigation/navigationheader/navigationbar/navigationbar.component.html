@@ -32,16 +32,15 @@
             Apps
           </a>
           <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a style="cursor: pointer;" ngbDropdownItem class="dropdown-item" [routerLink]="['event']">Event Planner</a>
-            <a style="cursor: pointer;" ngbDropdownItem class="dropdown-item" [routerLink]="['diary']">Diary</a>
+            <a style="cursor: pointer;" ngbDropdownItem class="dropdown-item" [routerLink]="['event/listEvents']">Event Planner</a>
+            <a style="cursor: pointer;" ngbDropdownItem class="dropdown-item" [routerLink]="['diary/listEntries']">Diary</a>
             <a style="cursor: pointer;" ngbDropdownItem class="dropdown-item" [routerLink]="['budgetplanner']">Budget Planner</a>
           </div>
         </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a style="cursor: pointer; position: left;" class="nav-link" [routerLink]="['about']" >About</a>
+        </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
     </div>
   </div>
 </nav>

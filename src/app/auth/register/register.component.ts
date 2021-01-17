@@ -114,9 +114,8 @@ export class RegisterComponent implements OnInit {
           this.errorMessage = 'An Error occured';
           console.log('email error is: ', error);
         });
-
     });
-    this.router.navigate(['/appsPage']);
+    this.router.navigate(['/landingPage']);
     this.registrationForm.reset();
   }
 

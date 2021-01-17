@@ -4,4 +4,9 @@
       <br>
       Log in to use amazing apps I developed in my free time.
     </p>
+  <div *ngIf="isUserAuthenticated && isEmailValidated">
+
+  </div>
+    <p>isUserAuthenticated is: {{ isUserAuthenticated }}</p>
+    <p>isEmailValidated is: {{ isEmailValidated }}</p>
 </div>

@@ -45,7 +45,11 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.userLoginForm.value).subscribe((responseData: AuthenticatedUserResponse ) => {
       console.log('responseData is: ', responseData);
       this.isLoading = false;
-      this.router.navigate(['/appsPage']);
+      if ( responseData.emailAddressValidated === true ) {
+        this.router.navigate(['/appsPage']);
+      } else {
+        this.router.navigate(['/landingPage']);
+      }
     }, error => {
       console.log('An error occured!', error);
       this.errorMessage = 'An Error occured';

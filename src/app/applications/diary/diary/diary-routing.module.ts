@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { RouteGuardService } from 'src/app/auth/service/routeguard.service';
+import { RouteGuardService } from 'src/app/auth/service/routeguards/routeguard.service';
 import { CreateEntryComponent } from '../createentry/createentry.component';
 import { DiaryComponent } from '../diary.component';
 import { ListEntriesComponent } from '../listentries/listentries.component';
