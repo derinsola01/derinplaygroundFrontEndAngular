@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CommonComponent } from './common.component';
+import { ModifyEventComponent } from './modifyevent.component';
 
-describe('CommonComponent', () => {
-  let component: CommonComponent;
-  let fixture: ComponentFixture<CommonComponent>;
+describe('ModifyEventComponent', () => {
+  let component: ModifyEventComponent;
+  let fixture: ComponentFixture<ModifyEventComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CommonComponent ]
+      declarations: [ ModifyEventComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CommonComponent);
+    fixture = TestBed.createComponent(ModifyEventComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

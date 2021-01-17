@@ -1,8 +1,8 @@
-import { PlayGroundUser } from './../playgrounduser/userModel/playgrounduser.model';
-import { AuthService } from './../auth/service/authservice.service';
+import { AuthService } from '../../../../auth/service/authservice.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { PlayGroundUser } from 'src/app/common/user/playgrounduser/userModel/PlaygroundUser.model';
 
 @Component({
   selector: 'app-navigationbar',
