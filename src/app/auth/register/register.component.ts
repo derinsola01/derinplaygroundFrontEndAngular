@@ -20,8 +20,8 @@ export class RegisterComponent implements OnInit {
     firstName: ['', [Validators.required, Validators.minLength(2)]],
     lastName: ['', [Validators.required, Validators.minLength(2)]],
     emailAddress: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.pattern]],
-    confirmPassword: ['', [Validators.required, Validators.pattern]]
+    password: ['', [Validators.required, Validators.pattern, Validators.minLength(7)]],
+    confirmPassword: ['', [Validators.required, Validators.pattern, Validators.minLength(7)]]
   },
   {
     validator: this.validationService.passwordMatchValidator('password', 'confirmPassword')
@@ -38,15 +38,23 @@ export class RegisterComponent implements OnInit {
                 private router: Router) { }
 
   ngOnInit(): void {
-    // this.runValidation();
-  }
-
-  onUserIdTouched(){
     this.runValidation();
   }
+
+  validateGivenUserId(userId){
+    console.log('this.validateUserIds inside validateGivenUserId is: ', this.validateUserIds);
+    if (this.validateUserIds.userIds.find(userId)){
+      return true;
+    }
+    return false;
+    // this.validateUserIds
+  }
+
+  // onUserIdTouched(){
+  //   this.runValidation();
+  // }
   runValidation(){
-  this.validationService.validateUserIdNotTaken().subscribe(
-    responseData => {
+  this.validationService.validateUserIdNotTaken().subscribe((responseData: UserIdsAndEmails) => {
       console.log('responseData for runValidation is: ', responseData);
       this.validateUserIds = responseData;
     }
@@ -109,14 +117,20 @@ export class RegisterComponent implements OnInit {
         .subscribe(response => {
           console.log('email response is: ', response);
           this.isLoading = false;
+          this.router.navigate(['/landingPage']);
         }, error => {
-          this.isLoading = false;
-          this.errorMessage = 'An Error occured';
-          console.log('email error is: ', error);
+          this.handleError(error);
         });
+    }, error => {
+      this.handleError(error);
     });
-    this.router.navigate(['/landingPage']);
     this.registrationForm.reset();
+  }
+
+  handleError(error){
+    console.log('An error occured!', JSON.stringify(error));
+    this.errorMessage = 'An Error occured ' + error.error.message;
+    this.isLoading = false;
   }
 
 }

@@ -56,8 +56,11 @@ export class AuthService {
   }
 
   private authenticatedPlayGroundUser(responseData){
-    const registeredUser = new PlayGroundUser(responseData.userId, responseData.firstName,
-      responseData.lastName, responseData.emailAddress, responseData.emailAddressValidated, responseData.webToken);
+    const registeredUser = new PlayGroundUser(
+                                responseData.userId, responseData.firstName, responseData.lastName,
+                                responseData.emailAddress, responseData.emailAddressValidated,
+                                responseData.tokenExpirationTime, responseData.webToken
+                                );
     this.playGroundUser.next(registeredUser);
     this.authenticatedUser = registeredUser;
     localStorage.setItem('authenticatedUser', JSON.stringify(this.authenticatedUser));
@@ -71,7 +74,6 @@ export class AuthService {
   sendConfirmationEmail(postUrl: string, postData){
     return this.httpClient.post<AuthenticatedUserResponse>(postUrl, postData, this.genericHeaderOptions)
                 .pipe(tap( responseData => {
-                  console.log('piped response from sendConfirmationEmail is: ', responseData);
                   this.authenticatedPlayGroundUser(responseData);
                 }));
   }
@@ -81,15 +83,21 @@ export class AuthService {
     if (!authenticatedUser) {
       return;
     }
+    this.autoLogout(authenticatedUser.tokenExpirationTime - new Date().getTime());
     this.authenticatedPlayGroundUser(authenticatedUser);
   }
 
   login(postData) {
     return this.httpClient.post<AuthenticatedUserResponse>('http://localhost:8900/auth/login', postData, this.genericHeaderOptions)
                 .pipe(tap( responseData => {
-                  console.log('piped response from login is: ', responseData);
                   this.authenticatedPlayGroundUser(responseData);
                 }));
+  }
+
+  autoLogout(tokenExpirationDuration: number) {
+    setTimeout(() => {
+      localStorage.clear();
+    }, tokenExpirationDuration);
   }
 
   logout(){

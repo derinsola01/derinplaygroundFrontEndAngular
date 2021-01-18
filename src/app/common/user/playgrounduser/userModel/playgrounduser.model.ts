@@ -4,15 +4,17 @@ export class PlayGroundUser {
   public lastName: string;
   public emailAddress: string;
   public emailAddressValidated: boolean;
+  public tokenExpirationTime: number;
   private webToken: string;
 
   constructor(userId: string, firstName: string, lastName: string, emailAddress: string,
-              emailAddressValidated: boolean, webToken: string){
+              emailAddressValidated: boolean, tokenExpirationTime: number, webToken: string){
     this.userId = userId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.emailAddress = emailAddress;
     this.emailAddressValidated = emailAddressValidated;
+    this.tokenExpirationTime = tokenExpirationTime;
     this.webToken = webToken;
   }
 

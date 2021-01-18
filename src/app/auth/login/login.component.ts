@@ -51,11 +51,15 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/landingPage']);
       }
     }, error => {
-      console.log('An error occured!', error);
-      this.errorMessage = 'An Error occured';
-      this.isLoading = false;
+      this.handleError(error);
     });
     this.userLoginForm.reset();
+  }
+
+  handleError(error){
+    console.log('An error occured!', error.error.message);
+    this.errorMessage = error.error.message;
+    this.isLoading = false;
   }
 
 }
