@@ -8,18 +8,26 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="nav navbar-nav ml-auto">
-        <li class="nav-item" routerLinkActive="active">
-          <a style="cursor: pointer;" class="nav-link" (click)="sayGoodByeForNow()" *ngIf="isAuthenticated">Logout</a> <!-- [routerLink]="['auth/logout']" -->
+        <!-- <li class="nav-item" routerLinkActive="active">
+          <a style="cursor: pointer;" class="nav-link" (click)="sayGoodByeForNow()" *ngIf="isAuthenticated">Logout</a>
         </li>
         <li class="nav-item" routerLinkActive="active">
           <a style="cursor: pointer;" class="nav-link" [routerLink]="['auth/updatePassword']" *ngIf="isAuthenticated">Update Password</a>
-        </li>
+        </li> -->
         <li class="nav-item" routerLinkActive="active">
           <a style="cursor: pointer;" class="nav-link" [routerLink]="['auth/login']" *ngIf="!isAuthenticated">Login</a>
         </li>
         <li class="nav-item" routerLinkActive="active">
           <a style="cursor: pointer;" class="nav-link" [routerLink]="['auth/registerUser']" *ngIf="!isAuthenticated">Register</a>
         </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a style="cursor: pointer;" class="nav-link" [routerLink]="['appsPage']" *ngIf="isAuthenticated">Apps</a>
+        </li>
+
+        <!-- <a style="cursor: pointer;" ngbDropdownItem class="dropdown-item" [routerLink]="['event/listEvents']">Event Planner</a>
+            <a style="cursor: pointer;" ngbDropdownItem class="dropdown-item" [routerLink]="['diary/listEntries']">Diary</a>
+            <a style="cursor: pointer;" ngbDropdownItem class="dropdown-item" [routerLink]="['budgetplanner']">Budget Planner</a> -->
+
         <!-- <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" [routerLink]="['diary/viewEntry']">View Entry</a>
         </li>
@@ -29,12 +37,11 @@
         <li ngbDropdown class="nav-item dropdown" href="#" routerLinkActive="active" *ngIf="isAuthenticated">
           <a ngbDropdownToggle class="nav-link dropdown-toggle"  id="navbarDropdown"
               role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Apps
+            {{ authUserFromSetter.userId }}
           </a>
           <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a style="cursor: pointer;" ngbDropdownItem class="dropdown-item" [routerLink]="['event/listEvents']">Event Planner</a>
-            <a style="cursor: pointer;" ngbDropdownItem class="dropdown-item" [routerLink]="['diary/listEntries']">Diary</a>
-            <a style="cursor: pointer;" ngbDropdownItem class="dropdown-item" [routerLink]="['budgetplanner']">Budget Planner</a>
+            <a style="cursor: pointer;" ngbDropdownItem class="dropdown-item" [routerLink]="['event/listEvents']">View Profile</a>
+            <a style="cursor: pointer;" ngbDropdownItem class="dropdown-item" (click)="sayGoodByeForNow()" >Logout</a>
           </div>
         </li>
         <li class="nav-item" routerLinkActive="active">

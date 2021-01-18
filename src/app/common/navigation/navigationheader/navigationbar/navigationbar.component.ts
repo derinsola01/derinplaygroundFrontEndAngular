@@ -25,6 +25,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.userSub = this.authService.playGroundUser.subscribe(user => {
       this.isAuthenticated = !!user;
+      this.authenticatedUser = user;
     });
   }
 
@@ -38,7 +39,8 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
       res => {
         this.authService.playGroundUser.next(null);
         this.router.navigate(['/home']);
-        localStorage.removeItem('authenticatedUser');
+        localStorage.clear();
+        // localStorage.removeItem('authenticatedUser');
       }
     );
   }
