@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthenticatedUserResponse } from '../response/auth.user.reponse';
 import { UserIdsAndEmails } from '../response/userid.email.response';
-import { AuthService } from '../service/authservice.service';
 import { ValidationService } from '../service/validation.service';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -92,14 +92,14 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(){
     this.isLoading = true;
-    this.authService.registerUser(this.registrationForm.value).subscribe((responseData: AuthenticatedUserResponse) => {
+    this.authService.registerNewUser(this.registrationForm.value).subscribe((responseData: AuthenticatedUserResponse) => {
       this.authenticatedUser = responseData;
       const emailValidator = {
         userId: this.authenticatedUser.userId,
         emailAddress: this.authenticatedUser.emailAddress
       };
 
-      this.authService.sendValidationEmail(emailValidator, this.authenticatedUser.webToken)
+      this.authService.validateEmailAddress(emailValidator, this.authenticatedUser.webToken)
         .subscribe(response => {
           this.isLoading = false;
           this.router.navigate(['/landingPage']);

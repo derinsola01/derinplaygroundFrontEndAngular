@@ -1,8 +1,8 @@
-import { AuthService } from '../../../../auth/service/authservice.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { PlayGroundUser } from 'src/app/common/user/playgrounduser/userModel/PlaygroundUser.model';
+import { AuthService } from 'src/app/auth/service/auth.service';
 
 @Component({
   selector: 'app-navigationbar',
@@ -35,12 +35,11 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
 
   sayGoodByeForNow(){
     this.navigationSpinner = true;
-    this.authService.logout().subscribe(
+    this.authService.userLogout(this.authenticatedUser.userId, this.authenticatedUser.userWebToken).subscribe(
       res => {
         this.authService.playGroundUser.next(null);
         this.router.navigate(['/home']);
         localStorage.clear();
-        // localStorage.removeItem('authenticatedUser');
       }
     );
   }

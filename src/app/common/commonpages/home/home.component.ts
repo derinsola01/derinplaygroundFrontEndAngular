@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/auth/service/authservice.service';
+import { AuthService } from 'src/app/auth/service/auth.service';
 import { PlayGroundUser } from '../../user/playgrounduser/userModel/PlaygroundUser.model';
 
 @Component({
