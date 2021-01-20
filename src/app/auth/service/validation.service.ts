@@ -1,11 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { map, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { AuthService } from './authservice.service';
 import { UserIdsAndEmails } from '../response/userid.email.response';
 import { RegisteredUsers } from '../models/registered.users.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +34,7 @@ export class ValidationService {
   }
 
   getAllUserIdsAndEmails() {
-    return this.authService.registeredUserIdsAndEmails().pipe(
+    return this.authService.getAllRegisteredUserIdsAndEmails().pipe(
     (tap( responseData => {
       this.populateRegisteredUsers(responseData);
     })));

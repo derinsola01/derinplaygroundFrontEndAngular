@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/auth/service/auth.service';
+import { PlayGroundUser } from 'src/app/common/user/playgrounduser/userModel/PlaygroundUser.model';
 
 @Component({
   selector: 'app-diary',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DiaryComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.getDiaryEntries(this.authService.authenticatedUser);
+  }
+
+  getDiaryEntries(authenticatedUser: PlayGroundUser) {
+
   }
 
 }
