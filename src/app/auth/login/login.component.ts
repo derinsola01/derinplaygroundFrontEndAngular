@@ -58,6 +58,7 @@ export class LoginComponent implements OnInit {
 
   handleError(error){
     console.log('An error occured!', error.error.message);
+    console.log('Complete error object: ', error);
     this.errorMessage = error.error.message;
     this.isLoading = false;
   }

@@ -1,7 +1,6 @@
 import { Router } from '@angular/router';
-import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthenticatedUserResponse } from '../response/auth.user.reponse';
 import { UserIdsAndEmails } from '../response/userid.email.response';
 import { AuthService } from '../service/authservice.service';
@@ -14,17 +13,16 @@ import { ValidationService } from '../service/validation.service';
 })
 export class RegisterComponent implements OnInit {
 
-  // this.validationService.validateUserIdNotTaken.bind(this.validationService)
   registrationForm = this.formBuilder.group({
-    userId: ['', [Validators.required, Validators.minLength(5)]],
-    firstName: ['', [Validators.required, Validators.minLength(2)]],
-    lastName: ['', [Validators.required, Validators.minLength(2)]],
-    emailAddress: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.pattern, Validators.minLength(7)]],
-    confirmPassword: ['', [Validators.required, Validators.pattern, Validators.minLength(7)]]
-  },
-  {
-    validator: this.validationService.passwordMatchValidator('password', 'confirmPassword')
+    userId: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)],
+                  this.validationService.validateUsernameNotRegistered.bind(this.validationService)],
+    firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+    lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+    emailAddress: ['', [Validators.required, Validators.email],
+                  this.validationService.validateEmailAddressNotRegistered.bind(this.validationService)],
+    password: ['', [Validators.required, Validators.pattern(/^([A-Za-z0-9@_\-*&$%\^+=()#!])+/),
+                  Validators.minLength(7), Validators.maxLength(50)]],
+    confirmPassword: ['', [Validators.required], this.validatePasswordsAreEqual.bind(this)]
   });
 
   private authenticatedUser: AuthenticatedUserResponse;
@@ -41,24 +39,15 @@ export class RegisterComponent implements OnInit {
     this.runValidation();
   }
 
-  validateGivenUserId(userId){
-    console.log('this.validateUserIds inside validateGivenUserId is: ', this.validateUserIds);
-    if (this.validateUserIds.userIds.find(userId)){
-      return true;
-    }
-    return false;
-    // this.validateUserIds
+  runValidation(){
+  this.validationService.getAllUserIdsAndEmails().subscribe(
+    (responseData: UserIdsAndEmails) => {
+      this.validateUserIds = responseData;
+    });
   }
 
-  // onUserIdTouched(){
-  //   this.runValidation();
-  // }
-  runValidation(){
-  this.validationService.validateUserIdNotTaken().subscribe((responseData: UserIdsAndEmails) => {
-      console.log('responseData for runValidation is: ', responseData);
-      this.validateUserIds = responseData;
-    }
-  );
+  private validatePasswordsAreEqual(fieldControl: FormControl) {
+    return this.validationService.passwordMatchValidator(this.password.value, fieldControl.value);
   }
 
   get userIdsAndEmailValidators(){
@@ -103,11 +92,8 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(){
     this.isLoading = true;
-    console.log('Register user form input is: ', this.registrationForm.value);
     this.authService.registerUser(this.registrationForm.value).subscribe((responseData: AuthenticatedUserResponse) => {
-      console.log('responseData is: ', responseData);
       this.authenticatedUser = responseData;
-
       const emailValidator = {
         userId: this.authenticatedUser.userId,
         emailAddress: this.authenticatedUser.emailAddress
@@ -115,7 +101,6 @@ export class RegisterComponent implements OnInit {
 
       this.authService.sendValidationEmail(emailValidator, this.authenticatedUser.webToken)
         .subscribe(response => {
-          console.log('email response is: ', response);
           this.isLoading = false;
           this.router.navigate(['/landingPage']);
         }, error => {
@@ -128,7 +113,6 @@ export class RegisterComponent implements OnInit {
   }
 
   handleError(error){
-    console.log('An error occured!', JSON.stringify(error));
     this.errorMessage = 'An Error occured ' + error.error.message;
     this.isLoading = false;
   }

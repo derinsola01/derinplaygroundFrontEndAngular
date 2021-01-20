@@ -1,43 +1,49 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { FormControl, FormGroup } from '@angular/forms';
+import { map, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { AuthService } from './authservice.service';
+import { UserIdsAndEmails } from '../response/userid.email.response';
+import { RegisteredUsers } from '../models/registered.users.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ValidationService {
 
+  registeredUsers: RegisteredUsers;
+
   constructor(private authService: AuthService) { }
 
   passwordMatchValidator(password: string, confirmPassword: string) {
-    return (formGroup: FormGroup) => {
-      const passwordControl = formGroup.controls[password];
-      const confirmPasswordControl = formGroup.controls[confirmPassword];
-
-      if (!passwordControl || !confirmPasswordControl) {
-        return null;
-      }
-
-      if (
-        confirmPasswordControl.errors &&
-        !confirmPasswordControl.errors.passwordMismatch
-      ) {
-        return null;
-      }
-
-      if (passwordControl.value !== confirmPasswordControl.value) {
-        confirmPasswordControl.setErrors({ passwordMismatch: true });
-      } else {
-        confirmPasswordControl.setErrors(null);
-      }
-    };
+    return of(password !== confirmPassword).pipe(
+      map(result => result ? { passwordMismatch: true } : null)
+    );
   }
 
-  validateUserIdNotTaken() {
-    return this.authService.registeredUserIdsAndEmails();
+  validateUsernameNotRegistered(fieldControl: FormControl) {
+    return of(this.registeredUsers.userIds.includes(fieldControl.value)).pipe(
+      map(result => result ? { notUnique: true } : null)
+    );
+  }
+
+  validateEmailAddressNotRegistered(fieldControl: FormControl) {
+    return of(this.registeredUsers.emailAddresses.includes(fieldControl.value)).pipe(
+      map(result => result ? { notUnique: true } : null)
+    );
+  }
+
+  getAllUserIdsAndEmails() {
+    return this.authService.registeredUserIdsAndEmails().pipe(
+    (tap( responseData => {
+      this.populateRegisteredUsers(responseData);
+    })));
+  }
+
+  populateRegisteredUsers(responseData: UserIdsAndEmails) {
+    const users = new RegisteredUsers(responseData.userIds, responseData.emailAddresses);
+    this.registeredUsers = users;
   }
 
 }
