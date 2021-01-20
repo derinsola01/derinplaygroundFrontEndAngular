@@ -18,7 +18,10 @@
           Looks good!
         </div>
         <div class="invalid-feedback" >
-          Please provide a valid User Name/Id.
+          <div *ngIf="userId.hasError('required')">User Name/Id is required</div>
+          <div *ngIf="userId.hasError('minlength')">User Name/Id must be at least 5 characters long</div>
+          <div *ngIf="userId.hasError('maxlength')">User Name/Id cannot be longer than 50 characters</div>
+          <div *ngIf="userId.hasError('notUnique')">User Name/Id already taken.</div>
         </div>
       </div>
       <div class="form-group">
@@ -32,7 +35,9 @@
           Looks good!
         </div>
         <div class="invalid-feedback" >
-          Please provide a valid First Name.
+          <div *ngIf="firstName.hasError('required')">First Name is required</div>
+          <div *ngIf="firstName.hasError('minlength')">First Name must be at least 2 characters long</div>
+          <div *ngIf="firstName.hasError('maxlength')">First Name cannot be longer than 50 characters</div>
         </div>
       </div>
       <div class="form-group">
@@ -46,7 +51,9 @@
           Looks good!
         </div>
         <div class="invalid-feedback" >
-          Please provide a valid Last Name.
+          <div *ngIf="lastName.hasError('required')">Last Name is required</div>
+          <div *ngIf="lastName.hasError('minlength')">Last Name must be at least 2 characters long</div>
+          <div *ngIf="lastName.hasError('maxlength')">Last Name cannot be longer than 50 characters</div>
         </div>
       </div>
       <div class="form-group">
@@ -60,7 +67,9 @@
           Looks good!
         </div>
         <div class="invalid-feedback" >
-          Please provide a valid email address.
+          <div *ngIf="emailAddress.hasError('required')">Email Address is required</div>
+          <div *ngIf="emailAddress.hasError('email')">Email Address must contain a valid email-address</div>
+          <div *ngIf="emailAddress.hasError('notUnique')">Email Address must be unique</div>
         </div>
       </div>
       <div class="form-group">
@@ -74,7 +83,10 @@
           Looks good!
         </div>
         <div class="invalid-feedback" >
-          Please provide password.
+          <div *ngIf="password.hasError('required')">Password is required</div>
+          <div *ngIf="password.hasError('minlength')">Password must be at least 7 characters long</div>
+          <div *ngIf="password.hasError('maxlength')">Password cannot be longer than 50 characters</div>
+          <div *ngIf="password.hasError('pattern')">Supported special characters include: "@,_,-,*,&,$,%,^,+,=,(,),#,!" </div>
         </div>
       </div>
       <div class="form-group">
@@ -87,8 +99,9 @@
         <div class="valid-feedback">
           Looks good!
         </div>
-        <div class="invalid-feedback" *ngIf="confirmPassword.hasError('passwordMismatch')">
-          Please ensure that passwords match.
+        <div class="invalid-feedback">
+          <div *ngIf="confirmPassword.hasError('required')">Retype Password is required</div>
+          <div *ngIf="confirmPassword.hasError('passwordMismatch')">Retype Password and Password entries must match</div>
         </div>
       </div>
       <div>
