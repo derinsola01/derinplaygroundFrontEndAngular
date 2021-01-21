@@ -12,6 +12,7 @@ const routes: Routes = [
   {
     path: '', component: DiaryComponent, canActivate: [ RouteGuardService ],
     children: [
+      {path: '', redirectTo: 'listEntries', pathMatch: 'full'},
       {path: 'listEntries', component: ListEntriesComponent},
       {path: 'createEntry', component: CreateEntryComponent},
       {path: 'updateEntry', component: UpdateEntryComponent},
