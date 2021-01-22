@@ -1,6 +1,9 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/auth/service/auth.service';
-import { PlayGroundUser } from 'src/app/common/user/playgrounduser/userModel/PlaygroundUser.model';
+import { UserDiary } from './model/user.diary.model';
+import { DiaryService } from './service/diary.service';
 
 @Component({
   selector: 'app-diary',
@@ -9,14 +12,14 @@ import { PlayGroundUser } from 'src/app/common/user/playgrounduser/userModel/Pla
 })
 export class DiaryComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  public userDiary: UserDiary = this.diaryService.userDiary;
+
+  constructor(private authService: AuthService,
+              private router: Router,
+              private diaryService: DiaryService) { }
 
   ngOnInit(): void {
-    this.getDiaryEntries(this.authService.authenticatedUser);
-  }
-
-  getDiaryEntries(authenticatedUser: PlayGroundUser) {
-
+    this.diaryService.autoPopulateDiaryEntries();
   }
 
 }

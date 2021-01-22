@@ -13,6 +13,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
 
   navigationSpinner = false;
   isAuthenticated = false;
+  emailValidated = false;
   private userSub: Subscription;
   authenticatedUser: PlayGroundUser;
 
@@ -31,6 +32,13 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
 
   get authUserFromSetter(){
     return this.authenticatedUser;
+  }
+
+  get isEmailValidated() {
+    if (this.authenticatedUser) {
+      this.emailValidated = this.authenticatedUser.emailAddressValidated;
+    }
+    return this.emailValidated;
   }
 
   sayGoodByeForNow(){

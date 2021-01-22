@@ -23,7 +23,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
     PageNotFoundComponent,
     AppsLandingComponent,
     LandingPageComponent,
-    AboutComponent,
+    AboutComponent
   ],
   imports: [
     RouterModule,

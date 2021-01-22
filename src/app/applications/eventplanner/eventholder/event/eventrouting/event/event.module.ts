@@ -7,7 +7,7 @@ import { ListEventsComponent } from '../../listevents/listevents.component';
 import { ModifyEventComponent } from '../../modifyevent/modifyevent.component';
 import { ViewEventComponent } from '../../viewevent/viewevent.component';
 import { EventPlannerComponent } from 'src/app/applications/eventplanner/eventplanner.component';
-import { AppLoadingSpinnerComponent } from 'src/app/common/spinners/loadingspinners/apploadingspinner/apploadingspinner.component';
+
 
 
 @NgModule({
@@ -17,8 +17,7 @@ import { AppLoadingSpinnerComponent } from 'src/app/common/spinners/loadingspinn
     ViewEventComponent,
     CreateEventComponent,
     DeleteEventComponent,
-    ModifyEventComponent,
-    AppLoadingSpinnerComponent
+    ModifyEventComponent
   ],
   imports: [ CommonModule, EventRoutingModule, EventRoutingModule ],
   exports: [
@@ -27,8 +26,7 @@ import { AppLoadingSpinnerComponent } from 'src/app/common/spinners/loadingspinn
     ViewEventComponent,
     CreateEventComponent,
     DeleteEventComponent,
-    ModifyEventComponent,
-    AppLoadingSpinnerComponent
+    ModifyEventComponent
   ]
 })
 export class EventModule { }

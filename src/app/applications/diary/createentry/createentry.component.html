@@ -1,1 +1,48 @@
-<p>createentry works!</p>
+<div class="container justify-content-center">
+  <div class="col-xs-12 col-md-6 col-offset-3">
+      <!-- <div class="alert alert-danger" *ngIf="displayError">
+        <p>{{ displayError }}</p>
+      </div> -->
+      <!-- <div *ngIf="formLoading" style="text-align: center;">
+        <app-diaryloadingspinner></app-diaryloadingspinner>
+      </div> -->
+      <form [formGroup]="diaryEntryForm" (ngSubmit)="onSubmit()"> <!--  *ngIf="!formLoading" -->
+        <div class="form-group">
+          <input  type="date"
+                  id="entryDate"
+                  [ngClass]="{'is-invalid': entryDate.errors && entryDate.touched}"
+                  class="form-control"
+                  placeholder="Select Date"
+                  autocorrect="on"
+                  formControlName="entryDate" />
+            <div class="invalid-feedback" >
+              Date Is needed for diary entry.
+            </div>
+        </div>
+        <div class="form-group">
+          <textarea
+                  class="text-area"
+                  formControlName="dairyEntry"
+                  id="dairyEntry"
+                  [ngClass]="{'is-invalid': dairyEntry.errors && dairyEntry.touched}"
+                  placeholder="Diary Input"
+                  ></textarea>
+          <!-- <textarea name="message" rows="10" cols="30"   class ="text-area"
+          /> -->
+          <!-- The cat was playing in the garden.</textarea> -->
+          <!-- <input  type="textarea"
+                  id="dairyEntry"
+                  [ngClass]="{'is-invalid': dairyEntry.errors && dairyEntry.touched}"
+                  class="form-control"
+                  placeholder="Password"
+                  formControlName="dairyEntry" /> -->
+            <div class="invalid-feedback" >
+              Entry must be longer than 3 characters
+            </div>
+        </div>
+        <div>
+          <button class="btn btn-success" type="submit">Save Entry</button>
+        </div>
+      </form>
+  </div>
+</div>

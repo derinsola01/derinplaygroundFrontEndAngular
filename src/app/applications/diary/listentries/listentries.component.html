@@ -1,1 +1,16 @@
-<p>listentries works!</p>
+<div class="container justify-content-center">
+  <div class="col-xs-12 col-md-6 col-offset-3">
+    <div>
+      <button type="button" class="btn btn-outline-secondary" [routerLink]="['/diary/createEntry']">Create Diary Entry</button>
+    </div>
+    <div>
+      <ul class="dairyEntries">
+        <li *ngFor="let entry of dairyEntries.dairyEntries"
+              [class.selected]="entry === selectedEntry"
+              (click)="onSelect(entry)">
+              <span class="badge">{{entry.diaryEntryDate | date}}</span><br> {{entry.diaryEntry}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

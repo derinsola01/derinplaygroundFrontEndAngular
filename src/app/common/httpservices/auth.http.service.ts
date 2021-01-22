@@ -21,7 +21,7 @@ export class AuthHttpService {
     return httpOptions;
   }
 
-  authHeaderOptions(userWebToken: string){
+  private authHeaderOptions(userWebToken: string){
     const httpOptions = {
       headers: new HttpHeaders({
         'Access-Control-Allow-Origin': '*',
