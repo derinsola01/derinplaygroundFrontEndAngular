@@ -21,7 +21,7 @@
           <a style="cursor: pointer;" class="nav-link" [routerLink]="['auth/registerUser']" *ngIf="!isAuthenticated">Register</a>
         </li>
         <li class="nav-item" routerLinkActive="active">
-          <a style="cursor: pointer;" class="nav-link" [routerLink]="['appsPage']" *ngIf="isAuthenticated">Apps</a>
+          <a style="cursor: pointer;" class="nav-link" [routerLink]="['appsPage']" *ngIf="isEmailValidated">Apps</a>
         </li>
 
         <!-- <a style="cursor: pointer;" ngbDropdownItem class="dropdown-item" [routerLink]="['event/listEvents']">Event Planner</a>

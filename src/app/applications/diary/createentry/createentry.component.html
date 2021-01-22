@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container justify-content-center">
   <div class="col-xs-12 col-md-6 col-offset-3">
       <!-- <div class="alert alert-danger" *ngIf="displayError">
         <p>{{ displayError }}</p>
       </div> -->
       <!-- <div *ngIf="formLoading" style="text-align: center;">
-        <app-authloadingspinners></app-authloadingspinners>
+        <app-diaryloadingspinner></app-diaryloadingspinner>
       </div> -->
       <form [formGroup]="diaryEntryForm" (ngSubmit)="onSubmit()"> <!--  *ngIf="!formLoading" -->
         <div class="form-group">

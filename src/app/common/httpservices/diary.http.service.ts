@@ -37,9 +37,16 @@ export class DiaryHttpService {
     return this.httpClient.post<UserDiaryResponse>('http://localhost:8900/diary/createEntry', postData, httpOptions);
   }
 
-  // createDiaryPassCode(passCode: string, loggedInUserId: string, userWebToken: string) {
-  //   const postData = { userId: loggedInUserId, diaryPassCode: passCode };
-  //   const httpOptions = this.authHeaderOptions(userWebToken);
-  //   return this.httpClient.post<UserDiaryResponse>('http://localhost:8900/diary/createDiaryPassCode', postData, httpOptions);
-  // }
+  createDiaryPassCode(diaryPassCode: string, loggedInUserId: string, userWebToken: string) {
+    const postData = { userId: loggedInUserId, passCode: diaryPassCode };
+    const httpOptions = this.authHeaderOptions(userWebToken);
+    return this.httpClient.post<UserDiaryResponse>('http://localhost:8900/diary/createPasscode', postData, httpOptions);
+  }
+
+  updateDiaryEntry(updatedDiaryEntry: string, date: Date, loggedInUserId: string, userWebToken: string) {
+      const postData = { userId: loggedInUserId, diaryEntry: updatedDiaryEntry, diaryEntryDate: date };
+      const httpOptions = this.authHeaderOptions(userWebToken);
+      return this.httpClient.post<UserDiaryResponse>('http://localhost:8900/diary/updateDiaryEntry', postData, httpOptions);
+    }
+
 }

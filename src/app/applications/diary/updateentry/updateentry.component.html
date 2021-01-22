@@ -1,1 +1,22 @@
-<p>updateentry works!</p>
+<div class="container justify-content-center">
+  <div class="col-xs-12 col-md-6 col-offset-3">
+      <div class="alert alert-danger" *ngIf="displayError">
+        <p>{{ displayError }}</p>
+      </div>
+      <div *ngIf="formLoading" style="text-align: center;">
+        <app-diaryloadingspinner></app-diaryloadingspinner>
+      </div>
+      <form [formGroup]="updateDiaryEntryForm" (ngSubmit)="updateDiaryEntry()" *ngIf="!formLoading">
+        <div class="form-group">
+          <textarea
+                  class="text-area"
+                  formControlName="updateDiaryEntry"
+                  id="updateDiaryEntry"
+                  ></textarea>
+        </div>
+        <div>
+          <button class="btn btn-success" type="submit">Update Diary Entry</button>
+        </div>
+      </form>
+  </div>
+</div>

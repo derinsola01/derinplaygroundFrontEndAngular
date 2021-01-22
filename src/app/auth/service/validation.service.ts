@@ -22,15 +22,27 @@ export class ValidationService {
   }
 
   validateUsernameNotRegistered(fieldControl: FormControl) {
-    return of(this.registeredUsers.userIds.includes(fieldControl.value)).pipe(
-      map(result => result ? { notUnique: true } : null)
-    );
+    if (this.registeredUsers) {
+      return of(this.registeredUsers.userIds.includes(fieldControl.value)).pipe(
+        map(result => result ? { notUnique: true } : null)
+      );
+    } else {
+      return of(fieldControl.value).pipe(
+        map(result => result ? null : { notUnique: true } )
+      );
+    }
   }
 
   validateEmailAddressNotRegistered(fieldControl: FormControl) {
-    return of(this.registeredUsers.emailAddresses.includes(fieldControl.value)).pipe(
-      map(result => result ? { notUnique: true } : null)
-    );
+    if (this.registeredUsers) {
+      return of(this.registeredUsers.emailAddresses.includes(fieldControl.value)).pipe(
+        map(result => result ? { notUnique: true } : null)
+      );
+    } else {
+      return of(fieldControl.value).pipe(
+        map(result => result ? null : { notUnique: true } )
+      );
+    }
   }
 
   getAllUserIdsAndEmails() {
@@ -41,8 +53,10 @@ export class ValidationService {
   }
 
   populateRegisteredUsers(responseData: UserIdsAndEmails) {
-    const users = new RegisteredUsers(responseData.userIds, responseData.emailAddresses);
-    this.registeredUsers = users;
+    if (responseData) {
+      const users = new RegisteredUsers(responseData.userIds, responseData.emailAddresses);
+      this.registeredUsers = users;
+    }
   }
 
 }
