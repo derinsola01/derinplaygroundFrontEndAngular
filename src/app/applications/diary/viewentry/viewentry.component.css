@@ -1,0 +1,17 @@
+.button-left {
+  padding: 10px;
+  margin-top: 20px;
+  border-top-left-radius: 50px 20px;
+  position: absolute;
+  top:0;
+  left:0;
+}
+
+.button-right {
+  padding: 10px;
+  margin-top: 20px;
+  border-top-right-radius: 50px 20px;
+  position: absolute;
+  top:0;
+  right:0;
+}

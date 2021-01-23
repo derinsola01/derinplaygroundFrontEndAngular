@@ -16,7 +16,7 @@ export class UpdateEntryComponent implements OnInit {
   private errorMessage: string = null;
 
   updateDiaryEntryForm = this.formBuilder.group({
-    updateDiaryEntry: new FormControl(this.diaryService.selectedDiaryEntry.diaryEntry),
+    updateDiaryEntry: new FormControl(this.diaryService.selectedDiaryEntry.diaryEntry)
   });
 
   constructor(private diaryService: DiaryService,
@@ -40,7 +40,7 @@ export class UpdateEntryComponent implements OnInit {
   goBackToDiaryEntries() {
     this.diaryService.diaryEntryForView(this.selectedEntry);
     localStorage.removeItem('diaryEntryForEdit');
-    this.router.navigate(['/diary/updateEntry']);
+    this.router.navigate(['/diary/viewEntry']);
   }
 
   get diaryEntry(){

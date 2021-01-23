@@ -5,4 +5,27 @@
   margin-inline-start: 25px;
   margin-inline-end: 80px;
   margin-left: 25px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.card-img-top {
+  margin-top: 50px;
+}
+
+.google_map{
+  width:55%;
+  margin-right:2%;
+  float: left;
+}
+.google_map iframe{
+ width:100%;
+}
+
+.paragraph {
+  width:42%;
+  float: left;
+}
+.clearfix{
+  clear:both
 }
