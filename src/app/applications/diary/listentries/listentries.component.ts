@@ -3,6 +3,7 @@ import { DiaryService } from './../service/diary.service';
 import { Component, OnInit } from '@angular/core';
 import { UserDiary } from '../model/user.diary.model';
 import { UserDiaryEntries } from '../model/user.diary.entries.model';
+import { FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-listentries',
@@ -14,9 +15,18 @@ export class ListEntriesComponent implements OnInit {
   userDiaryEntries: UserDiary;
   selectedEntry: UserDiaryEntries;
 
-  constructor(private diaryService: DiaryService, private router: Router) { }
+  searchEntryForm = this.formBuilder.group({
+    searchText: ['', []]
+    // searchText: ['']
+  });
+
+  constructor(private formBuilder: FormBuilder, private diaryService: DiaryService, private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  get searchText(){
+    return this.searchEntryForm.get('searchText');
   }
 
   get dairyEntries() {
@@ -25,9 +35,20 @@ export class ListEntriesComponent implements OnInit {
 
   onSelect(entry: UserDiaryEntries): void {
     this.selectedEntry = entry;
-    console.log('this.selectedEntry is: ', this.selectedEntry);
     this.diaryService.diaryEntryForView(this.selectedEntry);
     this.router.navigate(['/diary/viewEntry']);
+  }
+
+  searchForEntry() {
+    console.log('this.searchEntryForm holds: ', this.searchEntryForm.value);
+    const searchText = this.searchEntryForm.value.searchText;
+    // const entriesHolder = this.dairyEntries.dairyEntries;  // .includes(this.searchEntryForm.value.value);
+    // const array = [1, 2, 3];
+    // entriesHolder.forEach(function (value) {
+    //   console.log(value);
+    // });
+    // console.log('found is: ', found);
+    this.searchEntryForm.reset();
   }
 
 }

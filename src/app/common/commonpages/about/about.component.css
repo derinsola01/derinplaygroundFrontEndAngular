@@ -1,19 +1,11 @@
-* {
+body {
   margin: 0;
   padding: 0;
-}
-
-body {
-  font-family: 'Raleway', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  color: #777;
-}
-
-h1 {
-  font-size: 36px;
-  color: #555;
-  font-weight: bold;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-image: url(../../../../assets/images/background.jpg);
+  background-size: cover;
+  background-position: center;
+  height: 900px;
 }
 
 h3 {
@@ -22,8 +14,11 @@ h3 {
   font-weight: bold;
 }
 
-#devTeam img {
-  margin-top: 50px;
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 
 #devTeam i {
@@ -36,21 +31,5 @@ h3 {
 }
 
 #devTeam .card {
-  border-radius: 0;
   box-shadow: 5px 5px 15px #e74c3c;
-  transition: all 0.3s ease-in;
-  -webkit-transition: all 0.3s ease-in;
-  -moz-transition: all 0.3s ease-in;
 }
-
-/* #devTeam .card:hover {
-  background: #e74c3c;
-  color: #fff;
-  border-radius: 5px;
-  border: none;
-  box-shadow: 5px 5px 10px #9E9E9E;
-}
-
-#devTeam .card:hover h3, #devTeam .card:hover i {
-  color: #fff;
-} */

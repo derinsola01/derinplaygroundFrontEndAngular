@@ -1,28 +1,39 @@
 <div style="padding-top: 50px;">
-  <div class="card">
-    <div class="col-md-3 col-sm-6">
-      <div class="text-center" style="width: 18rem;">
-        <a [routerLink]="['/event/listEvents']" style="cursor: pointer;">
-          <div class="card-body">
-            <h5 class="card-title">Event Planner</h5>
-            <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  <div class="card mb-3" style="max-width: 540px;">
+    <!-- <a [routerLink]="['/event/listEvents']" style="cursor: pointer;"> -->
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="../../../assets/images/event-calendar.png" width="100%" height="100%" alt="...">
+        </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">Event Planner</h5>
+              <p class="card-text">
+                Plan and share events with friends. This app is still in the works!
+              </p>
+              <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+            </div>
           </div>
-        </a>
       </div>
-    </div>
+    <!-- </a> -->
   </div>
-  <div class="card">
-    <div class="col-md-3 col-sm-6">
-      <div class="text-center" style="width: 18rem;"> <!-- createDiaryPasscode '/diary/listEntries'-->
-        <a [routerLink]="['/diary/createDiaryPasscode']" style="cursor: pointer;">
-          <div class="card-body">
-            <h5 class="card-title">Diary App</h5>
-            <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  <div class="card mb-3" style="max-width: 540px;">
+    <a [routerLink]="['/diary/createDiaryPasscode']" style="cursor: pointer;">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="../../../assets/images/diary-icon.png" width="100%" height="100%" alt="...">
+        </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">Diary App</h5>
+              <p class="card-text">
+                Document daily events using this app. Entries are encrypted with the passcode you provide when you first open the app
+                before persistence.
+              </p>
+              <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+            </div>
           </div>
-        </a>
       </div>
-    </div>
+    </a>
   </div>
 </div>
