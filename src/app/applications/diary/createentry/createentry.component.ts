@@ -17,6 +17,9 @@ export class CreateEntryComponent implements OnInit {
     dairyEntry: ['', [Validators.required]]
   });
 
+  private isLoading = false;
+  private errorMessage: string = null;
+
   constructor(private formBuilder: FormBuilder,
               private dairyService: DiaryService,
               private authService: AuthService,
@@ -33,30 +36,31 @@ export class CreateEntryComponent implements OnInit {
     return this.diaryEntryForm.get('dairyEntry');
   }
 
+  get formLoading(){
+    return this.isLoading;
+  }
+
+  get displayError(){
+    return this.errorMessage;
+  }
+
   onSubmit(){
-    // this.isLoading = true;
+    this.isLoading = true;
     const loggedInUserId = this.authService.authenticatedUser.userId;
     const userWebToken = this.authService.authenticatedUser.userWebToken;
     this.dairyService.createDiaryEntry(this.diaryEntryForm.value, loggedInUserId, userWebToken).subscribe((responseData ) => {
       console.log('responseData is: ', responseData);
-      // this.isLoading = false;
-      // if ( responseData.emailAddressValidated === true ) {
+      this.isLoading = false;
       this.router.navigate(['/diary/listEntries']);
-      // } else {
-      //   this.router.navigate(['/landingPage']);
-      // }
-    }
-    // , error => {
-    //   this.handleError(error);
-    // }
-    );
-    console.log('this.diaryEntryForm.value holds: ', this.diaryEntryForm.value);
+    }, error => {
+      this.handleError(error);
+    });
     this.diaryEntryForm.reset();
   }
 
-  // handleError(error){
-  //   this.errorMessage = error.error.message;
-  //   this.isLoading = false;
-  // }
+  handleError(error){
+    this.errorMessage = error.error.message;
+    this.isLoading = false;
+  }
 
 }

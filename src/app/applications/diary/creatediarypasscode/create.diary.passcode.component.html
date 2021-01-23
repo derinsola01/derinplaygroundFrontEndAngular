@@ -1,29 +1,30 @@
-<div class="container justify-content-center">
-  <div class="col-xs-12 col-md-6 col-offset-3">
-      <div class="alert alert-danger" *ngIf="displayError">
-        <p>{{ displayError }}</p>
-      </div>
-      <div *ngIf="formLoading" style="text-align: center;">
-        <app-diaryloadingspinner></app-diaryloadingspinner>
-      </div>
-      <div *ngIf="!userDiary">
-        <form [formGroup]="diaryPassCodeForm" (ngSubmit)="onSubmit()" *ngIf="!formLoading">
-          <div class="form-group">
-            <input  type="text"
-                    id="dairyPassCode"
-                    [ngClass]="{'is-invalid': dairyPassCode.errors && dairyPassCode.touched}"
-                    class="form-control"
-                    placeholder="Diary Pass Code"
-                    formControlName="dairyPassCode" />
-              <div class="invalid-feedback" >
-                Diary Passcode is required for encrypting diary entries.
-              </div>
+<div class="passcode-page">
+  <div>
+    <button type="button" class="btn button-left btn-outline-secondary" [routerLink]="['/appsPage']">Back To Apps Page</button>
+  </div>
+  <div class="alert alert-danger" *ngIf="displayError">
+    <p>{{ displayError }}</p>
+  </div>
+  <div *ngIf="formLoading" style="text-align: center;">
+    <app-diaryloadingspinner></app-diaryloadingspinner>
+  </div>
+  <div *ngIf="!userDiary">
+    <form [formGroup]="diaryPassCodeForm" (ngSubmit)="onSubmit()" *ngIf="!formLoading">
+      <div class="form-group">
+        <input  type="text"
+                id="dairyPassCode"
+                [ngClass]="{'is-invalid': dairyPassCode.errors && dairyPassCode.touched}"
+                class="form-control"
+                placeholder="Diary Pass Code"
+                formControlName="dairyPassCode" />
+          <div class="invalid-feedback" >
+            Diary Passcode is required for encrypting diary entries.
           </div>
-          <div>
-            <button class="btn btn-success" type="submit">Create Passcode</button>
-          </div>
-        </form>
       </div>
+      <div>
+        <button class="btn btn-success" type="submit">Create Passcode</button>
+      </div>
+    </form>
   </div>
 </div>
 
