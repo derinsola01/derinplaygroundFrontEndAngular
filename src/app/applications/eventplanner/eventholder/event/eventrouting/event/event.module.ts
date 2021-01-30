@@ -7,7 +7,9 @@ import { ListEventsComponent } from '../../listevents/listevents.component';
 import { ModifyEventComponent } from '../../modifyevent/modifyevent.component';
 import { ViewEventComponent } from '../../viewevent/viewevent.component';
 import { EventPlannerComponent } from 'src/app/applications/eventplanner/eventplanner.component';
-
+import { EventLoadingSpinnerComponent } from 'src/app/common/spinners/loadingspinners/eventloadingspinner/eventloadingspinner.component';
+import { EventnavigationbarComponent } from 'src/app/common/navigation/navigationheader/eventnavigationbar/eventnavigationbar.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,16 +19,20 @@ import { EventPlannerComponent } from 'src/app/applications/eventplanner/eventpl
     ViewEventComponent,
     CreateEventComponent,
     DeleteEventComponent,
-    ModifyEventComponent
+    ModifyEventComponent,
+    EventLoadingSpinnerComponent,
+    EventnavigationbarComponent
   ],
-  imports: [ CommonModule, EventRoutingModule, EventRoutingModule ],
+  imports: [ CommonModule, EventRoutingModule, ReactiveFormsModule ],
   exports: [
     EventPlannerComponent,
     ListEventsComponent,
     ViewEventComponent,
     CreateEventComponent,
     DeleteEventComponent,
-    ModifyEventComponent
+    ModifyEventComponent,
+    EventLoadingSpinnerComponent,
+    EventnavigationbarComponent
   ]
 })
 export class EventModule { }

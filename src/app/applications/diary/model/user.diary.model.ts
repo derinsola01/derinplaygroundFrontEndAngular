@@ -1,10 +1,10 @@
-import { UserDiaryEntries } from './user.diary.entries.model';
+import { UserDiaryEntry } from './user.diary.entry.model';
 
 export class UserDiary {
   userId: string;
-  dairyEntries: UserDiaryEntries[];
+  dairyEntries: UserDiaryEntry[];
 
-  constructor(userId: string, dairyEntries: UserDiaryEntries[]) {
+  constructor(userId: string, dairyEntries: UserDiaryEntry[]) {
     this.userId = userId;
     this.dairyEntries = dairyEntries;
   }

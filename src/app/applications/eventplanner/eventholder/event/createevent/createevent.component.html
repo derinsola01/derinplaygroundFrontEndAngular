@@ -1,1 +1,77 @@
-<p>createevent works!</p>
+<div>
+  <button type="button" class="btn button-left btn-outline-secondary" [routerLink]="['/event/listEvents']">Back To Events List Page</button>
+</div>
+<div class="create-event-page">
+  <div class="alert alert-danger" *ngIf="displayError">
+    <p>{{ displayError }}</p>
+  </div>
+  <div *ngIf="formLoading" style="text-align: center;">
+    <app-eventloadingspinner></app-eventloadingspinner>
+  </div>
+  <form [formGroup]="createEventForm" (ngSubmit)="onSubmit()" *ngIf="!formLoading">
+    <div class="form-group">
+      <input  type="text"
+              id="eventName"
+              class="form-control"
+              [ngClass]="{'is-invalid': eventName.errors && eventName.touched}"
+              placeholder="Event Name"
+              formControlName="eventName" />
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback" >
+        <div *ngIf="eventName.hasError('required')">Event Name is required</div>
+        <div *ngIf="eventName.hasError('minlength')">Event Name must be at least 5 characters long</div>
+        <div *ngIf="eventName.hasError('maxlength')">Event Name cannot be longer than 50 characters</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input  type="text"
+              id="eventDescription"
+              class="form-control"
+              [ngClass]="{'is-invalid': eventDescription.errors && eventDescription.touched}"
+              placeholder="Event Description"
+              formControlName="eventDescription" />
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback" >
+        <div *ngIf="eventDescription.hasError('required')">Event Description is required</div>
+        <div *ngIf="eventDescription.hasError('minlength')">Event Description must be at least 2 characters long</div>
+        <div *ngIf="eventDescription.hasError('maxlength')">Event Description cannot be longer than 50 characters</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input  type="datetime-local"
+              id="eventStartTime"
+              class="form-control"
+              [ngClass]="{'is-invalid': eventStartTime.errors && eventStartTime.touched}"
+              placeholder="Event Start Time"
+              formControlName="eventStartTime" />
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback" >
+        <div *ngIf="eventStartTime.hasError('required')">Event Start Time is required</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input  type="datetime-local"
+              id="eventEndTime"
+              class="form-control"
+              [ngClass]="{'is-invalid': eventEndTime.errors && eventEndTime.touched}"
+              placeholder="Event End Time"
+              formControlName="eventEndTime" />
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback" >
+        <div *ngIf="eventEndTime.hasError('required')">Event End Time is required</div>
+      </div>
+    </div>
+    <div>
+      <button class="btn btn-success" type="submit" [disabled]="createEventForm.invalid">Create Event</button>
+    </div>
+  </form>
+</div>
+

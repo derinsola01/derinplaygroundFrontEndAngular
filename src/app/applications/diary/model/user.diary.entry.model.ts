@@ -1,4 +1,4 @@
-export class UserDiaryEntries {
+export class UserDiaryEntry {
   diaryEntryDate: Date;
   diaryEntry: string;
 

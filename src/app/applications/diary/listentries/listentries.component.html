@@ -1,15 +1,15 @@
 <div class="container justify-content-center">
   <div class="col-xs-12 col-md-12 col-offset-3">
+    <!-- <div *ngIf="formLoading" style="text-align: center;">
+      <app-diaryloadingspinner></app-diaryloadingspinner>
+    </div> -->
     <div>
       <button type="button" class="btn button-left btn-outline-secondary" [routerLink]="['/appsPage']">Back To Apps Page</button>
     </div>
-    <!-- <div>
-      <button type="button" class="btn button-center btn-outline-primary" [routerLink]="['/diary/createEntry']">Search</button>
-    </div> -->
-    <form class="d-flex button-center" [formGroup]="searchEntryForm" (ngSubmit)="searchForEntry()">
+    <!-- <form class="d-flex button-center" [formGroup]="searchEntryForm" (ngSubmit)="searchForEntry()">
       <input class="form-control me-2" type="search" id="searchText" formControlName="searchText" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
+    </form> -->
     <div>
       <button type="button" class="btn button-right btn-outline-primary" [routerLink]="['/diary/createEntry']">Create Diary Entry</button>
     </div>

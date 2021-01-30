@@ -1,0 +1,8 @@
+.button-right {
+  padding: 10px;
+  margin-top: 20px;
+  border-top-right-radius: 50px 20px;
+  position: absolute;
+  top:0;
+  right:0;
+}

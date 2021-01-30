@@ -8,6 +8,7 @@ import { UpdateLocationComponent } from '../eventlocation/updatelocation/updatel
 import { ViewLocationComponent } from '../eventlocation/viewlocation/viewlocation.component';
 import { ListLocationsComponent } from '../eventlocation/listlocations/listlocations.component';
 import { EventLocationRoutingModule } from './event.location-routing.module';
+import { EventLocationLoadingSpinnerComponent } from '../eventlocation/eventlocationloadingspinner/eventlocationloadingspinner.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { EventLocationRoutingModule } from './event.location-routing.module';
     UpdateLocationComponent,
     DeleteLocationComponent,
     CreateLocationComponent,
-    ListLocationsComponent
+    ListLocationsComponent,
+    EventLocationLoadingSpinnerComponent
   ],
   imports: [ ReactiveFormsModule, CommonModule, EventLocationRoutingModule ],
   exports: [
@@ -26,7 +28,8 @@ import { EventLocationRoutingModule } from './event.location-routing.module';
     UpdateLocationComponent,
     DeleteLocationComponent,
     CreateLocationComponent,
-    ListLocationsComponent
+    ListLocationsComponent,
+    EventLocationLoadingSpinnerComponent
   ]
 })
 export class EventLocationModule { }

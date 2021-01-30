@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListLocationsComponent implements OnInit {
 
+  isLoading = false;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  get formLoading() {
+    return this.isLoading;
   }
 
 }

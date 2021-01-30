@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { DiaryService } from './../service/diary.service';
 import { Component, OnInit } from '@angular/core';
-import { UserDiaryEntries } from '../model/user.diary.entries.model';
+import { UserDiaryEntry } from '../model/user.diary.entry.model';
 
 @Component({
   selector: 'app-viewentry',
@@ -10,7 +10,7 @@ import { UserDiaryEntries } from '../model/user.diary.entries.model';
 })
 export class ViewEntryComponent implements OnInit {
 
-  selectedEntry: UserDiaryEntries;
+  selectedEntry: UserDiaryEntry;
 
   constructor(private diaryService: DiaryService, private router: Router) { }
 

@@ -2,8 +2,8 @@ import { Router } from '@angular/router';
 import { DiaryService } from './../service/diary.service';
 import { Component, OnInit } from '@angular/core';
 import { UserDiary } from '../model/user.diary.model';
-import { UserDiaryEntries } from '../model/user.diary.entries.model';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { UserDiaryEntry } from '../model/user.diary.entry.model';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-listentries',
@@ -13,11 +13,10 @@ import { FormBuilder, FormControl } from '@angular/forms';
 export class ListEntriesComponent implements OnInit {
 
   userDiaryEntries: UserDiary;
-  selectedEntry: UserDiaryEntries;
+  selectedEntry: UserDiaryEntry;
 
   searchEntryForm = this.formBuilder.group({
     searchText: ['', []]
-    // searchText: ['']
   });
 
   constructor(private formBuilder: FormBuilder, private diaryService: DiaryService, private router: Router) { }
@@ -33,7 +32,7 @@ export class ListEntriesComponent implements OnInit {
     return this.userDiaryEntries = this.diaryService.userDiary;
   }
 
-  onSelect(entry: UserDiaryEntries): void {
+  onSelect(entry: UserDiaryEntry): void {
     this.selectedEntry = entry;
     this.diaryService.diaryEntryForView(this.selectedEntry);
     this.router.navigate(['/diary/viewEntry']);
