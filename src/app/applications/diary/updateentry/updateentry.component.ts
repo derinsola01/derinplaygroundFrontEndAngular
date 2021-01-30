@@ -1,8 +1,8 @@
 import { Router } from '@angular/router';
 import { DiaryService } from './../service/diary.service';
 import { Component, OnInit } from '@angular/core';
-import { UserDiaryEntries } from '../model/user.diary.entries.model';
-import { Form, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { UserDiaryEntry } from '../model/user.diary.entry.model';
+import { FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-updateentry',
@@ -11,7 +11,7 @@ import { Form, FormArray, FormBuilder, FormControl, Validators } from '@angular/
 })
 export class UpdateEntryComponent implements OnInit {
 
-  selectedEntry: UserDiaryEntries;
+  selectedEntry: UserDiaryEntry;
   private isLoading = false;
   private errorMessage: string = null;
 

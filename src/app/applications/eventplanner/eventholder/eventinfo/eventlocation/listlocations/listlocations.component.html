@@ -1,1 +1,10 @@
-<p>listlocations works!</p>
+<div class="container justify-content-center">
+  <div class="col-xs-12 col-md-12 col-offset-3">
+    <div *ngIf="formLoading" style="text-align: center;">
+      <app-eventlocationloadingspinner></app-eventlocationloadingspinner>
+    </div>
+    <div>
+      <button type="button" class="btn button-right btn-outline-primary" [routerLink]="['/event/location/createLocation']">Create New Location</button>
+    </div>
+  </div>
+</div>

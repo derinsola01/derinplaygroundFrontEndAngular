@@ -1,1 +1,65 @@
-<p>createguest works!</p>
+<div>
+  <button type="button" class="btn button-left btn-outline-secondary" [routerLink]="['/event/guest/listGuests']">Back To Guests List Page</button>
+</div>
+<div class="create-guest-page">
+  <div class="alert alert-danger" *ngIf="displayError">
+    <p>{{ displayError }}</p>
+  </div>
+  <div *ngIf="formLoading" style="text-align: center;">
+    <app-eventguestloadingspinner></app-eventguestloadingspinner>
+  </div>
+  <form [formGroup]="createGuestForm" (ngSubmit)="onSubmit()" *ngIf="!formLoading">
+    <div class="form-group">
+      <input  type="text"
+              id="guestFirstName"
+              class="form-control"
+              [ngClass]="{'is-invalid': guestFirstName.errors && guestFirstName.touched}"
+              placeholder="Guest First Name"
+              formControlName="guestFirstName" />
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback" >
+        <div *ngIf="guestFirstName.hasError('required')">Guest First Name is required</div>
+        <div *ngIf="guestFirstName.hasError('minlength')">Guest First Name must be at least 5 characters long</div>
+        <div *ngIf="guestFirstName.hasError('maxlength')">Guest First Name cannot be longer than 50 characters</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input  type="text"
+              id="guestLastName"
+              class="form-control"
+              [ngClass]="{'is-invalid': guestLastName.errors && guestLastName.touched}"
+              placeholder="Guest Last Name"
+              formControlName="guestLastName" />
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback" >
+        <div *ngIf="guestLastName.hasError('required')">Guest Last Name is required</div>
+        <div *ngIf="guestLastName.hasError('minlength')">Guest Last Name must be at least 2 characters long</div>
+        <div *ngIf="guestLastName.hasError('maxlength')">Guest Last Name cannot be longer than 50 characters</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input  type="email"
+              id="guestEmailAddress"
+              class="form-control"
+              [ngClass]="{'is-invalid': guestEmailAddress.errors && guestEmailAddress.touched}"
+              placeholder="Guest Email Address"
+              formControlName="guestEmailAddress" />
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback" >
+        <div *ngIf="guestEmailAddress.hasError('required')">Guest Email Address is required</div>
+        <div *ngIf="guestEmailAddress.hasError('email')">Guest Email Address must contain a valid email-address</div>
+      </div>
+    </div>
+    <div>
+      <button class="btn btn-success" type="submit" [disabled]="createGuestForm.invalid">Create Guest(s)</button>
+    </div>
+  </form>
+</div>
+
+

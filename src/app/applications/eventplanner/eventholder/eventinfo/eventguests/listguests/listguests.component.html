@@ -1,1 +1,10 @@
-<p>listguests works!</p>
+<div class="container justify-content-center">
+  <div class="col-xs-12 col-md-12 col-offset-3">
+    <div *ngIf="formLoading" style="text-align: center;">
+      <app-eventguestloadingspinner></app-eventguestloadingspinner>
+    </div>
+    <div>
+      <button type="button" class="btn button-right btn-outline-primary" [routerLink]="['/event/guest/createGuest']">Create New Guest</button>
+    </div>
+  </div>
+</div>

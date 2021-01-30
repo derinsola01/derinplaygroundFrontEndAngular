@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListGuestsComponent implements OnInit {
 
+  isLoading = false;
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  get formLoading() {
+    return this.isLoading;
   }
 
 }

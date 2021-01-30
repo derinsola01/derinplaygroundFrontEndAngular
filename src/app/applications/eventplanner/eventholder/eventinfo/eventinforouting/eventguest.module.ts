@@ -9,6 +9,7 @@ import { DeleteGuestComponent } from '../eventguests/deleteguest/deleteguest.com
 import { CreateGuestComponent } from '../eventguests/createguest/createguest.component';
 import { ListGuestsComponent } from '../eventguests/listguests/listguests.component';
 import { ViewGuestComponent } from '../eventguests/viewguest/viewguest.component';
+import { EventGuestLoadingSpinnerComponent } from '../eventguests/eventguestloadingspinner/eventguestloadingspinner.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ViewGuestComponent } from '../eventguests/viewguest/viewguest.component
     DeleteGuestComponent,
     CreateGuestComponent,
     ListGuestsComponent,
-    ViewGuestComponent
+    ViewGuestComponent,
+    EventGuestLoadingSpinnerComponent
   ],
   imports: [ ReactiveFormsModule, CommonModule, EventGuestRoutingModule ],
   exports: [
@@ -29,7 +31,8 @@ import { ViewGuestComponent } from '../eventguests/viewguest/viewguest.component
     DeleteGuestComponent,
     CreateGuestComponent,
     ListGuestsComponent,
-    ViewGuestComponent
+    ViewGuestComponent,
+    EventGuestLoadingSpinnerComponent
   ]
 })
 export class EventGuestModule { }

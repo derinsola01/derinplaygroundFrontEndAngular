@@ -1,6 +1,6 @@
-import { UserDiaryEntries } from '../model/user.diary.entries.model';
+import { UserDiaryEntry } from '../model/user.diary.entry.model';
 
 export interface UserDiaryResponse {
   userId: string;
-  dairyEntries: UserDiaryEntries[];
+  dairyEntries: UserDiaryEntry[];
 }

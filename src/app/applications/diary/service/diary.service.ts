@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { UserDiary } from '../model/user.diary.model';
 import { DiaryHttpService } from 'src/app/common/httpservices/diary.http.service';
 import { tap } from 'rxjs/operators';
-import { UserDiaryEntries } from '../model/user.diary.entries.model';
+import { UserDiaryEntry } from '../model/user.diary.entry.model';
 import { AuthService } from 'src/app/auth/service/auth.service';
 
 @Injectable({
@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/auth/service/auth.service';
 export class DiaryService {
 
   public userDiary: UserDiary;
-  diaryEntry: UserDiaryEntries;
+  diaryEntry: UserDiaryEntry;
 
   constructor(private diaryHttpService: DiaryHttpService, private authService: AuthService) { }
 
@@ -65,7 +65,6 @@ export class DiaryService {
     return this.diaryHttpService.updateDiaryEntry(updatedDiaryEntry,
        diaryEntryDate, this.authService.authenticatedUser.userId,
        this.authService.authenticatedUser.userWebToken).pipe(tap( responseData => {
-          localStorage.removeItem('userDiary');
           this.populateUserDiary(responseData);
         }));
   }
