@@ -1,3 +1,4 @@
+import { Guest } from './../eventholder/event/model/guest.model';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/service/auth.service';
@@ -35,7 +36,7 @@ export class EventService {
       }));
   }
 
-  createNewGuest(formData) {
+  createNewGuest(formData: Guest[]) {
     return this.eventHttpService.createNewGuest(formData, this.loggedInUserId, this.loggedInUserToken)
       .pipe(tap( responseData => {
         if (responseData) {

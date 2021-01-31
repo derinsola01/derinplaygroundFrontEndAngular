@@ -9,56 +9,62 @@
     <app-eventguestloadingspinner></app-eventguestloadingspinner>
   </div>
   <form [formGroup]="createGuestForm" (ngSubmit)="onSubmit()" *ngIf="!formLoading">
-    <div class="form-group">
-      <input  type="text"
-              id="guestFirstName"
-              class="form-control"
-              [ngClass]="{'is-invalid': guestFirstName.errors && guestFirstName.touched}"
-              placeholder="Guest First Name"
-              formControlName="guestFirstName" />
-      <div class="valid-feedback">
-        Looks good!
+    <div formArrayName="createGuestRequests">
+      <div *ngFor="let guest of guests.controls; let i = index" [formGroupName]="i" class="guest">
+          <div class="mat-container">
+          <mat-form-field class="form-group" appearance="fill">
+            <input  matInput
+                    type="text"
+                    id="guestFirstName"
+                    class="form-control"
+                    [ngClass]="{'is-invalid': guests.controls[i].get('guestFirstName').errors
+                    && guests.controls[i].get('guestFirstName').touched}"
+                    placeholder="First Name"
+                    formControlName="guestFirstName" />
+            <div class="invalid-feedback" >
+              <div *ngIf="guests.controls[i].get('guestFirstName').hasError('required')">First Name is required</div>
+              <div *ngIf="guests.controls[i].get('guestFirstName').hasError('minlength')">First Name must be at least 2 characters long</div>
+              <div *ngIf="guests.controls[i].get('guestFirstName').hasError('maxlength')">First Name cannot be longer than 50 characters</div>
+            </div>
+          </mat-form-field>
+          <mat-form-field class="form-group" appearance="fill">
+            <input  matInput
+                    type="text"
+                    id="guestLastName"
+                    class="form-control"
+                    [ngClass]="{'is-invalid': guests.controls[i].get('guestLastName').errors
+                    && guests.controls[i].get('guestLastName').touched}"
+                    placeholder="Last Name"
+                    formControlName="guestLastName" />
+            <div class="invalid-feedback" >
+              <div *ngIf="guests.controls[i].get('guestLastName').hasError('required')">Last Name is required</div>
+              <div *ngIf="guests.controls[i].get('guestLastName').hasError('minlength')">Last Name must be at least 2 characters long</div>
+              <div *ngIf="guests.controls[i].get('guestLastName').hasError('maxlength')">Last Name cannot be longer than 50 characters</div>
+            </div>
+          </mat-form-field>
+          <mat-form-field class="form-group" appearance="fill">
+            <input  matInput
+                    type="email"
+                    id="guestEmailAddress"
+                    class="form-control"
+                    [ngClass]="{'is-invalid': guests.controls[i].get('guestEmailAddress').errors
+                    && guests.controls[i].get('guestEmailAddress').touched}"
+                    placeholder="Email Address"
+                    formControlName="guestEmailAddress" />
+            <div class="invalid-feedback" >
+              <div *ngIf="guests.controls[i].get('guestEmailAddress').hasError('required')">Email Address is required</div>
+              <div *ngIf="guests.controls[i].get('guestEmailAddress').hasError('email')">Email Address must contain a valid email-address</div>
+            </div>
+          </mat-form-field>
+          <button type="button" class="btn btn-outline-danger" (click)="removeGuest(i)">Remove</button>
+        </div>
       </div>
-      <div class="invalid-feedback" >
-        <div *ngIf="guestFirstName.hasError('required')">Guest First Name is required</div>
-        <div *ngIf="guestFirstName.hasError('minlength')">Guest First Name must be at least 5 characters long</div>
-        <div *ngIf="guestFirstName.hasError('maxlength')">Guest First Name cannot be longer than 50 characters</div>
-      </div>
-    </div>
-    <div class="form-group">
-      <input  type="text"
-              id="guestLastName"
-              class="form-control"
-              [ngClass]="{'is-invalid': guestLastName.errors && guestLastName.touched}"
-              placeholder="Guest Last Name"
-              formControlName="guestLastName" />
-      <div class="valid-feedback">
-        Looks good!
-      </div>
-      <div class="invalid-feedback" >
-        <div *ngIf="guestLastName.hasError('required')">Guest Last Name is required</div>
-        <div *ngIf="guestLastName.hasError('minlength')">Guest Last Name must be at least 2 characters long</div>
-        <div *ngIf="guestLastName.hasError('maxlength')">Guest Last Name cannot be longer than 50 characters</div>
-      </div>
-    </div>
-    <div class="form-group">
-      <input  type="email"
-              id="guestEmailAddress"
-              class="form-control"
-              [ngClass]="{'is-invalid': guestEmailAddress.errors && guestEmailAddress.touched}"
-              placeholder="Guest Email Address"
-              formControlName="guestEmailAddress" />
-      <div class="valid-feedback">
-        Looks good!
-      </div>
-      <div class="invalid-feedback" >
-        <div *ngIf="guestEmailAddress.hasError('required')">Guest Email Address is required</div>
-        <div *ngIf="guestEmailAddress.hasError('email')">Guest Email Address must contain a valid email-address</div>
-      </div>
-    </div>
+      <button type="button" class="btn btn-outline-primary" (click)="addGuest()">Add Another</button>
+      <hr>
     <div>
-      <button class="btn btn-success" type="submit" [disabled]="createGuestForm.invalid">Create Guest(s)</button>
+      <button class="btn btn-success" type="submit" [disabled]="disableSubmitButton">Create Guest(s)</button>
     </div>
+  </div>
   </form>
 </div>
 

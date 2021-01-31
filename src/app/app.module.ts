@@ -13,6 +13,7 @@ import { AppsLandingComponent } from './applications/appslanding/appslanding.com
 import { LandingPageComponent } from './applications/appslanding/landingpage/landingpage.component';
 import { AboutComponent } from './common/commonpages/about/about.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    MDBBootstrapModule
+    MDBBootstrapModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,3 +1,4 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventGuestRoutingModule } from './event.guest-routing.module';
@@ -11,6 +12,13 @@ import { ListGuestsComponent } from '../eventguests/listguests/listguests.compon
 import { ViewGuestComponent } from '../eventguests/viewguest/viewguest.component';
 import { EventGuestLoadingSpinnerComponent } from '../eventguests/eventguestloadingspinner/eventguestloadingspinner.component';
 
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +31,17 @@ import { EventGuestLoadingSpinnerComponent } from '../eventguests/eventguestload
     ViewGuestComponent,
     EventGuestLoadingSpinnerComponent
   ],
-  imports: [ ReactiveFormsModule, CommonModule, EventGuestRoutingModule ],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    EventGuestRoutingModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatFormFieldModule
+  ],
   exports: [
     EventGuestsComponent,
     UpdateGuestComponent,
