@@ -1,5 +1,6 @@
+import { Guest } from './../../../event/model/guest.model';
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder, FormArray, FormGroup, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EventService } from 'src/app/applications/eventplanner/service/event.service';
 
@@ -10,14 +11,22 @@ import { EventService } from 'src/app/applications/eventplanner/service/event.se
 })
 export class CreateGuestComponent implements OnInit {
 
-  createGuestForm = this.formBuilder.group({
-    guestFirstName: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
-    guestLastName: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
-    guestEmailAddress: ['', [Validators.required, Validators.email]]
-  });
-
   private isLoading = false;
   private errorMessage: string = null;
+  isValidFormSubmitted = null;
+  private newGuests: Guest[];
+
+  createGuestForm = this.formBuilder.group({
+    createGuestRequests: this.formBuilder.array([])
+  });
+
+  createGuestFormGroup() {
+    return this.formBuilder.group({
+      guestFirstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      guestLastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      guestEmailAddress: ['', [Validators.required, Validators.email]]
+    });
+  }
 
     constructor(private formBuilder: FormBuilder,
                 private eventService: EventService,
@@ -30,31 +39,46 @@ export class CreateGuestComponent implements OnInit {
       return this.isLoading;
     }
 
+    get guests(): FormArray {
+      return this.createGuestForm.get('createGuestRequests') as FormArray;
+    }
+
+    addGuest() {
+      const guest = this.createGuestFormGroup();
+      this.guests.push(guest);
+    }
+
+    removeGuest(index: number) {
+      this.guests.removeAt(index);
+    }
+
     get displayError(){
       return this.errorMessage;
-    }
-
-    get guestFirstName(){
-      return this.createGuestForm.get('guestFirstName');
-    }
-
-    get guestLastName(){
-      return this.createGuestForm.get('guestLastName');
-    }
-
-    get guestEmailAddress(){
-      return this.createGuestForm.get('guestEmailAddress');
     }
 
     clear(){
       this.createGuestForm.reset();
     }
 
+    get disableSubmitButton() {
+      let returnValue = true;
+      if (this.createGuestForm.valid && this.guests.value.length < 1){
+        return returnValue;
+      } else if (this.createGuestForm.invalid || this.guests.value.length < 1){
+        return returnValue;
+      } else{
+        return returnValue = false;
+      }
+    }
+
     onSubmit(){
+      this.newGuests = this.createGuestForm.value.createGuestRequests;
+      console.log('this.newGuests is: ', this.newGuests);
       this.isLoading = true;
-      this.eventService.createNewGuest(this.createGuestForm.value)
+      this.eventService.createNewGuest(this.newGuests)
         .subscribe( (responseData) => {
           this.isLoading = false;
+          this.router.navigate(['/event/guest/listGuests']);
           console.log('responseData is: ', responseData);
         });
       this.createGuestForm.reset();

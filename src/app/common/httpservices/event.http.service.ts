@@ -1,3 +1,4 @@
+import { Guest } from './../../applications/eventplanner/eventholder/event/model/guest.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserEventsResponse } from 'src/app/applications/eventplanner/eventholder/event/response/user.events.response';
@@ -50,45 +51,15 @@ export class EventHttpService {
     return this.httpClient.post('http://localhost:8900/event/createUpdateEvent', postData, httpOptions);
   }
 
-  createNewGuest(formData, loggedInUserId: string, userWebToken: string){
+  createNewGuest(formData: Guest[], loggedInUserId: string, userWebToken: string){
     const postArr = {};
-    const postDataHolder = {  userId: loggedInUserId,
-                              createGuestRequests: formData
-                         };
-                        //  guestFirstName: formData.guestFirstName,
-                        // guestLastName: formData.guestLastName,
-                        // guestEmailAddress: formData.guestEmailAddress
-    // postArr.push(postDataHolder);
-    const postData = JSON.stringify(postArr);
+    const postData = {  userId: loggedInUserId, createGuestRequests: formData };
     const httpOptions = this.authHeaderOptions(userWebToken);
-    // this.arrayConversion();
     console.log('createNewGuest postArr is: ', JSON.stringify(postArr));
     console.log('createNewGuest postData is: ', postData);
     console.log('createNewGuest httpOptions is: ', httpOptions);
     return this.httpClient.post('http://localhost:8900/event/createUpdateGuest', postData, httpOptions);
   }
-
-  // arrayConversion(){
-  //   const empArray = [{
-  //       id: '1',
-  //       name: 'kiran'
-  //     },
-  //     {
-  //       id: '2',
-  //       name: 'john'
-  //     },
-  //     {
-  //       id: '3',
-  //       name: 'Frank'
-  //     },
-  //   ];
-
-  //   const jsonObject = {};
-  //   empArray.forEach(item => [item.id] = item.name);
-  //   const json = JSON.stringify(jsonObject);
-  //   console.log(empArray);
-  //   console.log(json);
-  // }
 
   createNewLocation(formData, loggedInUserId: string, userWebToken: string){
     const postData = {  userId: loggedInUserId,
