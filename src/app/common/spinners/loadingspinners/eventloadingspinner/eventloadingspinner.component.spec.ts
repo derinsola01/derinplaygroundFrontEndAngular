@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EventLoadingSpinnerComponent } from './eventloadingspinner.component';
 
@@ -6,7 +6,7 @@ describe('EventLoadingSpinnerComponent', () => {
   let component: EventLoadingSpinnerComponent;
   let fixture: ComponentFixture<EventLoadingSpinnerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ EventLoadingSpinnerComponent ]
     })
