@@ -1,1 +1,13 @@
-<p>viewevent works!</p>
+<div class="container justify-content-center">
+  <div class="col-xs-12 col-md-12 col-offset-3">
+    <div *ngIf="formLoading" style="text-align: center;">
+      <app-eventloadingspinner></app-eventloadingspinner>
+    </div>
+    <div>
+      <button type="button" class="btn button-left btn-outline-secondary" [routerLink]="['/event/listEvents']">Back To Events Page</button>
+    </div>
+    <!-- <div>
+      <button type="button" class="btn button-right btn-outline-primary" [routerLink]="['/event/createEvent']">Create New Event</button>
+    </div> -->
+  </div>
+</div>

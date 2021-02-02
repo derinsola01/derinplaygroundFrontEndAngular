@@ -14,9 +14,7 @@ export class DiaryComponent implements OnInit {
 
   public userDiary: UserDiary = this.diaryService.userDiary;
 
-  constructor(private authService: AuthService,
-              private router: Router,
-              private diaryService: DiaryService) { }
+  constructor(private diaryService: DiaryService) { }
 
   ngOnInit(): void {
     this.diaryService.autoPopulateDiaryEntries();

@@ -2,6 +2,8 @@ import { Guest } from './../../applications/eventplanner/eventholder/event/model
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserEventsResponse } from 'src/app/applications/eventplanner/eventholder/event/response/user.events.response';
+import { CompleteEvent } from 'src/app/applications/eventplanner/eventholder/event/model/complete.event.holder';
+import { EventResponseModel } from 'src/app/applications/eventplanner/eventholder/event/model/event.response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,10 +35,10 @@ export class EventHttpService {
     return httpOptions;
   }
 
-  getAllUserEvents(loggedInUserId: string, userWebToken: string) {
+  getAllUserEvents(loggedInUserId: string, userWebToken: string) { // UserEventsResponse
     const postData = { userId: loggedInUserId };
     const httpOptions = this.authHeaderOptions(userWebToken);
-    return this.httpClient.post<UserEventsResponse>('http://localhost:8900/event/userEvents', postData, httpOptions);
+    return this.httpClient.post<EventResponseModel>('http://localhost:8900/event/userEvents', postData, httpOptions);
   }
 
   createNewEvent(formData, loggedInUserId: string, userWebToken: string){
