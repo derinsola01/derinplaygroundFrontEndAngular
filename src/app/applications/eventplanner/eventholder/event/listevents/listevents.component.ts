@@ -33,8 +33,10 @@ export class ListEventsComponent implements OnInit { // AfterViewInit
 
   // @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
-    this.paginator = mp;
-    this.setDataSourceAttributes();
+    if (mp) {
+      this.paginator = mp;
+      this.setDataSourceAttributes();
+    }
   }
 
   setDataSourceAttributes() {
