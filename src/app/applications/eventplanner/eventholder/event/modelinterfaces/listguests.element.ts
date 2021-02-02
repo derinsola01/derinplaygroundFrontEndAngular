@@ -1,4 +1,4 @@
-export interface ListGuestElements {
+export interface ListGuestElement {
   eventGuestId: number;
   eventGuestResponse: boolean;
   eventGuestFirstName: string;

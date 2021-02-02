@@ -15,3 +15,24 @@
   top:0;
   right:0;
 }
+
+table {
+  width: 100%;
+  margin-top: 70px;
+}
+
+.mat-column-select {
+  overflow: initial;
+}
+
+.mat-row.hovered {
+  background: grey;
+}
+
+.mat-row.highlighted {
+  background: #999;
+}
+
+.guest-table {
+  width: 700px;
+}
