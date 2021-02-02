@@ -1,20 +1,20 @@
 export class Guest {
-  guestId: number;
-  guestResponse: boolean;
-  guestFirstName: string;
-  guestLastName: string;
-  guestEmailAddress: string;
-  guestResponseDate: Date;
-  guestRequestDate: Date;
+  eventGuestId: number;
+  eventGuestResponse: boolean;
+  eventGuestFirstName: string;
+  eventGuestLastName: string;
+  eventGuestEmailAddress: string;
+  eventGuestResponseDate: Date;
+  eventGuestRequestDate: Date;
 
-  constructor(guestId: number, guestResponse: boolean, guestFirstName: string, guestLastName: string,
-              guestEmailAddress: string, guestResponseDate: Date, guestRequestDate: Date) {
-    this.guestId = guestId;
-    this.guestResponse = guestResponse;
-    this.guestFirstName = guestFirstName;
-    this.guestLastName = guestLastName;
-    this.guestEmailAddress = guestEmailAddress;
-    this.guestResponseDate = guestResponseDate;
-    this.guestRequestDate = guestRequestDate;
+  constructor(eventGuestId: number, eventGuestResponse: boolean, eventGuestFirstName: string, eventGuestLastName: string,
+              eventGuestEmailAddress: string, eventGuestResponseDate: Date, eventGuestRequestDate: Date) {
+    this.eventGuestId = eventGuestId;
+    this.eventGuestResponse = eventGuestResponse;
+    this.eventGuestFirstName = eventGuestFirstName;
+    this.eventGuestLastName = eventGuestLastName;
+    this.eventGuestEmailAddress = eventGuestEmailAddress;
+    this.eventGuestResponseDate = eventGuestResponseDate;
+    this.eventGuestRequestDate = eventGuestRequestDate;
   }
 }

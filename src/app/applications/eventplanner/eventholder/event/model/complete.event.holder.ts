@@ -3,13 +3,13 @@ import { Guest } from './guest.model';
 import { Location } from './location.model';
 
 export class CompleteEvent {
-  event: UserEvent;
-  location: Location;
-  guests: Guest[];
+  eventDTO: UserEvent;
+  locationDTO: Location;
+  guestDTO: Guest[];
 
-  constructor(event: UserEvent, location: Location, guests: Guest[]) {
-    this.event = event;
-    this.location = location;
-    this.guests = guests;
+  constructor(eventDTO: UserEvent, locationDTO: Location, guestDTO: Guest[]) {
+    this.eventDTO = eventDTO;
+    this.locationDTO = locationDTO;
+    this.guestDTO = guestDTO;
   }
 }
