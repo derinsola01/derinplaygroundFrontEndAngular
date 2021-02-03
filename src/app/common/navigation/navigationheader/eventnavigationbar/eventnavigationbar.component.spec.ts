@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EventnavigationbarComponent } from './eventnavigationbar.component';
 
@@ -6,7 +6,7 @@ describe('EventnavigationbarComponent', () => {
   let component: EventnavigationbarComponent;
   let fixture: ComponentFixture<EventnavigationbarComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ EventnavigationbarComponent ]
     })

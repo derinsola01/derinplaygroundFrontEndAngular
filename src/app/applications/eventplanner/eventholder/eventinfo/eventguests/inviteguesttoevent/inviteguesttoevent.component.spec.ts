@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { InviteGuestToEventComponent } from './inviteguesttoevent.component';
 
@@ -6,7 +6,7 @@ describe('InviteGuestToEventComponent', () => {
   let component: InviteGuestToEventComponent;
   let fixture: ComponentFixture<InviteGuestToEventComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ InviteGuestToEventComponent ]
     })

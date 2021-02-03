@@ -1,6 +1,6 @@
 .button-left {
   padding: 10px;
-  margin-top: 20px;
+  margin-top: 120px;
   border-top-left-radius: 50px 20px;
   position: absolute;
   top:0;
@@ -14,4 +14,53 @@
   position: absolute;
   top:0;
   right:0;
+}
+
+table {
+  width: 100%;
+  margin-top: 70px;
+}
+
+.mat-column-select {
+  overflow: initial;
+}
+
+.mat-row.hovered {
+  background: grey;
+}
+
+.mat-row.highlighted {
+  background: #999;
+}
+
+.guest-table {
+  width: 800px;
+  left: 10px;
+  position: relative;
+}
+
+.event-details {
+  width: 500px;
+  left: 30px;
+  position: relative;
+}
+
+agm-map {
+  height: 100%;
+}
+
+
+* {
+  font-family: Lato;
+}
+
+a {
+  color: darkblue;
+}
+
+.location-map {
+  width: 400px;
+  height: 400px;
+  position: fixed;
+  right: 40px;
 }

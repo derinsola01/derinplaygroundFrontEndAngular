@@ -15,10 +15,10 @@ export class EventService {
 
   private loggedInUserId = this.authService.authenticatedUser.userId;
   private loggedInUserToken = this.authService.authenticatedUser.userWebToken;
-  // allUserEvents: EventResponseModel[] = [];
   allCompleteEvents: Array<CompleteEvent> = [];
   selectedUserEvent: UserEvent;
   allUserEventsMap: Map<number, CompleteEvent> = new Map<number, CompleteEvent>();
+  private selectedCompleteEvent: CompleteEvent;
 
   constructor(private eventHttpService: EventHttpService, private authService: AuthService) { }
 
@@ -60,7 +60,6 @@ export class EventService {
     let event = null;
     if (data) {
       event = new UserEvent(data.eventId, data.eventName, data.eventDescription, data.eventStartTime, data.eventEndTime);
-      // this.listEventElements.push(event);
     }
     return event;
   }
@@ -84,10 +83,12 @@ export class EventService {
   selectedEventByUser(eventSelectedForView: UserEvent) {
     console.log('eventSelectedForView is: ', eventSelectedForView);
     this.selectedUserEvent = eventSelectedForView;
+    this.selectedCompleteEvent = this.allUserEventsMap.get(eventSelectedForView.eventId);
   }
 
   get selectedEvent() {
-    return this.selectedUserEvent;
+    return this.selectedCompleteEvent;
+    // return this.selectedUserEvent;
   }
 
   private populateCompleteEventContinuously(data: CompleteEvent[]) { // : EventResponseModel
