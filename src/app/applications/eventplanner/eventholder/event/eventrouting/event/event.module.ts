@@ -13,6 +13,7 @@ import { EventnavigationbarComponent } from 'src/app/common/navigation/navigatio
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { AgmCoreModule } from '@agm/core';
 
 
 @NgModule({
@@ -32,7 +33,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAPYxqetkfhcT8MrdoZkou0tNYIPEQ8IZ0'
+    })
   ],
   exports: [
     EventPlannerComponent,
