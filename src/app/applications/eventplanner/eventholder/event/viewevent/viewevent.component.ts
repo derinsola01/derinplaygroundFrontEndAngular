@@ -11,6 +11,8 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { GeocodeService } from '../../eventinfo/eventlocation/geocoding/location.geocoding.service';
 import { Guest } from '../../eventinfo/eventguests/guestmodel/guest.model';
 import { ListEventGuestElement } from '../modelinterfaces/list.eventguests.element';
+import { GuestService } from '../../../service/guest.service';
+import { LocationService } from '../../../service/location.service';
 
 @Component({
   selector: 'app-viewevent',
@@ -32,8 +34,8 @@ export class ViewEventComponent implements OnInit {
   foodControl = new FormControl('', Validators.required);
   selectFormControl = new FormControl('', Validators.required);
 
-  userGuests: Guest[] = this.eventService.completeUserGuestList;
-  userLocations: Location[] = this.eventService.completeUserLocationList;
+  userGuests: Guest[] = this.guestService.completeUserGuestList;
+  userLocations: Location[] = this.locationService.completeUserLocationList;
 
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     if (mp) {
@@ -68,6 +70,8 @@ export class ViewEventComponent implements OnInit {
   constructor(private geocodeService: GeocodeService,
               private formBuilder: FormBuilder,
               private ref: ChangeDetectorRef,
+              private guestService: GuestService,
+              private locationService: LocationService,
               private eventService: EventService) { }
 
   ngOnInit(): void {

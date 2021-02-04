@@ -1,12 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EventResponseModel } from 'src/app/applications/eventplanner/eventholder/event/model/event.response.model';
 import { Guest } from 'src/app/applications/eventplanner/eventholder/eventinfo/eventguests/guestmodel/guest.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EventHttpService {
+export class GuestHttpService {
 
   constructor(private httpClient: HttpClient) { }
 
@@ -33,22 +32,20 @@ export class EventHttpService {
     return httpOptions;
   }
 
-  getAllUserEvents(loggedInUserId: string, userWebToken: string) { // UserEventsResponse
-    const postData = { userId: loggedInUserId };
+  createNewGuest(formData: Guest[], loggedInUserId: string, userWebToken: string){
+    const postArr = {};
+    const postData = {  userId: loggedInUserId, createGuestRequests: formData };
     const httpOptions = this.authHeaderOptions(userWebToken);
-    return this.httpClient.post<EventResponseModel>('http://localhost:8900/event/userEvents', postData, httpOptions);
+    console.log('createNewGuest postArr is: ', JSON.stringify(postArr));
+    console.log('createNewGuest postData is: ', postData);
+    console.log('createNewGuest httpOptions is: ', httpOptions);
+    return this.httpClient.post('http://localhost:8900/event/createUpdateGuest', postData, httpOptions);
   }
 
-  createNewEvent(formData, loggedInUserId: string, userWebToken: string){
-    const postData = { userId: loggedInUserId,
-                        eventName: formData.eventName,
-                        eventDescription: formData.eventDescription,
-                        eventStartTime: formData.eventStartTime,
-                        eventEndTime: formData.eventEndTime };
+  getAllUserGuests(loggedInUserId: string, userWebToken: string) {
+    const postData = {  userId: loggedInUserId };
     const httpOptions = this.authHeaderOptions(userWebToken);
-    console.log('createNewEvent postData is: ', postData);
-    console.log('createNewEvent httpOptions is: ', httpOptions);
-    return this.httpClient.post('http://localhost:8900/event/createUpdateEvent', postData, httpOptions);
+    return this.httpClient.post('http://localhost:8900/event/userGuests', postData, httpOptions);
   }
 
 }

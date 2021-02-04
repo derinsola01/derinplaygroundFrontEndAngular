@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EventService } from 'src/app/applications/eventplanner/service/event.service';
+import { LocationService } from 'src/app/applications/eventplanner/service/location.service';
 
 @Component({
   selector: 'app-createlocation',
@@ -41,7 +42,7 @@ export class CreateLocationComponent implements OnInit {
   private errorMessage: string = null;
 
     constructor(private formBuilder: FormBuilder,
-                private eventService: EventService,
+                private locationService: LocationService,
                 private router: Router) { }
 
     ngOnInit(): void {
@@ -86,7 +87,7 @@ export class CreateLocationComponent implements OnInit {
     onSubmit(){
       this.isLoading = true;
       console.log('this.createLocationForm.value is: ', this.createLocationForm.value);
-      this.eventService.createNewLocation(this.createLocationForm.value)
+      this.locationService.createNewLocation(this.createLocationForm.value)
         .subscribe( (responseData) => {
           this.isLoading = false;
           console.log('responseData is: ', responseData);
