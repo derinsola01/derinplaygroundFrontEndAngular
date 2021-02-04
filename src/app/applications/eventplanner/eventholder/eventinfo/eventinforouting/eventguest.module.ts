@@ -1,5 +1,5 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventGuestRoutingModule } from './event.guest-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -18,6 +18,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 
 
 @NgModule({
@@ -40,6 +42,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatButtonModule,
     MatCheckboxModule,
     MatChipsModule,
+    MatPaginatorModule,
+    MatTableModule,
     MatFormFieldModule
   ],
   exports: [
@@ -51,6 +55,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ListGuestsComponent,
     ViewGuestComponent,
     EventGuestLoadingSpinnerComponent
-  ]
+  ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class EventGuestModule { }

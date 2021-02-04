@@ -1,11 +1,11 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import { Component, OnInit, ViewChild} from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { EventService } from '../../../service/event.service';
 import { Router } from '@angular/router';
 import { CompleteEvent } from '../model/complete.event.holder';
 import { EventResponseModel } from '../model/event.response.model';
-import { Guest } from '../model/guest.model';
+import { EventGuest } from '../model/event.guest.model';
 import { Location } from '../model/location.model';
 import { UserEvent } from '../model/userevent.model';
 import { ListEventElement } from './listevents.elements';
@@ -17,21 +17,16 @@ import { SelectionModel } from '@angular/cdk/collections';
   templateUrl: './listevents.component.html',
   styleUrls: ['./listevents.component.css']
 })
-export class ListEventsComponent implements OnInit { // AfterViewInit
+export class ListEventsComponent implements OnInit {
   displayedColumns: string[] = [ 'name', 'description', 'startTime', 'endTime' ];
   isLoading = false;
   allUserEvents: Array<CompleteEvent> = [];
   listEventElements: ListEventElement[] = [];
-  dataSource: MatTableDataSource<ListEventElement>; // new MatTableDataSource<ListEventElement>(this.listElements);
+  dataSource: MatTableDataSource<ListEventElement>;
   selection = new SelectionModel<ListEventElement>(false, []);
   selectedEvent: UserEvent;
   private paginator: MatPaginator;
 
-  // initialSelection = [];
-  // allowMultiSelect = true;
-  // selection = new SelectionModel<UserEvent>(this.allowMultiSelect, this.initialSelection);
-
-  // @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     if (mp) {
       this.paginator = mp;
@@ -56,11 +51,6 @@ export class ListEventsComponent implements OnInit { // AfterViewInit
 
   constructor(private eventService: EventService, private router: Router) { }
 
-  // ngAfterViewInit() {
-  //   setTimeout(() => this.dataSource.paginator = this.paginator);
-  //   this.dataSource.paginator = this.paginator;
-  // }
-
   ngOnInit(): void {
     this.isLoading = true;
     this.eventService.getCompleteEvents().subscribe( (res: EventResponseModel) => {
@@ -69,6 +59,12 @@ export class ListEventsComponent implements OnInit { // AfterViewInit
       this.dataSource = new MatTableDataSource<ListEventElement>(this.listElements);
       this.isLoading = false;
     });
+    if (!this.eventService.completeUserGuestList.length) {
+      this.eventService.getAllUserLocations().subscribe();
+    }
+    if (!this.eventService.completeUserLocationList.length) {
+      this.eventService.getAllUserGuests().subscribe();
+    }
   }
 
   onSelect(event: UserEvent): void {
@@ -97,11 +93,10 @@ export class ListEventsComponent implements OnInit { // AfterViewInit
   }
 
   get listElements() {
-    console.log('listElements holds: ', this.listEventElements);
     return this.listEventElements;
   }
 
-  populateLocation(data: Location) {
+  populateLocation(data: any) {
     let location = null;
     if (data) {
       location = new Location(data.eventLocationId, data.eventLocationName,
@@ -111,11 +106,11 @@ export class ListEventsComponent implements OnInit { // AfterViewInit
     return location;
   }
 
-  populateGuests(data: Guest[]) {
+  populateEventGuests(data: EventGuest[]) {
     const guests = [];
     if (data) {
       data.forEach(element => {
-        const guest = new Guest(element.eventGuestId, element.eventGuestResponse,
+        const guest = new EventGuest(element.eventGuestId, element.eventGuestResponse,
                                 element.eventGuestFirstName, element.eventGuestLastName,
                                 element.eventGuestEmailAddress, element.eventGuestResponseDate, element.eventGuestRequestDate);
         guests.push(guest);
@@ -136,7 +131,7 @@ export class ListEventsComponent implements OnInit { // AfterViewInit
   populateAllUserEvents(data: CompleteEvent[]) {
     data.forEach(element => {
       const location = this.populateLocation(element.locationDTO);
-      const guests = this.populateGuests(element.guestDTO);
+      const guests = this.populateEventGuests(element.guestDTO);
       const event = this.populateEvent(element.eventDTO);
       const eventDeets = new CompleteEvent(event, location, guests);
       this.allUserEvents.push(eventDeets);

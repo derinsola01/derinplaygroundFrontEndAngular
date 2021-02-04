@@ -4,7 +4,42 @@
       <app-eventlocationloadingspinner></app-eventlocationloadingspinner>
     </div>
     <div>
+      <button type="button" class="btn button-left btn-outline-secondary" [routerLink]="['/event/listEvents']">Back To Events List</button>
+    </div>
+    <div>
       <button type="button" class="btn button-right btn-outline-primary" [routerLink]="['/event/location/createLocation']">Create New Location</button>
+    </div>
+    <div class="mat-elevation-z8 push-down" *ngIf="!formLoading">
+      <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="locationName">
+          <th mat-header-cell *matHeaderCellDef> Location Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.locationName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="locationAddress">
+          <th mat-header-cell *matHeaderCellDef> Address </th>
+          <td mat-cell *matCellDef="let element"> {{element.locationAddress}} </td>
+        </ng-container>
+        <ng-container matColumnDef="locationZipcode">
+          <th mat-header-cell *matHeaderCellDef> Zip Code </th>
+          <td mat-cell *matCellDef="let element"> {{element.locationZipCode }} </td>
+        </ng-container>
+        <ng-container matColumnDef="locationState">
+          <th mat-header-cell *matHeaderCellDef> State </th>
+          <td mat-cell *matCellDef="let element"> {{element.locationState }} </td>
+        </ng-container>
+        <ng-container matColumnDef="locationCountry">
+          <th mat-header-cell *matHeaderCellDef> Country </th>
+          <td mat-cell *matCellDef="let element"> {{element.locationCountry }} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+          (click)="onSelect(row)"
+          [ngClass]="{hovered: row.hovered, highlighted: selection.isSelected(row)}"
+          (mouseover)="row.hovered = true" (mouseout)="row.hovered = false">
+      </tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </div>
   </div>
 </div>

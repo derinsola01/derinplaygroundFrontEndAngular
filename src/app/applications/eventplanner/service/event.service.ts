@@ -1,4 +1,4 @@
-import { Guest } from './../eventholder/event/model/guest.model';
+import { EventGuest } from '../eventholder/event/model/event.guest.model';
 import { Location } from './../eventholder/event/model/location.model';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
@@ -7,6 +7,7 @@ import { EventHttpService } from 'src/app/common/httpservices/event.http.service
 import { CompleteEvent } from '../eventholder/event/model/complete.event.holder';
 import { EventResponseModel } from '../eventholder/event/model/event.response.model';
 import { UserEvent } from '../eventholder/event/model/userevent.model';
+import { Guest } from '../eventholder/eventinfo/eventguests/guestmodel/guest.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,8 @@ export class EventService {
   selectedUserEvent: UserEvent;
   allUserEventsMap: Map<number, CompleteEvent> = new Map<number, CompleteEvent>();
   private selectedCompleteEvent: CompleteEvent;
+  private userGuests: Guest[] = [];
+  private userlocations: Location[] = [];
 
   constructor(private eventHttpService: EventHttpService, private authService: AuthService) { }
 
@@ -26,14 +29,14 @@ export class EventService {
     return this.eventHttpService.getAllUserEvents(this.loggedInUserId, this.loggedInUserToken)
       .pipe(tap( (responseData: EventResponseModel) => {
         if (responseData) {
-          console.log('responseData returned in retrieveUserDiary is: ', responseData.allUserEvents);
+          console.log('responseData returned in getCompleteEvents is: ', responseData.allUserEvents);
           this.populateAllUserEvents(responseData.allUserEvents);
           // this.populateEventResponseModel(responseData);
         }
       }));
   }
 
-  populateLocation(data: Location) {
+  populateLocation(data: any) {
     let location = null;
     if (data) {
       location = new Location(data.eventLocationId, data.eventLocationName,
@@ -43,11 +46,11 @@ export class EventService {
     return location;
   }
 
-  populateGuests(data: Guest[]) {
+  populateEventGuests(data: EventGuest[]) {
     const guests = [];
     if (data) {
       data.forEach(element => {
-        const guest = new Guest(element.eventGuestId, element.eventGuestResponse,
+        const guest = new EventGuest(element.eventGuestId, element.eventGuestResponse,
                                 element.eventGuestFirstName, element.eventGuestLastName,
                                 element.eventGuestEmailAddress, element.eventGuestResponseDate, element.eventGuestRequestDate);
         guests.push(guest);
@@ -67,13 +70,13 @@ export class EventService {
   populateAllUserEvents(data: CompleteEvent[]) {
     data.forEach(element => {
       const location = this.populateLocation(element.locationDTO);
-      const guests = this.populateGuests(element.guestDTO);
+      const guests = this.populateEventGuests(element.guestDTO);
       const event = this.populateEvent(element.eventDTO);
       const eventDeets = new CompleteEvent(event, location, guests);
       this.allUserEventsMap.set(event.eventId, eventDeets);
       this.allCompleteEvents.push(eventDeets);
     });
-    this.populateCompleteEventContinuously(this.allCompleteEvents);
+    // this.populateCompleteEventContinuously(this.allCompleteEvents);
   }
 
   get userEvents() {
@@ -88,12 +91,9 @@ export class EventService {
 
   get selectedEvent() {
     return this.selectedCompleteEvent;
-    // return this.selectedUserEvent;
   }
 
-  private populateCompleteEventContinuously(data: CompleteEvent[]) { // : EventResponseModel
-    // const userEvents = new EventResponseModel(data.httpStatusCode, data.responseMessage, data.userId, data.allUserEvents);
-    // this.allCompleteEvents = userEvents;
+  private populateCompleteEventContinuously(data: CompleteEvent[]) {
     console.log('data inside populateCompleteEventContinuously holds: ', data);
     localStorage.setItem('allUserEvents', JSON.stringify(data));
   }
@@ -103,7 +103,6 @@ export class EventService {
       .pipe(tap( responseData => {
         if (responseData) {
           console.log('responseData for newly created event is: ', responseData);
-          // this.populateUserEvents(responseData);
         }
       }));
   }
@@ -113,7 +112,6 @@ export class EventService {
       .pipe(tap( responseData => {
         if (responseData) {
           console.log('responseData for newly created event is: ', responseData);
-          // this.populateUserEvents(responseData);
         }
       }));
   }
@@ -123,9 +121,54 @@ export class EventService {
       .pipe(tap( responseData => {
         if (responseData) {
           console.log('responseData for newly created event is: ', responseData);
-          // this.populateUserEvents(responseData);
         }
       }));
+  }
+
+  getAllUserLocations() {
+    return this.eventHttpService.getAllUserLocations(this.loggedInUserId, this.loggedInUserToken)
+      .pipe(tap( (responseData: any) => {
+        if (responseData) {
+          const locationList = responseData.userLocations;
+          locationList.forEach(element => {
+            this.populateLocationList(element);
+          });
+        }
+      }));
+  }
+
+  populateLocationList(data: any) {
+    console.log('Location data is: ', data);
+    const location = new Location(data.eventLocationId, data.eventLocationName,
+                              data.eventLocationAddress, data.eventLocationState,
+                              data.eventLocationZipCode, data.eventLocationCountry);
+    this.userlocations.push(location);
+  }
+
+  get completeUserLocationList() {
+    console.log('this.userlocations holds: ', this.userlocations);
+    return this.userlocations;
+  }
+
+  getAllUserGuests() {
+    return this.eventHttpService.getAllUserGuests(this.loggedInUserId, this.loggedInUserToken)
+      .pipe(tap( (responseData: any) => {
+        if (responseData) {
+          const guestList = responseData.userGuests;
+          guestList.forEach(element => {
+            this.populateGuest(element);
+          });
+        }
+      }));
+  }
+
+  populateGuest(guest: any) {
+    const guestHolder = new Guest(guest.eventGuestId, guest.eventGuestFirstName, guest.eventGuestLastName, guest.eventGuestEmailAddress);
+    this.userGuests.push(guestHolder);
+  }
+
+  get completeUserGuestList() {
+    return this.userGuests;
   }
 
 }

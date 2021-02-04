@@ -1,4 +1,4 @@
-export class Guest {
+export class EventGuest {
   eventGuestId: number;
   eventGuestResponse: boolean;
   eventGuestFirstName: string;

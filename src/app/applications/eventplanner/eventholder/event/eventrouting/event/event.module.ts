@@ -1,3 +1,4 @@
+import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -14,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { AgmCoreModule } from '@agm/core';
+import { GeocodeService } from '../../../eventinfo/eventlocation/geocoding/location.geocoding.service';
 
 
 @NgModule({
@@ -34,10 +36,12 @@ import { AgmCoreModule } from '@agm/core';
     MatTableModule,
     MatPaginatorModule,
     MatCheckboxModule,
+    MatSelectModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAPYxqetkfhcT8MrdoZkou0tNYIPEQ8IZ0'
     })
   ],
+  providers: [GeocodeService],
   exports: [
     EventPlannerComponent,
     ListEventsComponent,
