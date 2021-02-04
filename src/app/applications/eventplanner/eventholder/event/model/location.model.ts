@@ -1,18 +1,18 @@
 export class Location {
-  eventLocationId: number;
-  eventLocationName: string;
-  eventLocationAddress: string;
-  eventLocationState: string;
-  eventLocationZipCode: string;
-  eventLocationCountry: string;
+  locationId: number;
+  locationName: string;
+  locationAddress: string;
+  locationState: string;
+  locationZipCode: string;
+  locationCountry: string;
 
-  constructor(eventLocationId: number, eventLocationName: string, eventLocationAddress: string,
-              eventLocationState: string, eventLocationZipCode: string, eventLocationCountry: string) {
-    this.eventLocationId = eventLocationId;
-    this.eventLocationName = eventLocationName;
-    this.eventLocationAddress = eventLocationAddress;
-    this.eventLocationState = eventLocationState;
-    this.eventLocationZipCode = eventLocationZipCode;
-    this.eventLocationCountry = eventLocationCountry;
+  constructor(locationId: number, locationName: string, locationAddress: string,
+              locationState: string, locationZipCode: string, locationCountry: string) {
+    this.locationId = locationId;
+    this.locationName = locationName;
+    this.locationAddress = locationAddress;
+    this.locationState = locationState;
+    this.locationZipCode = locationZipCode;
+    this.locationCountry = locationCountry;
   }
 }

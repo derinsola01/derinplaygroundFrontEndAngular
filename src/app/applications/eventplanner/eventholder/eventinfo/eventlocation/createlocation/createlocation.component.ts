@@ -90,6 +90,7 @@ export class CreateLocationComponent implements OnInit {
         .subscribe( (responseData) => {
           this.isLoading = false;
           console.log('responseData is: ', responseData);
+          this.router.navigate(['/event/location/listLocations']);
         });
       this.createLocationForm.reset();
     }

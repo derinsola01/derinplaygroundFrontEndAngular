@@ -37,6 +37,7 @@ table {
   width: 800px;
   left: 10px;
   position: relative;
+  float:left;
 }
 
 .event-details {
@@ -63,4 +64,5 @@ a {
   height: 400px;
   position: fixed;
   right: 40px;
+  float:left;
 }

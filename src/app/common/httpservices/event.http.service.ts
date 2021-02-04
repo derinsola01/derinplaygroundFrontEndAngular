@@ -1,9 +1,7 @@
-import { Guest } from './../../applications/eventplanner/eventholder/event/model/guest.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UserEventsResponse } from 'src/app/applications/eventplanner/eventholder/event/response/user.events.response';
-import { CompleteEvent } from 'src/app/applications/eventplanner/eventholder/event/model/complete.event.holder';
 import { EventResponseModel } from 'src/app/applications/eventplanner/eventholder/event/model/event.response.model';
+import { Guest } from 'src/app/applications/eventplanner/eventholder/eventinfo/eventguests/guestmodel/guest.model';
 
 @Injectable({
   providedIn: 'root'
@@ -72,9 +70,19 @@ export class EventHttpService {
                         locationZipCode: formData.zipcode,
                         locationCountry: formData.country };
     const httpOptions = this.authHeaderOptions(userWebToken);
-    console.log('createNewLocation postData is: ', postData);
-    console.log('createNewLocation httpOptions is: ', httpOptions);
     return this.httpClient.post('http://localhost:8900/event/createUpdateLocation', postData, httpOptions);
+  }
+
+  getAllUserLocations(loggedInUserId: string, userWebToken: string) {
+    const postData = {  userId: loggedInUserId };
+    const httpOptions = this.authHeaderOptions(userWebToken);
+    return this.httpClient.post('http://localhost:8900/event/userLocations', postData, httpOptions);
+  }
+
+  getAllUserGuests(loggedInUserId: string, userWebToken: string) {
+    const postData = {  userId: loggedInUserId };
+    const httpOptions = this.authHeaderOptions(userWebToken);
+    return this.httpClient.post('http://localhost:8900/event/userGuests', postData, httpOptions);
   }
 
 }

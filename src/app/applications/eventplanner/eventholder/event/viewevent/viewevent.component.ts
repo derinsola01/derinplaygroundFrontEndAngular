@@ -1,13 +1,16 @@
+import { Location } from './../model/location.model';
+import { LocationCoordinates } from './../../eventinfo/eventlocation/geocoding/location.coordinates.model';
 import { EventService } from 'src/app/applications/eventplanner/service/event.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { CompleteEvent } from '../model/complete.event.holder';
-import { ListGuestElement } from '../modelinterfaces/listguests.element';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
-import { Guest } from '../model/guest.model';
-import { MapMarker } from './marker';
-import { MouseEvent } from '@agm/core';
+import { EventGuest } from '../model/event.guest.model';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { GeocodeService } from '../../eventinfo/eventlocation/geocoding/location.geocoding.service';
+import { Guest } from '../../eventinfo/eventguests/guestmodel/guest.model';
+import { ListEventGuestElement } from '../modelinterfaces/list.eventguests.element';
 
 @Component({
   selector: 'app-viewevent',
@@ -18,34 +21,19 @@ export class ViewEventComponent implements OnInit {
 
   private completeEventDetails: CompleteEvent = this.eventService.selectedEvent;
   private isLoading = false;
+  private mapLoading: boolean;
   displayedColumns: string[] = [ 'name', 'description', 'startTime', 'endTime' ];
-  dataSource: MatTableDataSource<ListGuestElement> = new MatTableDataSource<ListGuestElement>(this.guests);
-  selection = new SelectionModel<ListGuestElement>(false, []);
+  dataSource: MatTableDataSource<ListEventGuestElement> = new MatTableDataSource<ListEventGuestElement>(this.guests);
+  selection = new SelectionModel<ListEventGuestElement>(false, []);
   private paginator: MatPaginator;
-  zoom = 8;
-  lat = 13;
-  lng = 80;
+  private locationCoordinateHolder: LocationCoordinates;
+  completeAddress: string;
 
+  foodControl = new FormControl('', Validators.required);
+  selectFormControl = new FormControl('', Validators.required);
 
-  markers: MapMarker[] = [
-    {
-      lat: 51.673858,
-      lng: 7.815982,
-      label: 'A',
-      draggable: true
-    },
-    {
-      lat: 51.373858,
-      lng: 7.215982,
-      label: 'B',
-      draggable: false
-    },
-    {
-      lat: 51.723858,
-      lng: 7.895982,
-      label: 'C',
-      draggable: true
-    }];
+  userGuests: Guest[] = this.eventService.completeUserGuestList;
+  userLocations: Location[] = this.eventService.completeUserLocationList;
 
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     if (mp) {
@@ -54,20 +42,12 @@ export class ViewEventComponent implements OnInit {
     }
   }
 
-  clickedMarker(label: string, index: number) {
-    console.log(`clicked the marker: ${label || index}`);
-  }
-
-  mapClicked($event: MouseEvent) {
-    this.markers.push({
-      lat: $event.coords.lat,
-      lng: $event.coords.lng,
-      draggable: true
+  createGuestFormGroup() {
+    return this.formBuilder.group({
+      guestFirstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      guestLastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      guestEmailAddress: ['', [Validators.required, Validators.email]]
     });
-  }
-
-  markerDragEnd(m: MapMarker, $event: MouseEvent) {
-    console.log('dragEnd', m, $event);
   }
 
   setDataSourceAttributes() {
@@ -85,18 +65,28 @@ export class ViewEventComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  constructor(private eventService: EventService) { }
+  constructor(private geocodeService: GeocodeService,
+              private formBuilder: FormBuilder,
+              private ref: ChangeDetectorRef,
+              private eventService: EventService) { }
 
   ngOnInit(): void {
-    // this.isLoading = true;
-    // this.populateGuestsTable(this.completeEventDetails.guestDTO);
+    this.computeEventAddressForDisplay();
+    this.showLocation();
   }
 
-  // populateGuestsTable(guests: Guest[]) {
-  //   this.dataSource = new MatTableDataSource<ListGuestElement>(guests);
-  //   this.isLoading = false;
-  // }
+  computeEventAddressForDisplay() {
+    if ( this.eventService.selectedEvent.locationDTO ) {
+      const completeLocationAddress = this.eventService.selectedEvent.locationDTO;
+      const completeAddress = completeLocationAddress.locationAddress + ' ' + completeLocationAddress.locationState
+          + ' ' + completeLocationAddress.locationZipCode + ' ' + completeLocationAddress.locationCountry;
+      this.completeAddress = completeAddress;
+    }
+  }
 
+  get dataSourceLength() {
+    return this.dataSource.data.length;
+  }
   get formLoading(){
     return this.isLoading;
   }
@@ -110,7 +100,6 @@ export class ViewEventComponent implements OnInit {
   }
 
   get guests() {
-    // this.isLoading = false;
     return this.completeEventDetails.guestDTO;
   }
 
@@ -118,25 +107,45 @@ export class ViewEventComponent implements OnInit {
     return this.completeEventDetails.locationDTO;
   }
 
-  onSelect(guest: Guest): void {
+  onSelect(guest: EventGuest): void {
     console.log('selected event is: ', guest);
     // this.selectedEvent = event;
     // this.eventService.selectedEventByUser(this.selectedEvent);
     // this.router.navigate(['/event/viewEvent']);
   }
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+  onSubmitEventGuests(selectFormControlEntered) {
+    console.log('selectFormControlEntered.value is: ', selectFormControlEntered.value);
+    selectFormControlEntered.reset();
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => console.log('what does row hold?', row) /*this.selection.select(row) */);
+  onSubmitEventLocation(foodControlEntered) {
+    console.log('foodControlEntered.value is: ', foodControlEntered.value);
+    foodControlEntered.reset();
+  }
+
+  showLocation() {
+    this.addressToCoordinates();
+  }
+
+  get mapLoadingState() {
+    return this.mapLoading;
+  }
+
+  get locationCoordinates() {
+    return this.locationCoordinateHolder;
+  }
+
+  addressToCoordinates() {
+    this.mapLoading = true;
+    this.geocodeService.geocodeAddress(this.completeAddress)
+    .subscribe((location: LocationCoordinates) => {
+        this.locationCoordinateHolder = location;
+        console.log('location coordinates is: ', location);
+        this.mapLoading = false;
+        this.ref.detectChanges();
+      }
+    );
   }
 
 }
