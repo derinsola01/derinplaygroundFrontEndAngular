@@ -11,6 +11,8 @@ import { UserEvent } from '../model/userevent.model';
 import { ListEventElement } from './listevents.elements';
 import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
+import { GuestService } from '../../../service/guest.service';
+import { LocationService } from '../../../service/location.service';
 
 @Component({
   selector: 'app-listevents',
@@ -49,26 +51,31 @@ export class ListEventsComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  constructor(private eventService: EventService, private router: Router) { }
+  constructor(private eventService: EventService,
+              private guestService: GuestService,
+              private locationService: LocationService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.isLoading = true;
     this.eventService.getCompleteEvents().subscribe( (res: EventResponseModel) => {
-      console.log('res after all said and done is: ', res);
       this.populateAllUserEvents(res.allUserEvents);
       this.dataSource = new MatTableDataSource<ListEventElement>(this.listElements);
       this.isLoading = false;
     });
-    if (!this.eventService.completeUserGuestList.length) {
-      this.eventService.getAllUserLocations().subscribe();
-    }
-    if (!this.eventService.completeUserLocationList.length) {
-      this.eventService.getAllUserGuests().subscribe();
-    }
+    this.triggerUserGuests();
+    this.triggerUserLocations();
+  }
+
+  triggerUserGuests() {
+    this.guestService.triggerUserGuests();
+  }
+
+  triggerUserLocations() {
+    this.locationService.triggerUserLocations();
   }
 
   onSelect(event: UserEvent): void {
-    console.log('selected event is: ', event);
     this.selectedEvent = event;
     this.eventService.selectedEventByUser(this.selectedEvent);
     this.router.navigate(['/event/viewEvent']);

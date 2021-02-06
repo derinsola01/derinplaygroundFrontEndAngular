@@ -8,6 +8,9 @@ import { CompleteEvent } from '../eventholder/event/model/complete.event.holder'
 import { EventResponseModel } from '../eventholder/event/model/event.response.model';
 import { UserEvent } from '../eventholder/event/model/userevent.model';
 import { Guest } from '../eventholder/eventinfo/eventguests/guestmodel/guest.model';
+import { GuestService } from './guest.service';
+import { LocationService } from './location.service';
+import { EmailHttpService } from 'src/app/common/httpservices/email.http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +23,22 @@ export class EventService {
   selectedUserEvent: UserEvent;
   allUserEventsMap: Map<number, CompleteEvent> = new Map<number, CompleteEvent>();
   private selectedCompleteEvent: CompleteEvent;
-  private userGuests: Guest[] = [];
-  private userlocations: Location[] = [];
+  completeUserGuestList = this.guestService.completeUserGuestList;
+  completeUserLocationList = this.locationService.completeUserLocationList;
 
-  constructor(private eventHttpService: EventHttpService, private authService: AuthService) { }
+  constructor(private eventHttpService: EventHttpService,
+              private guestService: GuestService,
+              private locationService: LocationService,
+              private emailHttpService: EmailHttpService,
+              private authService: AuthService) { }
+
+  get locationProvider() {
+    return this.locationService;
+  }
+
+  get guestProvider() {
+    return this.guestService;
+  }
 
   getCompleteEvents(){
     return this.eventHttpService.getAllUserEvents(this.loggedInUserId, this.loggedInUserToken)
@@ -31,9 +46,17 @@ export class EventService {
         if (responseData) {
           console.log('responseData returned in getCompleteEvents is: ', responseData.allUserEvents);
           this.populateAllUserEvents(responseData.allUserEvents);
-          // this.populateEventResponseModel(responseData);
         }
       }));
+  }
+
+  notifyGuestsOfEvents(invitedGuestTokens: string[]){
+    return this.emailHttpService.notifyGuestsOfEvents(invitedGuestTokens)
+                  .pipe(tap( responseData => {
+                    if (responseData) {
+                      console.log('responseData after notifying users of event is: ', responseData);
+                    }
+                  }));
   }
 
   populateLocation(data: any) {
@@ -105,70 +128,6 @@ export class EventService {
           console.log('responseData for newly created event is: ', responseData);
         }
       }));
-  }
-
-  createNewGuest(formData: Guest[]) {
-    return this.eventHttpService.createNewGuest(formData, this.loggedInUserId, this.loggedInUserToken)
-      .pipe(tap( responseData => {
-        if (responseData) {
-          console.log('responseData for newly created event is: ', responseData);
-        }
-      }));
-  }
-
-  createNewLocation(formData) {
-    return this.eventHttpService.createNewLocation(formData, this.loggedInUserId, this.loggedInUserToken)
-      .pipe(tap( responseData => {
-        if (responseData) {
-          console.log('responseData for newly created event is: ', responseData);
-        }
-      }));
-  }
-
-  getAllUserLocations() {
-    return this.eventHttpService.getAllUserLocations(this.loggedInUserId, this.loggedInUserToken)
-      .pipe(tap( (responseData: any) => {
-        if (responseData) {
-          const locationList = responseData.userLocations;
-          locationList.forEach(element => {
-            this.populateLocationList(element);
-          });
-        }
-      }));
-  }
-
-  populateLocationList(data: any) {
-    console.log('Location data is: ', data);
-    const location = new Location(data.eventLocationId, data.eventLocationName,
-                              data.eventLocationAddress, data.eventLocationState,
-                              data.eventLocationZipCode, data.eventLocationCountry);
-    this.userlocations.push(location);
-  }
-
-  get completeUserLocationList() {
-    console.log('this.userlocations holds: ', this.userlocations);
-    return this.userlocations;
-  }
-
-  getAllUserGuests() {
-    return this.eventHttpService.getAllUserGuests(this.loggedInUserId, this.loggedInUserToken)
-      .pipe(tap( (responseData: any) => {
-        if (responseData) {
-          const guestList = responseData.userGuests;
-          guestList.forEach(element => {
-            this.populateGuest(element);
-          });
-        }
-      }));
-  }
-
-  populateGuest(guest: any) {
-    const guestHolder = new Guest(guest.eventGuestId, guest.eventGuestFirstName, guest.eventGuestLastName, guest.eventGuestEmailAddress);
-    this.userGuests.push(guestHolder);
-  }
-
-  get completeUserGuestList() {
-    return this.userGuests;
   }
 
 }

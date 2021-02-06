@@ -11,9 +11,3 @@ export class Guest {
     this.emailAddress = emailAddress;
   }
 }
-
-
-// private long ;
-// 	private String ;
-// 	private String eventGuestLastName;
-// 	private String eventGuestEmailAddress;

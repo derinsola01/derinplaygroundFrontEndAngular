@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
-import { EventService } from 'src/app/applications/eventplanner/service/event.service';
+import { GuestService } from 'src/app/applications/eventplanner/service/guest.service';
 import { Guest } from '../guestmodel/guest.model';
 
 @Component({
@@ -29,7 +29,7 @@ export class CreateGuestComponent implements OnInit {
   }
 
     constructor(private formBuilder: FormBuilder,
-                private eventService: EventService,
+                private guestService: GuestService,
                 private router: Router) { }
 
     ngOnInit(): void {
@@ -75,7 +75,7 @@ export class CreateGuestComponent implements OnInit {
       this.newGuests = this.createGuestForm.value.createGuestRequests;
       console.log('this.newGuests is: ', this.newGuests);
       this.isLoading = true;
-      this.eventService.createNewGuest(this.newGuests)
+      this.guestService.createNewGuest(this.newGuests)
         .subscribe( (responseData) => {
           this.isLoading = false;
           this.router.navigate(['/event/guest/listGuests']);

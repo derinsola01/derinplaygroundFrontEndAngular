@@ -16,15 +16,15 @@
         <div style="text-align: center; justify-content: center;">
           <mat-form-field appearance="fill" style="background-color: darkgray;">
             <mat-label>Event Guests</mat-label>
-            <mat-select [formControl]="selectFormControl" required multiple>
+            <mat-select [formControl]="guestsControl" required multiple>
               <mat-option *ngFor="let guest of userGuests" [value]="guest.guestId">{{ guest.firstName + " " + guest.lastName }}</mat-option>
             </mat-select>
-            <mat-error *ngIf="selectFormControl.hasError('required')">Please select Guest(s)</mat-error>
+            <mat-error *ngIf="guestsControl.hasError('required')">Please select Guest(s)</mat-error>
           </mat-form-field>
           <div>
             <button class="btn btn-success"
-                    [disabled]="selectFormControl.invalid"
-                    (click)="onSubmitEventGuests(selectFormControl)">Add Guest(s)</button>
+                    [disabled]="guestsControl.invalid"
+                    (click)="onSubmitEventGuests(guestsControl)">Add Guest(s)</button>
           </div>
         </div>
       </div>
@@ -61,18 +61,18 @@
       <div style="text-align: center; justify-content: center;">
         <mat-form-field appearance="fill" style="background-color: darkgray;">
           <mat-label>Event Location</mat-label>
-          <mat-select [formControl]="foodControl" required>
+          <mat-select [formControl]="locationControl" required>
             <mat-option>Add Location To Event</mat-option>
             <mat-option *ngFor="let location of userLocations" [value]="location.locationId">
               {{location.locationName}}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="foodControl.hasError('required')">Please choose a location</mat-error>
+          <mat-error *ngIf="locationControl.hasError('required')">Please choose a location</mat-error>
         </mat-form-field>
         <div>
           <button class="btn btn-success"
-                  [disabled]="foodControl.invalid"
-                  (click)="onSubmitEventLocation(foodControl)">Add Location</button>
+                  [disabled]="locationControl.invalid"
+                  (click)="onSubmitEventLocation(locationControl)">Add Location</button>
         </div>
       </div>
     </div>

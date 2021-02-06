@@ -44,15 +44,6 @@ export class AuthHttpService {
                                                             postData, this.genericHeaderOptions);
   }
 
-  sendValidationEmail(postData, userWebToken: string) {
-    const httpOptions = this.authHeaderOptions(userWebToken);
-    return this.httpClient.post('http://localhost:8900/email/sendValidationEmail', postData, httpOptions);
-  }
-
-  sendConfirmationEmail(postUrl: string, postData){
-    return this.httpClient.post<AuthenticatedUserResponse>(postUrl, postData, this.genericHeaderOptions);
-  }
-
   login(postData) {
     return this.httpClient.post<AuthenticatedUserResponse>('http://localhost:8900/auth/login', postData, this.genericHeaderOptions);
   }
