@@ -41,15 +41,29 @@ export class GuestService {
 
   getAllUserGuests() {
     return this.guestHttpService.getAllUserGuests(this.loggedInUserId, this.loggedInUserToken)
-      .pipe(tap( (responseData: any) => {
-        if (responseData) {
-          this.userGuests = [];
-          const guestList = responseData.userGuests;
-          guestList.forEach(element => {
-            this.populateGuest(element);
-          });
-        }
-      }));
+                  .pipe(tap( (responseData: any) => {
+                    if (responseData) {
+                      this.userGuests = [];
+                      const guestList = responseData.userGuests;
+                      guestList.forEach(element => {
+                        this.populateGuest(element);
+                      });
+                    }
+                  }));
+  }
+
+  addGuestsToEvent(guestIds: number[], eventId: number){
+    return this.guestHttpService.addGuestsToEvent(guestIds, eventId, this.loggedInUserId, this.loggedInUserToken)
+          .pipe(tap( (responseData: any) => {
+            console.log('responseData after adding guests is: ', responseData);
+            // if (responseData) {
+            //   this.userGuests = [];
+            //   const guestList = responseData.userGuests;
+            //   guestList.forEach(element => {
+            //     this.populateGuest(element);
+            //   });
+            // }
+          }));
   }
 
 }

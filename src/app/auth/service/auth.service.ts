@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthHttpService } from 'src/app/common/httpservices/auth.http.service';
+import { EmailHttpService } from 'src/app/common/httpservices/email.http.service';
 import { PlayGroundUser } from 'src/app/common/user/playgrounduser/userModel/PlaygroundUser.model';
 
 @Injectable({
@@ -13,7 +14,10 @@ export class AuthService {
   public playGroundUser = new BehaviorSubject<PlayGroundUser>(null);
   public authenticatedUser: PlayGroundUser;
 
-  constructor(private authHttpService: AuthHttpService, private router: Router) { }
+  constructor(
+    private authHttpService: AuthHttpService,
+    private emailHttpService: EmailHttpService,
+    private router: Router) { }
 
   getAllRegisteredUserIdsAndEmails() {
     return this.authHttpService.registeredUserIdsAndEmails('dummyValue');
@@ -37,11 +41,11 @@ export class AuthService {
   }
 
   validateEmailAddress(postData, userWebToken: string) {
-    return this.authHttpService.sendValidationEmail(postData, userWebToken);
+    return this.emailHttpService.sendValidationEmail(postData, userWebToken);
   }
 
   confirmUserEmail(postUrl: string, postData) {
-    return this.authHttpService.sendConfirmationEmail(postUrl, postData).pipe(tap( responseData => {
+    return this.emailHttpService.sendConfirmationEmail(postUrl, postData).pipe(tap( responseData => {
       this.authenticatedPlayGroundUser(responseData);
     }));
   }

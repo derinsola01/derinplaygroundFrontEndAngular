@@ -59,15 +59,12 @@ export class ListEventsComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = true;
     this.eventService.getCompleteEvents().subscribe( (res: EventResponseModel) => {
-      console.log('res after all said and done is: ', res);
       this.populateAllUserEvents(res.allUserEvents);
       this.dataSource = new MatTableDataSource<ListEventElement>(this.listElements);
       this.isLoading = false;
     });
     this.triggerUserGuests();
     this.triggerUserLocations();
-    // this.guestService.getAllUserGuests().subscribe();
-    // this.locationService.getAllUserLocations().subscribe();
   }
 
   triggerUserGuests() {
@@ -79,7 +76,6 @@ export class ListEventsComponent implements OnInit {
   }
 
   onSelect(event: UserEvent): void {
-    console.log('selected event is: ', event);
     this.selectedEvent = event;
     this.eventService.selectedEventByUser(this.selectedEvent);
     this.router.navigate(['/event/viewEvent']);

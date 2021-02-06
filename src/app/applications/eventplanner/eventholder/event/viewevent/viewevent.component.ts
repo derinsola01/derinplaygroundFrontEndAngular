@@ -31,8 +31,8 @@ export class ViewEventComponent implements OnInit {
   private locationCoordinateHolder: LocationCoordinates;
   completeAddress: string;
 
-  foodControl = new FormControl('', Validators.required);
-  selectFormControl = new FormControl('', Validators.required);
+  locationControl = new FormControl('', Validators.required);
+  guestsControl = new FormControl('', Validators.required);
 
   userGuests: Guest[] = this.guestService.completeUserGuestList;
   userLocations: Location[] = this.locationService.completeUserLocationList;
@@ -118,14 +118,29 @@ export class ViewEventComponent implements OnInit {
     // this.router.navigate(['/event/viewEvent']);
   }
 
-  onSubmitEventGuests(selectFormControlEntered) {
-    console.log('selectFormControlEntered.value is: ', selectFormControlEntered.value);
-    selectFormControlEntered.reset();
+  onSubmitEventGuests(selectGuests) {
+    console.log('select Length is: ', selectGuests.value.length);
+    console.log('this.completeEventDetails.eventDTO.eventId is: ', this.completeEventDetails.eventDTO.eventId);
+    this.guestService.addGuestsToEvent(selectGuests.value, this.completeEventDetails.eventDTO.eventId)
+          .subscribe(response => {
+            this.sendEmailInvitations(response.guestEmailTokens);
+          });
+    selectGuests.reset();
   }
 
-  onSubmitEventLocation(foodControlEntered) {
-    console.log('foodControlEntered.value is: ', foodControlEntered.value);
-    foodControlEntered.reset();
+  sendEmailInvitations(guestTokens: string[]){
+    this.eventService.notifyGuestsOfEvents(guestTokens).subscribe(
+      res => { console.log('sendEmailInvitations response is: ', res); }
+    );
+  }
+
+  onSubmitEventLocation(selectedLocation) {
+    console.log('selected LocationId is: ', selectedLocation.value);
+    console.log('this.completeEventDetails.eventDTO.eventId is: ', this.completeEventDetails.eventDTO.eventId);
+    this.locationService.addLocationToEvent(selectedLocation.value, this.completeEventDetails.eventDTO.eventId).subscribe();
+    selectedLocation.reset();
+    this.computeEventAddressForDisplay();
+    this.showLocation();
   }
 
   showLocation() {

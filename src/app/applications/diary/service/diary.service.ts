@@ -37,6 +37,7 @@ export class DiaryService {
 
   private populateUserDiary(responseData) {
     const diaryEntries = new UserDiary(responseData.userId, responseData.dairyEntries);
+    this.userDiary = null;
     this.userDiary = diaryEntries;
     localStorage.setItem('userDiary', JSON.stringify(this.userDiary));
   }

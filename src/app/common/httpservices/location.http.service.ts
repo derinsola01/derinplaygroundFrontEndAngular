@@ -49,4 +49,13 @@ export class LocationHttpService {
     return this.httpClient.post('http://localhost:8900/event/userLocations', postData, httpOptions);
   }
 
+  addLocationToEvent(selectedLocation: number, selectedEventId: number, loggedInUserId: string, userWebToken: string){
+    const postData = {  userId: loggedInUserId,
+                        eventId: selectedEventId,
+                        locationId: selectedLocation
+                      };
+    const httpOptions = this.authHeaderOptions(userWebToken);
+    return this.httpClient.post('http://localhost:8900/event/addLocationToEvent', postData, httpOptions);
+  }
+
 }

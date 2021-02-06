@@ -10,6 +10,7 @@ import { UserEvent } from '../eventholder/event/model/userevent.model';
 import { Guest } from '../eventholder/eventinfo/eventguests/guestmodel/guest.model';
 import { GuestService } from './guest.service';
 import { LocationService } from './location.service';
+import { EmailHttpService } from 'src/app/common/httpservices/email.http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,12 +25,11 @@ export class EventService {
   private selectedCompleteEvent: CompleteEvent;
   completeUserGuestList = this.guestService.completeUserGuestList;
   completeUserLocationList = this.locationService.completeUserLocationList;
-  // private userGuests: Guest[] = [];
-  // private userLocations: Location[] = [];
 
   constructor(private eventHttpService: EventHttpService,
               private guestService: GuestService,
               private locationService: LocationService,
+              private emailHttpService: EmailHttpService,
               private authService: AuthService) { }
 
   get locationProvider() {
@@ -46,9 +46,17 @@ export class EventService {
         if (responseData) {
           console.log('responseData returned in getCompleteEvents is: ', responseData.allUserEvents);
           this.populateAllUserEvents(responseData.allUserEvents);
-          // this.populateEventResponseModel(responseData);
         }
       }));
+  }
+
+  notifyGuestsOfEvents(invitedGuestTokens: string[]){
+    return this.emailHttpService.notifyGuestsOfEvents(invitedGuestTokens)
+                  .pipe(tap( responseData => {
+                    if (responseData) {
+                      console.log('responseData after notifying users of event is: ', responseData);
+                    }
+                  }));
   }
 
   populateLocation(data: any) {

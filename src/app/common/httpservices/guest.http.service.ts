@@ -33,12 +33,8 @@ export class GuestHttpService {
   }
 
   createNewGuest(formData: Guest[], loggedInUserId: string, userWebToken: string){
-    const postArr = {};
     const postData = {  userId: loggedInUserId, createGuestRequests: formData };
     const httpOptions = this.authHeaderOptions(userWebToken);
-    console.log('createNewGuest postArr is: ', JSON.stringify(postArr));
-    console.log('createNewGuest postData is: ', postData);
-    console.log('createNewGuest httpOptions is: ', httpOptions);
     return this.httpClient.post('http://localhost:8900/event/createUpdateGuest', postData, httpOptions);
   }
 
@@ -46,6 +42,15 @@ export class GuestHttpService {
     const postData = {  userId: loggedInUserId };
     const httpOptions = this.authHeaderOptions(userWebToken);
     return this.httpClient.post('http://localhost:8900/event/userGuests', postData, httpOptions);
+  }
+
+  addGuestsToEvent(selectedGuestIds: number[], selectedEventId: number, loggedInUserId: string, userWebToken: string){
+    const postData = {  userId: loggedInUserId,
+                        guestIds: selectedGuestIds,
+                        eventId: selectedEventId
+    };
+    const httpOptions = this.authHeaderOptions(userWebToken);
+    return this.httpClient.post('http://localhost:8900/event/inviteGuestsToEvent', postData, httpOptions);
   }
 
 }

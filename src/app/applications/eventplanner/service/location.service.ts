@@ -55,4 +55,13 @@ export class LocationService {
     console.log('this.userlocations holds: ', this.userlocations);
     return this.userlocations;
   }
+
+  addLocationToEvent(selectedLocation: number, selectedEventId: number){
+    return this.locationHttpService.addLocationToEvent(selectedLocation, selectedEventId, this.loggedInUserId, this.loggedInUserToken)
+                  .pipe(tap( responseData => {
+                    if (responseData) {
+                      console.log('responseData after adding location to event is: ', responseData);
+                    }
+                  }));
+  }
 }
