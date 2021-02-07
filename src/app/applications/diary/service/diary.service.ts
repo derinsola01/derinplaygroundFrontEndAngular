@@ -37,18 +37,20 @@ export class DiaryService {
 
   private populateUserDiary(responseData) {
     const diaryEntries = new UserDiary(responseData.userId, responseData.dairyEntries);
-    this.userDiary = null;
+    if (this.userDiary) {
+      this.userDiary = null;
+    }
     this.userDiary = diaryEntries;
-    localStorage.setItem('userDiary', JSON.stringify(this.userDiary));
+    // localStorage.setItem('userDiary', JSON.stringify(this.userDiary));
   }
 
-  autoPopulateDiaryEntries() {
-    const diaryHolder: UserDiary = JSON.parse(localStorage.getItem('userDiary'));
-    if (!diaryHolder) {
-      return;
-    }
-    this.userDiary = diaryHolder;
-  }
+  // autoPopulateDiaryEntries() {
+  //   const diaryHolder: UserDiary = JSON.parse(localStorage.getItem('userDiary'));
+  //   if (!diaryHolder) {
+  //     return;
+  //   }
+  //   this.userDiary = diaryHolder;
+  // }
 
   createDiaryEntry(postData, loggedInUserId: string, userWebToken: string) {
     return this.diaryHttpService.createDiaryEntry(postData, loggedInUserId, userWebToken).pipe(tap( responseData => {
