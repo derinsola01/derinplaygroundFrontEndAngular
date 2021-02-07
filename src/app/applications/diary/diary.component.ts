@@ -1,9 +1,9 @@
-import { Router } from '@angular/router';
+// import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/auth/service/auth.service';
-import { UserDiary } from './model/user.diary.model';
-import { DiaryService } from './service/diary.service';
+// import { FormBuilder, Validators } from '@angular/forms';
+// import { AuthService } from 'src/app/auth/service/auth.service';
+// import { UserDiary } from './model/user.diary.model';
+// import { DiaryService } from './service/diary.service';
 
 @Component({
   selector: 'app-diary',
@@ -12,12 +12,12 @@ import { DiaryService } from './service/diary.service';
 })
 export class DiaryComponent implements OnInit {
 
-  public userDiary: UserDiary = this.diaryService.userDiary;
+  // public userDiary: UserDiary = this.diaryService.userDiary;   private diaryService: DiaryService
 
-  constructor(private diaryService: DiaryService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.diaryService.autoPopulateDiaryEntries();
+    // this.diaryService.autoPopulateDiaryEntries();
   }
 
 }

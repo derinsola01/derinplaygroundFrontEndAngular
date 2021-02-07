@@ -29,6 +29,7 @@ export class ListEntriesComponent implements OnInit {
   }
 
   get dairyEntries() {
+    this.userDiaryEntries = null;
     return this.userDiaryEntries = this.diaryService.userDiary;
   }
 
