@@ -1,6 +1,5 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { DiaryRoutingModule } from './diary-routing.module';
 import { CreateEntryComponent } from '../createentry/createentry.component';
 import { DiaryComponent } from '../diary.component';
@@ -10,7 +9,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ListEntriesComponent } from '../listentries/listentries.component';
 import { DiaryLoadingSpinnerComponent } from 'src/app/common/spinners/loadingspinners/diaryloadingspinner/diaryloadingspinner.component';
 import { CreateDiaryPasscodeComponent } from '../creatediarypasscode/create.diary.passcode.component';
-
 
 @NgModule({
   declarations: [ DiaryComponent,

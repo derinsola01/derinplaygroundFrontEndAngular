@@ -8,7 +8,7 @@
   <div *ngIf="formLoading" style="text-align: center;">
     <app-diaryloadingspinner></app-diaryloadingspinner>
   </div>
-  <div *ngIf="!userDiary">
+  <div *ngIf="passCodeExists === false">
     <form [formGroup]="diaryPassCodeForm" (ngSubmit)="onSubmit()" *ngIf="!formLoading">
       <div class="form-group">
         <input  type="text"

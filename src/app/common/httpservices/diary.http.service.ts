@@ -27,6 +27,12 @@ export class DiaryHttpService {
     return this.httpClient.post<UserDiaryResponse>('http://localhost:8900/diary/userDiaryEntries', postData, httpOptions);
   }
 
+  getDiaryPasscode(loggedInUserId: string, userWebToken: string) {
+    const postData = { userId: loggedInUserId };
+    const httpOptions = this.authHeaderOptions(userWebToken);
+    return this.httpClient.post('http://localhost:8900/diary/getDiaryPasscode', postData, httpOptions);
+  }
+
   createDiaryEntry(formData, loggedInUserId: string, userWebToken: string){
     const postData = {
       userId: loggedInUserId,

@@ -1,9 +1,4 @@
-// import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-// import { FormBuilder, Validators } from '@angular/forms';
-// import { AuthService } from 'src/app/auth/service/auth.service';
-// import { UserDiary } from './model/user.diary.model';
-// import { DiaryService } from './service/diary.service';
 
 @Component({
   selector: 'app-diary',
@@ -12,12 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DiaryComponent implements OnInit {
 
-  // public userDiary: UserDiary = this.diaryService.userDiary;   private diaryService: DiaryService
-
   constructor() { }
 
   ngOnInit(): void {
-    // this.diaryService.autoPopulateDiaryEntries();
   }
 
 }
