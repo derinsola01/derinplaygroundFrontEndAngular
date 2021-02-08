@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserDiary } from '../model/user.diary.model';
 import { UserDiaryEntry } from '../model/user.diary.entry.model';
 import { FormBuilder } from '@angular/forms';
+import { AuthService } from 'src/app/auth/service/auth.service';
 
 @Component({
   selector: 'app-listentries',
@@ -14,14 +15,34 @@ export class ListEntriesComponent implements OnInit {
 
   userDiaryEntries: UserDiary;
   selectedEntry: UserDiaryEntry;
+  isLoading = false;
+  public userDiary: UserDiary;
 
   searchEntryForm = this.formBuilder.group({
     searchText: ['', []]
   });
 
-  constructor(private formBuilder: FormBuilder, private diaryService: DiaryService, private router: Router) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private diaryService: DiaryService,
+    private authService: AuthService,
+    private router: Router) { }
 
   ngOnInit(): void {
+    this.getDiaryEntries(this.authService.authenticatedUser.userId, this.authService.authenticatedUser.userWebToken);
+  }
+
+  getDiaryEntries(userId: string, userWebToken: string) {
+    this.isLoading = true;
+    this.diaryService.retrieveUserDiary(userId, userWebToken).subscribe(
+      response => {
+        this.isLoading = false;
+        if (response){
+          console.log('diaryEntries hold: ', response);
+          this.userDiary = response;
+        }
+      }
+    );
   }
 
   get searchText(){
@@ -42,12 +63,6 @@ export class ListEntriesComponent implements OnInit {
   searchForEntry() {
     console.log('this.searchEntryForm holds: ', this.searchEntryForm.value);
     const searchText = this.searchEntryForm.value.searchText;
-    // const entriesHolder = this.dairyEntries.dairyEntries;  // .includes(this.searchEntryForm.value.value);
-    // const array = [1, 2, 3];
-    // entriesHolder.forEach(function (value) {
-    //   console.log(value);
-    // });
-    // console.log('found is: ', found);
     this.searchEntryForm.reset();
   }
 

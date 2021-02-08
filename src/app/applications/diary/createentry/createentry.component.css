@@ -2,7 +2,7 @@
   padding: 5px 20px 5px 5px;
   margin: 20px 20px 20px 0px;
   width: 500px;
-  height: 600px;
+  height: 400px;
 }
 
 .button-left {
@@ -15,7 +15,7 @@
 }
 
 .create-entry-page {
-  width: 700px;
+  width: 600px;
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
   background: #fff;
   padding: 20px;

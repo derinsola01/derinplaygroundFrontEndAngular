@@ -23,6 +23,10 @@ export class DiaryService {
     }));
   }
 
+  getDiaryPasscode(userId: string, userWebToken: string){
+    return this.diaryHttpService.getDiaryPasscode(userId, userWebToken);
+  }
+
   diaryEntryForEdit(selectedEntry) {
     this.diaryEntry = selectedEntry;
   }
@@ -41,16 +45,7 @@ export class DiaryService {
       this.userDiary = null;
     }
     this.userDiary = diaryEntries;
-    // localStorage.setItem('userDiary', JSON.stringify(this.userDiary));
   }
-
-  // autoPopulateDiaryEntries() {
-  //   const diaryHolder: UserDiary = JSON.parse(localStorage.getItem('userDiary'));
-  //   if (!diaryHolder) {
-  //     return;
-  //   }
-  //   this.userDiary = diaryHolder;
-  // }
 
   createDiaryEntry(postData, loggedInUserId: string, userWebToken: string) {
     return this.diaryHttpService.createDiaryEntry(postData, loggedInUserId, userWebToken).pipe(tap( responseData => {
