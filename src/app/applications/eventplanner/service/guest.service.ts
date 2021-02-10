@@ -9,8 +9,8 @@ import { Guest } from '../eventholder/eventinfo/eventguests/guestmodel/guest.mod
 })
 export class GuestService {
 
-  private loggedInUserId = this.authService.authenticatedUser.userId;
-  private loggedInUserToken = this.authService.authenticatedUser.userWebToken;
+  private loggedInUserId = (this.authService.playGroundUser.value) ? this.authService.authenticatedUser.userId : '';
+  private loggedInUserToken =  (this.authService.playGroundUser.value) ? this.authService.authenticatedUser.userWebToken : '';
   private userGuests: Guest[] = [];
 
   constructor(private guestHttpService: GuestHttpService, private authService: AuthService) { }
@@ -64,6 +64,11 @@ export class GuestService {
             //   });
             // }
           }));
+  }
+
+  displayEventToGuest(guestDisplayUrl, guestEventToken){
+    console.log('this.authService.playGroundUser.value holds: ', this.authService.playGroundUser.value);
+    return this.guestHttpService.displayEventToGuest(guestDisplayUrl, guestEventToken);
   }
 
 }

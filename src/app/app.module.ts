@@ -15,6 +15,7 @@ import { AboutComponent } from './common/commonpages/about/about.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AgmCoreModule } from '@agm/core';
+import { GuestDisplayComponent } from './applications/eventplanner/eventholder/event/guestdisplay/guest.display.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { AgmCoreModule } from '@agm/core';
     PageNotFoundComponent,
     AppsLandingComponent,
     LandingPageComponent,
-    AboutComponent
+    AboutComponent,
+    GuestDisplayComponent
   ],
   imports: [
     RouterModule,
