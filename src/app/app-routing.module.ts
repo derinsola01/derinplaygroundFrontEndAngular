@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppsLandingComponent } from './applications/appslanding/appslanding.component';
 import { LandingPageComponent } from './applications/appslanding/landingpage/landingpage.component';
+import { GuestDisplayComponent } from './applications/eventplanner/eventholder/event/guestdisplay/guest.display.component';
 import { AuthGuardService } from './auth/service/routeguards/authguard.service';
 import { RouteGuardService } from './auth/service/routeguards/routeguard.service';
 import { AboutComponent } from './common/commonpages/about/about.component';
@@ -23,6 +24,7 @@ const routes: Routes = [
     path: 'diary',
     loadChildren: () => import('./applications/diary/diary/diary.module').then(m => m.DiaryModule)
   },
+  {path: 'event/displayEventToGuest/:token', component: GuestDisplayComponent},
   {
     path: 'event',
     loadChildren: () => import('./applications/eventplanner/eventholder/event/eventrouting/event/event.module').then(m => m.EventModule)

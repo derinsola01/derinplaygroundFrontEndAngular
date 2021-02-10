@@ -53,4 +53,11 @@ export class GuestHttpService {
     return this.httpClient.post('http://localhost:8900/event/inviteGuestsToEvent', postData, httpOptions);
   }
 
+  displayEventToGuest(guestDisplayUrl, guestEventToken){
+    const postData = { guestPass: guestEventToken };
+    console.log('guestDisplayUrl to be sent is: ', guestDisplayUrl);
+    console.log('guestEventToken to be sent is: ', guestEventToken);
+    return this.httpClient.post(guestDisplayUrl, postData, this.genericHeaderOptions);
+  }
+
 }
