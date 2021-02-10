@@ -45,19 +45,20 @@ export class GuestHttpService {
   }
 
   addGuestsToEvent(selectedGuestIds: number[], selectedEventId: number, loggedInUserId: string, userWebToken: string){
-    const postData = {  userId: loggedInUserId,
-                        guestIds: selectedGuestIds,
-                        eventId: selectedEventId
-    };
+    const postData = {  userId: loggedInUserId, guestIds: selectedGuestIds, eventId: selectedEventId };
     const httpOptions = this.authHeaderOptions(userWebToken);
     return this.httpClient.post('http://localhost:8900/event/inviteGuestsToEvent', postData, httpOptions);
   }
 
-  displayEventToGuest(guestDisplayUrl, guestEventToken){
+  displayEventToGuest(guestDisplayUrl: string, guestEventToken: string){
     const postData = { guestPass: guestEventToken };
-    console.log('guestDisplayUrl to be sent is: ', guestDisplayUrl);
-    console.log('guestEventToken to be sent is: ', guestEventToken);
     return this.httpClient.post(guestDisplayUrl, postData, this.genericHeaderOptions);
+  }
+
+  guestResponseToEvent(guestEventToken: string, guestResponseToEvent: boolean){
+    const postData = { guestPass: guestEventToken, guestResponse: guestResponseToEvent };
+    console.log('postData to be sent is: ', postData);
+    return this.httpClient.post('http://localhost:8900/event/guestResponseToEvent', postData, this.genericHeaderOptions);
   }
 
 }

@@ -16,6 +16,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AgmCoreModule } from '@agm/core';
 import { GuestDisplayComponent } from './applications/eventplanner/eventholder/event/guestdisplay/guest.display.component';
+import { GeocodeService } from './applications/eventplanner/eventholder/eventinfo/eventlocation/geocoding/location.geocoding.service';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,7 @@ import { GuestDisplayComponent } from './applications/eventplanner/eventholder/e
       apiKey: 'AIzaSyAPYxqetkfhcT8MrdoZkou0tNYIPEQ8IZ0'
     })
   ],
-  providers: [],
+  providers: [GeocodeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

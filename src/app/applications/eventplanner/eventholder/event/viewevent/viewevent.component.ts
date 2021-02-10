@@ -13,6 +13,7 @@ import { Guest } from '../../eventinfo/eventguests/guestmodel/guest.model';
 import { ListEventGuestElement } from '../modelinterfaces/list.eventguests.element';
 import { GuestService } from '../../../service/guest.service';
 import { LocationService } from '../../../service/location.service';
+import { InviteGuestsToEventResponse } from '../response/invite.guests.response';
 
 @Component({
   selector: 'app-viewevent',
@@ -81,16 +82,19 @@ export class ViewEventComponent implements OnInit {
 
   computeEventAddressForDisplay() {
     if ( this.eventService.selectedEvent.locationDTO ) {
-      const completeLocationAddress = this.eventService.selectedEvent.locationDTO;
-      const completeAddress = completeLocationAddress.locationAddress + ' ' + completeLocationAddress.locationState
-          + ' ' + completeLocationAddress.locationZipCode + ' ' + completeLocationAddress.locationCountry;
-      this.completeAddress = completeAddress;
+      this.guestService.computeEventAddressForDisplay(this.eventService.selectedEvent.locationDTO);
+      // const completeLocationAddress = this.eventService.selectedEvent.locationDTO;
+      // const completeAddress = completeLocationAddress.locationAddress + ' ' + completeLocationAddress.locationState
+      //     + ' ' + completeLocationAddress.locationZipCode + ' ' + completeLocationAddress.locationCountry;
+      this.completeAddress =
+                  this.guestService.computeEventAddressForDisplay(this.eventService.selectedEvent.locationDTO);
     }
   }
 
   get dataSourceLength() {
     return this.dataSource.data.length;
   }
+
   get formLoading(){
     return this.isLoading;
   }
@@ -119,10 +123,8 @@ export class ViewEventComponent implements OnInit {
   }
 
   onSubmitEventGuests(selectGuests) {
-    console.log('select Length is: ', selectGuests.value.length);
-    console.log('this.completeEventDetails.eventDTO.eventId is: ', this.completeEventDetails.eventDTO.eventId);
     this.guestService.addGuestsToEvent(selectGuests.value, this.completeEventDetails.eventDTO.eventId)
-          .subscribe(response => {
+          .subscribe((response: InviteGuestsToEventResponse) => {
             this.sendEmailInvitations(response.guestEmailTokens);
           });
     selectGuests.reset();
@@ -130,13 +132,11 @@ export class ViewEventComponent implements OnInit {
 
   sendEmailInvitations(guestTokens: string[]){
     this.eventService.notifyGuestsOfEvents(guestTokens).subscribe(
-      res => { console.log('sendEmailInvitations response is: ', res); }
+      // res => { console.log('sendEmailInvitations response is: ', res); }
     );
   }
 
   onSubmitEventLocation(selectedLocation) {
-    console.log('selected LocationId is: ', selectedLocation.value);
-    console.log('this.completeEventDetails.eventDTO.eventId is: ', this.completeEventDetails.eventDTO.eventId);
     this.locationService.addLocationToEvent(selectedLocation.value, this.completeEventDetails.eventDTO.eventId).subscribe();
     selectedLocation.reset();
     this.computeEventAddressForDisplay();
@@ -160,7 +160,6 @@ export class ViewEventComponent implements OnInit {
     this.geocodeService.geocodeAddress(this.completeAddress)
     .subscribe((location: LocationCoordinates) => {
         this.locationCoordinateHolder = location;
-        console.log('location coordinates is: ', location);
         this.mapLoading = false;
         this.ref.detectChanges();
       }

@@ -1,6 +1,9 @@
 import { GuestService } from './../../../service/guest.service';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CompleteGuestEvent } from '../model/complete.guest.event';
+import { GeocodeService } from '../../eventinfo/eventlocation/geocoding/location.geocoding.service';
+import { LocationCoordinates } from '../../eventinfo/eventlocation/geocoding/location.coordinates.model';
 
 @Component({
   selector: 'app-guest-display',
@@ -10,12 +13,39 @@ import { Router } from '@angular/router';
 export class GuestDisplayComponent implements OnInit {
 
   private isLoading = false;
+  private mapLoading: boolean;
   private errorMessage: string = null;
+  private guestPassToken: string;
+  public completeEvent: CompleteGuestEvent;
+  public completeAddress: string;
+  private locationCoordinateHolder: LocationCoordinates;
 
-  constructor(private router: Router, private guestService: GuestService) { }
+  constructor(
+    private router: Router,
+    private guestService: GuestService,
+    private geocodeService: GeocodeService,
+    private ref: ChangeDetectorRef ) { }
 
   ngOnInit(): void {
     this.displayEventToGuest(this.router.url);
+  }
+
+  get formLoading(){
+    return this.isLoading;
+  }
+
+  get mapLoadingState() {
+    return this.mapLoading;
+  }
+
+  get locationCoordinates() {
+    return this.locationCoordinateHolder;
+  }
+
+  get guestEvent() {
+    if (this.completeEvent) {
+      return this.completeEvent;
+    }
   }
 
   displayEventToGuest(invitationUrl){
@@ -23,17 +53,35 @@ export class GuestDisplayComponent implements OnInit {
     const holder = invitationUrl.split('/');
     const newUrl = 'http://localhost:8900/event/' + holder[2];
     const guestPass = holder[3];
-    this.guestService.displayEventToGuest(newUrl, guestPass).subscribe(responseData => {
-      console.log('responseData holds: ', responseData);
+    this.guestService.displayEventToGuest(newUrl, guestPass).subscribe((responseData: CompleteGuestEvent) => {
+      this.completeEvent = this.guestService.completGuestEvent;
+      this.completeAddress = this.guestService.completeLocationAddress;
+      this.addressToCoordinates(this.completeAddress);
+      console.log('this.completeAddress is: ', this.completeAddress);
+      this.isLoading = false;
+      this.guestPassToken = responseData.guestDTO.eventGuestToken;
     });
   }
 
-  // guestResponseToEvent(){
-  //   this.isLoading = true;
-  //   const guestPass = holder[3];
-  //   this.guestService.displayEventToGuest(newUrl, guestPass).subscribe(responseData => {
-  //     console.log('responseData holds: ', responseData);
-  //   });
-  // }
+  guestResponseToEvent(){
+    this.isLoading = true;
+    const guestResponse = false;
+    this.guestService.guestResponseToEvent(this.guestPassToken, guestResponse).subscribe((responseData: CompleteGuestEvent) => {
+      this.completeEvent = this.guestService.completGuestEvent;
+      this.completeAddress = this.guestService.completeLocationAddress;
+      this.addressToCoordinates(this.completeAddress);
+      this.isLoading = false;
+    });
+  }
+
+  addressToCoordinates(address: string) {
+    this.mapLoading = true;
+    this.geocodeService.geocodeAddress(address)
+          .subscribe((location: LocationCoordinates) => {
+              this.locationCoordinateHolder = location;
+              this.mapLoading = false;
+              this.ref.detectChanges();
+          });
+  }
 
 }
