@@ -1,1 +1,102 @@
-<p>guest-display works!</p>
+<div *ngIf="formLoading" style="text-align: center;">
+  <!-- <app-authloadingspinners></app-authloadingspinners> -->
+</div>
+<div *ngIf="!formLoading">
+  <br><br><br><br>
+  <div class="event-details"><span><b><i>Event Creator:</i></b></span>
+    {{ completeEvent.eventCreatorUserFirstName + ' ' + completeEvent.eventCreatorUserLastName }}
+  </div>
+  <div class="event-details"><span><b><i>Event Name:</i></b></span>
+    {{ completeEvent.eventDTO.eventName }}
+  </div>
+  <div class="event-details"><span><b><i>Event Description:</i></b></span>
+    {{ completeEvent.eventDTO.eventDescription }}
+  </div>
+  <div class="event-details"><span><b><i>Event Start Time:</i></b></span>
+    {{ completeEvent.eventDTO.eventStartTime | date:'medium' }}
+  </div>
+  <div class="event-details"><span><b><i>Event End Time:</i></b></span>
+    {{ completeEvent.eventDTO.eventEndTime | date:'medium' }}
+  </div>
+  <div>
+    <div class="guest-table">
+      {{ completeEvent.guestDTO }}
+      <!-- <div *ngIf="dataSourceLength === 0">
+        <div style="text-align: center; justify-content: center;">
+          <mat-form-field appearance="fill" style="background-color: darkgray;">
+            <mat-label>Event Guests</mat-label>
+            <mat-select [formControl]="guestsControl" required multiple>
+              <mat-option *ngFor="let guest of userGuests" [value]="guest.guestId">{{ guest.firstName + " " + guest.lastName }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="guestsControl.hasError('required')">Please select Guest(s)</mat-error>
+          </mat-form-field>
+          <div>
+            <button class="btn btn-success"
+                    [disabled]="guestsControl.invalid"
+                    (click)="onSubmitEventGuests(guestsControl)">Add Guest(s)</button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="dataSourceLength > 0" class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Guest Name </th>
+            <td mat-cell *matCellDef="let element"> {{ element.eventGuestFirstName + " " + element.eventGuestLastName }} </td>
+          </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Response </th>
+            <td mat-cell *matCellDef="let element"> {{ element.eventGuestResponse }} </td>
+          </ng-container>
+          <ng-container matColumnDef="startTime">
+            <th mat-header-cell *matHeaderCellDef> Response Date </th>
+            <td mat-cell *matCellDef="let element"> {{ element.eventGuestResponseDate | date:'medium' }} </td>
+          </ng-container>
+          <ng-container matColumnDef="endTime">
+            <th mat-header-cell *matHeaderCellDef> Invitation Sent Date </th>
+            <td mat-cell *matCellDef="let element"> {{ element.eventGuestRequestDate | date:'medium' }} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            (click)="onSelect(row)"
+            [ngClass]="{hovered: row.hovered, highlighted: selection.isSelected(row)}"
+            (mouseover)="row.hovered = true" (mouseout)="row.hovered = false">
+          </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div> -->
+    </div>
+    <!-- <div *ngIf="!completeAddress" class="location-map">
+      <div style="text-align: center; justify-content: center;">
+        <mat-form-field appearance="fill" style="background-color: darkgray;">
+          <mat-label>Event Location</mat-label>
+          <mat-select [formControl]="locationControl" required>
+            <mat-option>Add Location To Event</mat-option>
+            <mat-option *ngFor="let location of userLocations" [value]="location.locationId">
+              {{location.locationName}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="locationControl.hasError('required')">Please choose a location</mat-error>
+        </mat-form-field>
+        <div>
+          <button class="btn btn-success"
+                  [disabled]="locationControl.invalid"
+                  (click)="onSubmitEventLocation(locationControl)">Add Location</button>
+        </div>
+      </div>
+    </div> -->
+    <div *ngIf="completeAddress" class="location-map">
+      <agm-map *ngIf="!mapLoadingState"
+        [latitude]="locationCoordinates?.lat"
+        [longitude]="locationCoordinates?.lng"
+        [zoom]="8"
+        [disableDefaultUI]="false"
+        [zoomControl]="false">
+        <agm-marker
+            [latitude]="locationCoordinates?.lat"
+            [longitude]="locationCoordinates?.lng">
+        </agm-marker>
+      </agm-map>
+    </div>
+  </div>
+</div>
