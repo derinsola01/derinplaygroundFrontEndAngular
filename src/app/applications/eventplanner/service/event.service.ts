@@ -7,7 +7,6 @@ import { EventHttpService } from 'src/app/common/httpservices/event.http.service
 import { CompleteEvent } from '../eventholder/event/model/complete.event.holder';
 import { EventResponseModel } from '../eventholder/event/model/event.response.model';
 import { UserEvent } from '../eventholder/event/model/userevent.model';
-import { Guest } from '../eventholder/eventinfo/eventguests/guestmodel/guest.model';
 import { GuestService } from './guest.service';
 import { LocationService } from './location.service';
 import { EmailHttpService } from 'src/app/common/httpservices/email.http.service';
@@ -99,7 +98,6 @@ export class EventService {
       this.allUserEventsMap.set(event.eventId, eventDeets);
       this.allCompleteEvents.push(eventDeets);
     });
-    // this.populateCompleteEventContinuously(this.allCompleteEvents);
   }
 
   get userEvents() {
@@ -116,18 +114,8 @@ export class EventService {
     return this.selectedCompleteEvent;
   }
 
-  private populateCompleteEventContinuously(data: CompleteEvent[]) {
-    console.log('data inside populateCompleteEventContinuously holds: ', data);
-    localStorage.setItem('allUserEvents', JSON.stringify(data));
-  }
-
   createNewEvent(formData) {
-    return this.eventHttpService.createNewEvent(formData, this.loggedInUserId, this.loggedInUserToken)
-      .pipe(tap( responseData => {
-        if (responseData) {
-          console.log('responseData for newly created event is: ', responseData);
-        }
-      }));
+      return this.eventHttpService.createNewEvent(formData, this.loggedInUserId, this.loggedInUserToken);
   }
 
 }

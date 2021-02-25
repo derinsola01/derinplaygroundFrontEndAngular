@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EventResponseModel } from 'src/app/applications/eventplanner/eventholder/event/model/event.response.model';
-import { Guest } from 'src/app/applications/eventplanner/eventholder/eventinfo/eventguests/guestmodel/guest.model';
 
 @Injectable({
   providedIn: 'root'
@@ -46,8 +45,6 @@ export class EventHttpService {
                         eventStartTime: formData.eventStartTime,
                         eventEndTime: formData.eventEndTime };
     const httpOptions = this.authHeaderOptions(userWebToken);
-    console.log('createNewEvent postData is: ', postData);
-    console.log('createNewEvent httpOptions is: ', httpOptions);
     return this.httpClient.post('http://localhost:8900/event/createUpdateEvent', postData, httpOptions);
   }
 

@@ -60,7 +60,6 @@ private errorMessage: string = null;
     this.eventService.createNewEvent(this.createEventForm.value)
       .subscribe( (responseData) => {
         this.isLoading = false;
-        console.log('responseData is: ', responseData);
         this.router.navigate(['/event/listEvents']);
       });
     this.createEventForm.reset();

@@ -1,0 +1,7 @@
+.git
+.firebase
+.editorconfig
+/e2e
+.gitignore
+*.zip
+*.md
