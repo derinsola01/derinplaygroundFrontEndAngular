@@ -57,7 +57,6 @@ export class GuestDisplayComponent implements OnInit {
       this.completeEvent = this.guestService.completGuestEvent;
       this.completeAddress = this.guestService.completeLocationAddress;
       this.addressToCoordinates(this.completeAddress);
-      console.log('this.completeAddress is: ', this.completeAddress);
       this.isLoading = false;
       this.guestPassToken = responseData.guestDTO.eventGuestToken;
     });
