@@ -4,9 +4,10 @@
       <a style="cursor: pointer;" class="navbar-brand" routerLink="home">Derin Playground</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+        <!-- <span class="navbar-toggler-icon"></span> -->
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
+      <div class="navbar-default" id="navbarSupportedContent">
         <ul class="nav navbar-nav ml-auto">
           <li class="nav-item" routerLinkActive="active">
             <a style="cursor: pointer;" class="nav-link" [routerLink]="['auth/login']" *ngIf="!isAuthenticated">Login</a>
@@ -34,6 +35,19 @@
       </div>
     </div>
   </nav>
+  <!-- <div class="collapse" id="navbarToggleExternalContent">
+    <div class="bg-dark p-4">
+      <h5 class="text-white h4">Collapsed content</h5>
+      <span class="text-muted">Toggleable via the navbar brand.</span>
+    </div>
+  </div> -->
+  <!-- <nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav> -->
 </div>
 <footer class="footer">
   <div class="row d-flex justify-content-left">
@@ -59,30 +73,3 @@
     </div>
   </div>
 </footer>
-
-
-<!-- <div class="col-xl-3 col-lg-6 col-md-2 padding-left-none">
-  <ul class="no-bullets d-flex flex-vertical-center padding-none">
-  <li class="padding-right-20px">
-  <a class="" data-link-type="Facebook" href="https://www.facebook.com/GustoHQ" rel="noopener noreferrer" target="_blank">
-  <img alt="Facebook" class="svg-black-600 img-width-20px" src="//prod.gusto-assets.com/assets/shared/social_media/logo-facebook-0668fc17c61baf52ffa132ed00e968762769958359a302d3625793df8ebbe390.svg">
-  </a>
-  </li>
-  <li class="padding-right-20px">
-  <a class="" data-link-type="Twitter" href="http://twitter.com/gustohq" rel="noopener noreferrer" target="_blank">
-  <img alt="Twitter" class="svg-black-600 img-width-15px" src="//prod.gusto-assets.com/assets/shared/social_media/logo-twitter-ebb5b12bbb77eadf6dbb30175a5dd51d8891fd6f6335df50326e2b7ec83af35b.svg">
-  </a>
-  </li>
-  <li class="padding-right-20px">
-  <a class="" data-link-type="LinkedIn" href="https://www.linkedin.com/company/gustohq/" rel="noopener noreferrer" target="_blank">
-  <img alt="LinkedIn" class="svg-black-600 img-width-20px" src="//prod.gusto-assets.com/assets/shared/social_media/logo-linkedin-04395981c92172b30b3dfb54652a6a652ddb2013084509169e1784c448056918.svg">
-  </a>
-  </li>
-  <li>
-  <a class="" data-link-type="Instagram" href="https://www.instagram.com/gustohq/" rel="noopener noreferrer" target="_blank">
-  <img alt="Instagram" class="svg-black-600 img-width-15px" src="//prod.gusto-assets.com/assets/shared/social_media/logo-instagram-3349956711fdb687f2ee515f67b9276720a074665bc2a6cd44207fbac26de95e.svg">
-  </a>
-  </li>
-
-  </ul>
-  </div> -->

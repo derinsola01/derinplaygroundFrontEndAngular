@@ -34,7 +34,8 @@ export class AuthHttpService {
   }
 
   registeredUserIdsAndEmails(dummyUser: string){
-    const postData = { userId: dummyUser };
+    const postData = { userId: dummyUser }; // spring-cloud-gateway
+    // return this.httpClient.post<UserIdsAndEmails>('http://spring-cloud-gateway:8900/auth/registeredUserIdsAndEmails',
     return this.httpClient.post<UserIdsAndEmails>('http://localhost:8900/auth/registeredUserIdsAndEmails',
                                                     postData, this.genericHeaderOptions);
   }
@@ -45,7 +46,8 @@ export class AuthHttpService {
   }
 
   login(postData) {
-    return this.httpClient.post<AuthenticatedUserResponse>('http://localhost:8900/auth/login', postData, this.genericHeaderOptions);
+    return this.httpClient.post<AuthenticatedUserResponse>('http://localhost:8900/auth/login',
+                                                            postData, this.genericHeaderOptions);
   }
 
   logout(loggedInUserId: string, userWebToken: string){
