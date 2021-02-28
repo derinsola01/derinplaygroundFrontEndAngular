@@ -39,11 +39,13 @@ export class EmailHttpService {
 
   sendValidationEmail(postData, userWebToken: string) {
     const httpOptions = this.authHeaderOptions(userWebToken);
+    console.log('user webToken is: ', userWebToken);
     return this.httpClient.post('http://localhost:8900/email/sendValidationEmail', postData, httpOptions);
   }
 
-  sendConfirmationEmail(postUrl: string, postData){
-    return this.httpClient.post<AuthenticatedUserResponse>(postUrl, postData, this.genericHeaderOptions);
+  sendConfirmationEmail(emailToken: string, postData){
+    return this.httpClient.post<AuthenticatedUserResponse>('http://localhost:8900/email/' + emailToken,
+                                                            postData, this.genericHeaderOptions);
   }
 
 }

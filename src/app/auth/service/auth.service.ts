@@ -44,8 +44,8 @@ export class AuthService {
     return this.emailHttpService.sendValidationEmail(postData, userWebToken);
   }
 
-  confirmUserEmail(postUrl: string, postData) {
-    return this.emailHttpService.sendConfirmationEmail(postUrl, postData).pipe(tap( responseData => {
+  confirmUserEmail(emailToken: string, postData) {
+    return this.emailHttpService.sendConfirmationEmail(emailToken, postData).pipe(tap( responseData => {
       this.authenticatedPlayGroundUser(responseData);
     }));
   }

@@ -51,9 +51,10 @@ export class GuestDisplayComponent implements OnInit {
   displayEventToGuest(invitationUrl){
     this.isLoading = true;
     const holder = invitationUrl.split('/');
-    const newUrl = 'http://localhost:8900/event/' + holder[2];
+    // const newUrl = 'http://localhost:8900/event/' + holder[2];
+    const eventToken = holder[2];
     const guestPass = holder[3];
-    this.guestService.displayEventToGuest(newUrl, guestPass).subscribe((responseData: CompleteGuestEvent) => {
+    this.guestService.displayEventToGuest(eventToken, guestPass).subscribe((responseData: CompleteGuestEvent) => {
       this.completeEvent = this.guestService.completGuestEvent;
       this.completeAddress = this.guestService.completeLocationAddress;
       this.addressToCoordinates(this.completeAddress);

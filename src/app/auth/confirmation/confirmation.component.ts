@@ -31,9 +31,9 @@ export class ConfirmationComponent implements OnInit {
   confirmEmailAddress(emailConfirmationUrl){
     this.isLoading = true;
     const holder = emailConfirmationUrl.split('/');
-    const newUrl = 'http://localhost:8900/email/' + holder[2];
+    const emailToken = holder[2];
     const data = { confirmationToken: holder[3]};
-    this.authService.confirmUserEmail(newUrl, data).subscribe((responseData: AuthenticatedUserResponse ) => {
+    this.authService.confirmUserEmail(emailToken, data).subscribe((responseData: AuthenticatedUserResponse ) => {
       this.isLoading = false;
       this.router.navigate(['/appsPage']);
     }, error => {

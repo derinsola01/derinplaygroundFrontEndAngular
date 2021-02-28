@@ -69,9 +69,9 @@ export class GuestService {
     return this.guestHttpService.addGuestsToEvent(guestIds, eventId, this.loggedInUserId, this.loggedInUserToken);
   }
 
-  displayEventToGuest(guestDisplayUrl, guestEventToken){
+  displayEventToGuest(eventToken, guestEventToken){
     console.log('this.authService.playGroundUser.value holds: ', this.authService.playGroundUser.value);
-    return this.guestHttpService.displayEventToGuest(guestDisplayUrl, guestEventToken)
+    return this.guestHttpService.displayEventToGuest(eventToken, guestEventToken)
                   .pipe(tap( (responseData: CompleteGuestEvent) => {
                     console.log('responseData from DisplayGuest is: ', responseData);
                     this.populateGuestEventInfo(responseData);
