@@ -35,7 +35,7 @@ export class GuestHttpService {
   createNewGuest(formData: Guest[], loggedInUserId: string, userWebToken: string){
     const postData = {  userId: loggedInUserId, createGuestRequests: formData };
     const httpOptions = this.authHeaderOptions(userWebToken);
-    return this.httpClient.post('http://localhost:8900/event/createUpdateGuest', postData, httpOptions);
+    return this.httpClient.post('http://spring-cloud-gateway:8900/event/createUpdateGuest', postData, httpOptions);
   }
 
   getAllUserGuests(loggedInUserId: string, userWebToken: string) {

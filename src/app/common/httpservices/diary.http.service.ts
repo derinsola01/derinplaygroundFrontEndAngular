@@ -24,7 +24,7 @@ export class DiaryHttpService {
   getAllUserDiaryEntries(loggedInUserId: string, userWebToken: string) {
     const postData = { userId: loggedInUserId };
     const httpOptions = this.authHeaderOptions(userWebToken);
-    return this.httpClient.post<UserDiaryResponse>('http://localhost:8900/diary/userDiaryEntries', postData, httpOptions);
+    return this.httpClient.post<UserDiaryResponse>('http://spring-cloud-gateway:8900/diary/userDiaryEntries', postData, httpOptions);
   }
 
   getDiaryPasscode(loggedInUserId: string, userWebToken: string) {
