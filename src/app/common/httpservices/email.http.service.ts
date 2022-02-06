@@ -44,6 +44,8 @@ export class EmailHttpService {
   }
 
   sendConfirmationEmail(emailToken: string, postData){
+    const emailURL = 'http://localhost:8900/email/' + emailToken;
+    console.log('emailURL is: ' + emailURL);
     return this.httpClient.post<AuthenticatedUserResponse>('http://localhost:8900/email/' + emailToken,
                                                             postData, this.genericHeaderOptions);
   }

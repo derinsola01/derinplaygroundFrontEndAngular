@@ -35,8 +35,8 @@ export class AuthHttpService {
 
   registeredUserIdsAndEmails(dummyUser: string){
     const postData = { userId: dummyUser }; // spring-cloud-gateway
-    // return this.httpClient.post<UserIdsAndEmails>('http://spring-cloud-gateway:8900/auth/registeredUserIdsAndEmails',
     return this.httpClient.post<UserIdsAndEmails>('http://localhost:8900/auth/registeredUserIdsAndEmails',
+    // return this.httpClient.post<UserIdsAndEmails>('http://www.derinplayground.com:8900/auth/registeredUserIdsAndEmails',
                                                     postData, this.genericHeaderOptions);
   }
 

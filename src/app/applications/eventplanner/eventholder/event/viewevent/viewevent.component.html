@@ -8,8 +8,8 @@
   <br><br><br><br>
   <div class="event-details"><span><b><i>Event Name:</i></b></span> {{ event.eventName }}</div>
   <div class="event-details"><span><b><i>Event Description:</i></b></span> {{ event.eventDescription }}</div>
-  <div class="event-details"><span><b><i>Event Start Time:</i></b></span> {{ event.eventStartTime | date:'medium' }}</div>
-  <div class="event-details"><span><b><i>Event End Time:</i></b></span> {{ event.eventEndTime | date:'medium' }}</div>
+  <div class="event-details"><span><b><i>Event Start Time:</i></b></span> {{ event.eventStartTime | date:'medium':'GMT' }}</div>
+  <div class="event-details"><span><b><i>Event End Time:</i></b></span> {{ event.eventEndTime | date:'medium':'GMT' }}</div>
   <div>
     <div class="guest-table">
       <div *ngIf="dataSourceLength === 0">

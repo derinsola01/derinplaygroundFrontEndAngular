@@ -30,6 +30,7 @@ export class ConfirmationComponent implements OnInit {
 
   confirmEmailAddress(emailConfirmationUrl){
     this.isLoading = true;
+    console.log('emailConfirmationUrl is: ' + emailConfirmationUrl);
     const holder = emailConfirmationUrl.split('/');
     const emailToken = holder[2];
     const data = { confirmationToken: holder[3]};
