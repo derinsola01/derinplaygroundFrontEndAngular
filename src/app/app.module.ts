@@ -1,7 +1,7 @@
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { NavigationBarComponent } from './common/navigation/navigationheader/navigationbar/navigationbar.component';
 import { PlayGroundUserComponent } from './common/user/playgrounduser/playgrounduser.component';
@@ -12,11 +12,16 @@ import { PageNotFoundComponent } from './common/navigation/navigationheader/page
 import { AppsLandingComponent } from './applications/appslanding/appslanding.component';
 import { LandingPageComponent } from './applications/appslanding/landingpage/landingpage.component';
 import { AboutComponent } from './common/commonpages/about/about.component';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AgmCoreModule } from '@agm/core';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { GuestDisplayComponent } from './applications/eventplanner/eventholder/event/guestdisplay/guest.display.component';
 import { GeocodeService } from './applications/eventplanner/eventholder/eventinfo/eventlocation/geocoding/location.geocoding.service';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { faUser, faHeart, faHome, faSearch, faBars, faEnvelope, faPhone, faMapMarkerAlt, faEdit, faTrash, faSave, faPlus, faMinus, faCheck, faTimes,
+          faSpinner, faDownload, faUpload, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faFacebook, faTwitter, faInstagram, faLinkedin, faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { faHeart as farHeart, faUser as farUser, faEnvelope as farEnvelope } from '@fortawesome/free-regular-svg-icons';
 
 @NgModule({
   declarations: [
@@ -35,14 +40,55 @@ import { GeocodeService } from './applications/eventplanner/eventholder/eventinf
     NgbModule,
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
-    MDBBootstrapModule,
+    MdbAccordionModule,
     BrowserAnimationsModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAPYxqetkfhcT8MrdoZkou0tNYIPEQ8IZ0'
-    })
+    GoogleMapsModule,
+    FontAwesomeModule
   ],
-  providers: [GeocodeService],
+  providers: [GeocodeService, provideHttpClient()],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor(library: FaIconLibrary) {
+    // Add solid icons
+    library.addIcons(
+      faUser,
+      faHeart,
+      faHome,
+      faSearch,
+      faBars,
+      faEnvelope,
+      faPhone,
+      faMapMarkerAlt,
+      faEdit,
+      faTrash,
+      faSave,
+      faPlus,
+      faMinus,
+      faCheck,
+      faTimes,
+      faSpinner,
+      faDownload,
+      faUpload,
+      faEye,
+      faEyeSlash
+    );
+
+    // Add brand icons
+    library.addIcons(
+      faFacebook,
+      faTwitter,
+      faInstagram,
+      faLinkedin,
+      faGithub,
+      faGoogle
+    );
+
+    // Add regular icons
+    library.addIcons(
+      farHeart,
+      farUser,
+      farEnvelope
+    );
+  }
+}

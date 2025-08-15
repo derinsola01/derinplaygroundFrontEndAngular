@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthHttpService } from 'src/app/common/httpservices/auth.http.service';
 import { EmailHttpService } from 'src/app/common/httpservices/email.http.service';
-import { PlayGroundUser } from 'src/app/common/user/playgrounduser/userModel/PlaygroundUser.model';
+import { PlayGroundUser } from 'src/app/common/user/playgrounduser/userModel/playgrounduser.model';
 
 @Injectable({
   providedIn: 'root'

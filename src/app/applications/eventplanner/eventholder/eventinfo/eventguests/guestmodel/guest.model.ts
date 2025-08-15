@@ -1,5 +1,5 @@
 export class Guest {
-  guestId: number;
+  guestId: number | null;
   firstName: string;
   lastName: string;
   emailAddress: string;

@@ -14,7 +14,7 @@ import { EventnavigationbarComponent } from 'src/app/common/navigation/navigatio
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { AgmCoreModule } from '@agm/core';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { GeocodeService } from '../../../eventinfo/eventlocation/geocoding/location.geocoding.service';
 
 
@@ -37,9 +37,7 @@ import { GeocodeService } from '../../../eventinfo/eventlocation/geocoding/locat
     MatPaginatorModule,
     MatCheckboxModule,
     MatSelectModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAPYxqetkfhcT8MrdoZkou0tNYIPEQ8IZ0'
-    })
+    GoogleMapsModule
   ],
   providers: [GeocodeService],
   exports: [

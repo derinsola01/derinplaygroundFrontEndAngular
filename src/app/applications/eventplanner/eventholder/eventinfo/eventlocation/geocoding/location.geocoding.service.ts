@@ -1,55 +1,39 @@
 import { Injectable } from '@angular/core';
-import { MapsAPILoader } from '@agm/core';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { tap, map, switchMap } from 'rxjs/operators';
-import { fromPromise } from 'rxjs/observable/fromPromise';
+import { Loader } from '@googlemaps/js-api-loader';
+import { from, Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
-declare var google: any;
-
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class GeocodeService {
-  private geocoder: any;
+  private geocoder?: google.maps.Geocoder;
+  private loader = new Loader({
+    apiKey: environment.googleMapsApiKey,     // <- store in environments
+    // libraries: ['geocoding'] // optional for modular loading
+  });
 
-  constructor(private mapLoader: MapsAPILoader) {}
-
-  private initGeocoder() {
-    console.log('Init geocoder!');
-    this.geocoder = new google.maps.Geocoder();
+  private ready(): Promise<void> {
+    return this.loader.load().then(() => {
+      if (!this.geocoder) this.geocoder = new google.maps.Geocoder();
+    });
   }
 
-  private waitForMapsToLoad(): Observable<boolean> {
-    if (!this.geocoder) {
-      return fromPromise(this.mapLoader.load())
-      .pipe(
-        tap(() => this.initGeocoder()),
-        map(() => true)
-      );
-    }
-    return of(true);
-  }
-
-  geocodeAddress(location: string) {
-    console.log('Start geocoding!');
-    return this.waitForMapsToLoad().pipe(
-      switchMap(() => {
-        return new Observable(observer => {
-          this.geocoder.geocode({address: location}, (results, status) => {
-            if (status === google.maps.GeocoderStatus.OK) {
-              console.log('Geocoding complete!');
-              observer.next({
-                lat: results[0].geometry.location.lat(),
-                lng: results[0].geometry.location.lng()
-              });
-            } else {
-                console.log('Error - ', results, ' & Status - ', status);
-                observer.next({ lat: 0, lng: 0 });
-            }
-            observer.complete();
-          });
-        });
-      })
+  geocodeAddress(address: string): Observable<google.maps.LatLngLiteral> {
+    return from(this.ready()).pipe(
+      switchMap(
+        () =>
+          new Observable<google.maps.LatLngLiteral>((observer) => {
+            this.geocoder!.geocode({ address }, (results, status) => {
+              if (status === 'OK' && results[0]) {
+                const loc = results[0].geometry.location;
+                observer.next({ lat: loc.lat(), lng: loc.lng() });
+              } else {
+                observer.error(new Error(`Geocoding failed: ${status}`));
+              }
+              observer.complete();
+            });
+          })
+      )
     );
   }
-
 }

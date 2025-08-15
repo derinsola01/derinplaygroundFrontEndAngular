@@ -1,14 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormArray } from '@angular/forms';
+import { Validators, FormBuilder, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GuestService } from 'src/app/applications/eventplanner/service/guest.service';
 import { Guest } from '../guestmodel/guest.model';
+
+type GuestFG = {
+  guestId: FormControl<number | null>;
+  firstName: FormControl<string>;
+  lastName: FormControl<string>;
+  emailAddress: FormControl<string>;
+};
+
+type CreateGuestForm = {
+  createGuestRequests: FormArray<FormGroup<GuestFG>>;
+};
 
 @Component({
   selector: 'app-createguest',
   templateUrl: './createguest.component.html',
   styleUrls: ['./createguest.component.css']
 })
+
 export class CreateGuestComponent implements OnInit {
 
   private isLoading = false;
@@ -20,11 +32,23 @@ export class CreateGuestComponent implements OnInit {
     createGuestRequests: this.formBuilder.array([])
   });
 
+  // addGuestRow() {
+    // this.createGuestForm.controls.createGuestRequests.push(
+    //   this.formBuilder.nonNullable.group<GuestFG>({
+    //     guestId: this.formBuilder.nonNullable.control('', { validators: [Validators.required] }),
+    //     firstName: this.formBuilder.nonNullable.control('', { validators: [Validators.required] }),
+    //     lastName: this.formBuilder.nonNullable.control('', { validators: [Validators.required] }),
+    //     emailAddress: this.formBuilder.nonNullable.control('', { validators: [Validators.required] }),
+    //   })
+    // );
+  // }
+
   createGuestFormGroup() {
-    return this.formBuilder.group({
-      guestFirstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      guestLastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      guestEmailAddress: ['', [Validators.required, Validators.email]]
+    return this.formBuilder.nonNullable.group<GuestFG>({
+      guestId: this.formBuilder.control<number | null>({ value: null, disabled: true }),
+      firstName: this.formBuilder.nonNullable.control('', { validators: [Validators.required, Validators.minLength(2), Validators.maxLength(50)] }),
+      lastName: this.formBuilder.nonNullable.control('', { validators: [Validators.required, Validators.minLength(2), Validators.maxLength(50)] }),
+      emailAddress: this.formBuilder.nonNullable.control('', { validators: [Validators.required, Validators.email] }),
     });
   }
 

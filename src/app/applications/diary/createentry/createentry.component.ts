@@ -1,4 +1,4 @@
-import { PlayGroundUser } from 'src/app/common/user/playgrounduser/userModel/PlaygroundUser.model';
+import { PlayGroundUser } from 'src/app/common/user/playgrounduser/userModel/playgrounduser.model';
 import { Router } from '@angular/router';
 import { DiaryService } from './../service/diary.service';
 import { Component, OnInit } from '@angular/core';

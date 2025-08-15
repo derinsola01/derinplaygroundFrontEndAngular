@@ -85,7 +85,10 @@
         </div>
       </div>
     </div> -->
-    <div *ngIf="completeAddress" class="location-map">
+    <!-- <div *ngIf="completeAddress" class="location-map">
+      <google-map [center]="location" [zoom]="zoom">
+        <map-marker [position]="markerPosition"></map-marker>
+      </google-map>
       <agm-map *ngIf="!mapLoadingState"
         [latitude]="locationCoordinates?.lat"
         [longitude]="locationCoordinates?.lng"
@@ -97,6 +100,23 @@
             [longitude]="locationCoordinates?.lng">
         </agm-marker>
       </agm-map>
+    </div> -->
+    <div *ngIf="formLoading" style="text-align: center;"></div>
+
+    <div *ngIf="!formLoading">
+      <!-- event details ... -->
+
+      <div *ngIf="completeAddress" class="location-map">
+        <!-- show only when we have a center -->
+        <google-map
+          *ngIf="center"
+          [center]="center"
+          [zoom]="zoom"
+          height="400px"
+          width="100%">
+          <map-marker *ngIf="markerPosition" [position]="markerPosition"></map-marker>
+        </google-map>
+      </div>
     </div>
   </div>
 </div>
